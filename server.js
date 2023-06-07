@@ -22,6 +22,7 @@ connection.connect((err) => {
 app.get('/getRecipes', function(req, res){
     const query = 'SELECT * \
                    FROM recipes\
+                    ORDER BY id DESC\
                   '
     connection.query(query, function(error, results, fields){
         if(error){
@@ -31,6 +32,28 @@ app.get('/getRecipes', function(req, res){
         }
     })
 })
+
+//search recipes
+app.get('/getRecipesByName/:partOfName', (req, res) => {
+  const partOfName = req.params.partOfName;
+  const query = `SELECT * \
+                 FROM recipes\
+                  WHERE name LIKE "%${partOfName}%"\
+                  ORDER BY\
+                  CASE\
+                    WHEN name LIKE "${partOfName}%" THEN 1\
+                    ELSE 2\
+                  END;\
+                `
+  connection.query(query, function(error, results, fields){
+      if(error){
+          res.status(500).send(error);
+      }else{
+          res.send(results);
+      }
+  })
+})
+
 // Endpoint per recuperare i dati dell'immagine dal database
 app.get('/images/:id', (req, res) => {
   const id = req.params.id;
