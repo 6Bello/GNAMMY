@@ -1,7 +1,10 @@
-const express = require('express');
 const mysql = require('mysql');
-
+const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -68,7 +71,23 @@ app.get('/images/:id', (req, res) => {
   });
 });
 
-// Resto del tuo codice server...
+app.post('/register', (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const username = req.body.username;
+  const name = req.body.name;
+  const surname = req.body.surname;
+  const query = 'INSERT INTO users (email, password, username, name, surname) VALUES (?, ?, ?, ?, ?)';
+  connection.query(query, [email, password, username, name, surname], (err, rows) => {
+    if (err) {
+      console.error('Errore durante la registrazione:', err);
+      res.sendStatus(500);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
 
 app.listen(3000, () => {
   console.log('Server listening on port 3000');
