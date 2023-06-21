@@ -2,6 +2,9 @@ import {React, useState} from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import axios from "axios";
 
+import hashPassword from '../passwordUtils.js';
+
+
 const Register = () => {
     const [username, setUsername] = useState('');
     const [usernameProblem, setUsernameProblem] = useState('');
@@ -86,21 +89,24 @@ const Register = () => {
         }else{setEmailProblem('Email non valida!')}
     }
     
-    const userRegistration = (email, username, password, name, surname) => {
-      axios
-        .post('http://192.168.56.1:3000/register', {
+    const userRegistration = async (email, username, password, name, surname) => {
+      try {
+        const hashedPassword = await hashPassword(password, 10);
+        console.log('Password hash:', hashedPassword);
+        
+        const response = await axios.post('http://192.168.56.1:3000/register', {
           email,
-          password,
+          password: hashedPassword,
           username,
           name,
+
           surname,
-        })
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.error(error);
         });
+        
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
     };
   
     
@@ -128,7 +134,7 @@ const Register = () => {
             </TouchableOpacity>       
         </View>
         <Text style={styles.error}>{passwordProblem}</Text>
-        <TextInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={true} />
+        <TextInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={false} />
         <Text style={styles.error}>{confirmPasswordProblem}</Text>
         <TouchableOpacity onPress={handleRegistration}>
             <Text>Register</Text>
