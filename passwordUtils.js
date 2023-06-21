@@ -1,6 +1,6 @@
 import CryptoJS from 'crypto-js';
 
-function hashPassword(password) {
+export const hashPassword = async (password) => {
   const firstChar = password.charAt(0); // Ottieni il primo carattere della password
 
   const saltedPassword = firstChar + password; // Concatena il carattere iniziale come "salt" alla password

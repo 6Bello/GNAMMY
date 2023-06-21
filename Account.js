@@ -7,7 +7,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showRegisterPage, setShowRegisterPage] = useState(false);
 
-  const handleLogin = () => {
+  const handleLoginComplete = () => {
     setIsLoggedIn(true);
   };
 
@@ -15,16 +15,28 @@ export default function App() {
     setIsLoggedIn(false);
   };
 
-  const handleRegistration = () => {
+  const openRegistration = () => {
     setShowRegisterPage(true);
+  };
+
+  const openLogin = () => {
+    setShowRegisterPage(false);
   };
 
   const handleRegistrationComplete = () => {
     setShowRegisterPage(false);
+    handleLoginComplete(); // Set isLoggedIn to true
   };
 
   if (showRegisterPage) {
-    return <Register onRegistrationComplete={handleRegistrationComplete} />;
+    return (
+      <View>
+        <Register onRegistrationComplete={handleRegistrationComplete} />
+        <TouchableOpacity onPress={openLogin}>
+          <Text>Login</Text>
+        </TouchableOpacity>
+      </View>
+      );
   }
 
   return (
@@ -32,18 +44,18 @@ export default function App() {
       {isLoggedIn ? (
         <LoggedInPage handleLogout={handleLogout} />
       ) : (
-        <NotLoggedInPage handleLogin={handleLogin} handleRegistration={handleRegistration} />
+        <NotLoggedInPage handleLoginComplete={handleLoginComplete} openRegistration={openRegistration} />
       )}
     </View>
   );
 }
 
-function NotLoggedInPage({ handleLogin, handleRegistration }) {
+function NotLoggedInPage({ handleLoginComplete, openRegistration }) {
   return (
     <View>
       <Text>Benvenuto! Effettua il login o registrati per continuare.</Text>
-      <Login />
-      <TouchableOpacity onPress={handleRegistration}>
+      <Login onLoginComplete={handleLoginComplete}/>
+      <TouchableOpacity onPress={openRegistration}>
         <Text>Registrazione</Text>
       </TouchableOpacity> 
     </View>

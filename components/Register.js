@@ -1,11 +1,11 @@
-import {React, useState} from "react";
+import React, {useState} from "react";
 import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
 import axios from "axios";
 
 import hashPassword from '../passwordUtils.js';
 
 
-const Register = () => {
+const Register = ({onRegistrationComplete}) => {
     const [username, setUsername] = useState('');
     const [usernameProblem, setUsernameProblem] = useState('');
     const [name, setName] = useState('');
@@ -77,7 +77,6 @@ const Register = () => {
 
                         if(isPasswordValid(password, confirmPassword)){
                             userRegistration(email, username, password, name, surname)
-                            console.log('Account creato con successo!');
                         }else{setPasswordProblem('La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una minuscola, un numero ed un carattere speciale!')}
 
                     }else{setConfirmPassword('Le password non coincidono!')}
@@ -91,7 +90,7 @@ const Register = () => {
     
     const userRegistration = async (email, username, password, name, surname) => {
       try {
-        const hashedPassword = await hashPassword(password, 10);
+        const hashedPassword = await hashPassword(password);
         console.log('Password hash:', hashedPassword);
         
         const response = await axios.post('http://192.168.56.1:3000/register', {
@@ -99,15 +98,17 @@ const Register = () => {
           password: hashedPassword,
           username,
           name,
-
           surname,
         });
         
-        console.log(response);
+        console.log(response);        
+        onRegistrationComplete(); // Call the callback to set isLoggedIn to true
+        console.log('Account creato con successo!');
       } catch (error) {
         console.error(error);
       }
     };
+    
   
     
 

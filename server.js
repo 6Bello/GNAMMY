@@ -71,6 +71,25 @@ app.get('/images/:id', (req, res) => {
   });
 });
 
+
+app.get('/login', async (req, res) => {
+  const email = req.query.email;
+  console.log('Email:', email);
+  const password =  req.query.password;
+  const query = 'SELECT * FROM users WHERE email = ? AND password = ?';
+  connection.query(query, [email, password], (err, rows) => {
+    console.log('Password:', password);
+    if (err) {
+      console.error('Errore durante il login:', err);
+      res.sendStatus(500);
+    } else if (rows.length === 0) {
+      res.sendStatus(401);
+    } else {
+      res.sendStatus(200);
+    }
+  });
+});
+
 app.post('/register', (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
