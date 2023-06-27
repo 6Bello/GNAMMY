@@ -3,6 +3,8 @@ import { View, TextInput, Button, ImageBackground, Text, ActivityIndicator } fro
 import axios from 'axios';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import handleScroll from '../animations/handleScroll';
+
 const SearchBar = () => {
   const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   const [searchText, setSearchText] = useState('alla'); // Stato per memorizzare il testo di ricerca
@@ -17,7 +19,7 @@ const SearchBar = () => {
 
   const executeQuery = () => {
     axios
-      .get(`http://192.168.56.1:3000/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
+      .get(`http://192.168.1.8:3000/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
       .then(response => {
         const data = response.data; // Ottiene i dati di risposta dall'API
         console.log(data); // Stampa i dati di risposta nella console
@@ -37,11 +39,6 @@ const SearchBar = () => {
       setIsSearchClicked(false); // Ripristina lo stato del click dopo l'esecuzione della query
     }
   }, [isSearchClicked]);
-
-  const handleScroll = (event) => {
-    const { contentOffset } = event.nativeEvent; // Ottiene lo spostamento dello scroll dall'evento
-    setpaddingTop(contentOffset.y); // Imposta il valore dello stato paddingTop con il valore di spostamento dello scroll
-  };
 
   return (
     <View>

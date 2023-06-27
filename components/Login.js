@@ -14,7 +14,7 @@ const Login = ({ onLoginComplete }) => {
       console.log(hashedPassword);
 
       axios
-        .get("http://192.168.56.1:3000/login", {
+        .get("http://192.168.1.8:3000/login", {
           params: {
             email,
             password: hashedPassword,

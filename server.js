@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: '0.0.0.0',
     user: 'root',
     port: '8888',
     password: 'root',
@@ -48,6 +48,26 @@ app.get('/getRecipesByName/:partOfName', (req, res) => {
       }
   })
 })
+
+app.get('/getRecipesByCategories/:categories', (req, res) => {
+  const categories = req.params.categories.split(',');
+
+  const placeholders = categories.map(category => `categories LIKE ?`).join(' AND ');
+
+  const categoriesValues = categories.map(category => `%${category}%`);
+  const query = `SELECT * FROM recipes WHERE ${placeholders}`;
+
+  connection.query(query, categoriesValues, function(error, results, fields) {
+    if (error) {
+      console.error('Errore durante il recupero dei dati delle ricette:', error);
+      res.sendStatus(500);
+    } else {
+      res.send(results);
+    }
+  });
+});
+
+
 
 // Endpoint per recuperare i dati dell'immagine dal database
 app.get('/images/:id', (req, res) => {
