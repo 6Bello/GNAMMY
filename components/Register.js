@@ -118,16 +118,22 @@ const Register = ({onRegistrationComplete}) => {
           <Text style={styles.title}>Register</Text>
         <Text style={styles.subtitle}>Register to enjoy your food</Text>
           <TextInput style={styles.button} value={username} onChangeText={setUsername} placeholder="Username" />
-        <Text style={styles.error}>{usernameProblem}</Text>
+        <Text style={[styles.error, {
+          display: usernameProblem ? 'flex' : 'none',
+        }]}>{usernameProblem}</Text>
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
         <TextInput style={styles.button} value={name} onChangeText={setName} placeholder="Name"/>
         </View>  
         <View>
         <TextInput style={styles.button} value={surname} onChangeText={setSurname} placeholder="Cognome"/>
         </View>
-        <Text style={styles.error}>{nameProblem}</Text>
+        <Text style={[styles.error, {
+          display: nameProblem ? 'flex' : 'none',
+        }]}>{nameProblem}</Text>
         <TextInput style={styles.button} value={email} onChangeText={setEmail} placeholder="Email" />
-        <Text style={styles.error}>{emailProblem}</Text>
+        <Text style={[styles.error, {
+          display: emailProblem ? 'flex' : 'none',
+        }]}>{emailProblem}</Text>
         <View style={styles.passwordContainer}>
             <TextInput style={styles.button}
             value={password}
@@ -136,12 +142,16 @@ const Register = ({onRegistrationComplete}) => {
             secureTextEntry={!showPassword}
             />
         </View>
-        <Text style={styles.error}>{passwordProblem}</Text>
+        <Text style={[styles.error, {
+          display: passwordProblem ? 'flex' : 'none',
+        }]}>{passwordProblem}</Text>
         <TouchableOpacity style={styles.showHidePassword} onPress={togglePasswordVisibility}>
                 <Text>{showPassword ? 'Hide Password' : 'Show Password'}</Text>
             </TouchableOpacity>
         <TextInput style={styles.button} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={false} />
-        <Text style={styles.error}>{confirmPasswordProblem}</Text>
+        <Text style={[styles.error, {
+          display: confirmPasswordProblem ? 'flex' : 'none',
+        }]}>{confirmPasswordProblem}</Text>
         <TouchableOpacity onPress={handleRegistration}>
             <Text style={styles.registerButton}>Register</Text>
         </TouchableOpacity>
