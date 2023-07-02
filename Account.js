@@ -1,31 +1,31 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import Login from './components/Login';
 import Register from './components/Register';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  
+
   const handleLoginComplete = () => {
     setIsLoggedIn(true);
   };
-  
+
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
-  
+
   return (
     <View>
       {isLoggedIn ? (
         <LoggedInPage handleLogout={handleLogout} />
       ) : (
-        <NotLoggedInPage handleLoginComplete={handleLoginComplete}  />
-        )}
+        <NotLoggedInPage handleLoginComplete={handleLoginComplete} />
+      )}
     </View>
   );
 }
 
-function NotLoggedInPage({ handleLoginComplete}) {
+function NotLoggedInPage({ handleLoginComplete }) {
   const openRegistration = () => {
     setShowRegisterPage(true);
   };
@@ -42,21 +42,27 @@ function NotLoggedInPage({ handleLoginComplete}) {
 
   if (showRegisterPage) {
     return (
-      <ScrollView>
+      <ScrollView style={styles.container}>
         <Register onRegistrationComplete={handleRegistrationComplete} />
+        <Text style={styles.text2}>Already have an account?</Text>
         <TouchableOpacity onPress={openLogin}>
-          <Text>Login</Text>
+          <Text style={styles.text3}>Login</Text>
         </TouchableOpacity>
       </ScrollView>
     );
   } else {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={styles.subtitle} >Login to your account</Text>
+        <View>
+          <View style={{}}>
+            <Text style={styles.title}>Login</Text>
+            <Text style={styles.subtitle} >Login to your account</Text>
+          </View>
+          <Image style={styles.image} source={require('./assets/hamburger.png')} />
+        </View>
         <Login onLoginComplete={handleLoginComplete} />
+        <Text style={styles.text2}>Don't have an account? </Text>
         <TouchableOpacity onPress={openRegistration}>
-          <Text style={styles.text2}>Don't have an account? </Text>
           <Text style={styles.text3}>Register</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -95,6 +101,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     opacity: 0.5,
     marginLeft: 100,
+  },
+
+  image: {
+    width: 60,
+    height: 60,
   },
 
   text2: {

@@ -143,7 +143,7 @@ const Register = ({onRegistrationComplete}) => {
         <TextInput style={styles.button} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={false} />
         <Text style={styles.error}>{confirmPasswordProblem}</Text>
         <TouchableOpacity onPress={handleRegistration}>
-            <Text>Register</Text>
+            <Text style={styles.registerButton}>Register</Text>
         </TouchableOpacity>
         </View>
         </View>
@@ -166,13 +166,15 @@ const styles = StyleSheet.create({
     showHidePassword: {
         color: 'blue',
         fontSize: 12,
-        marginLeft: 220,
-
+        marginLeft: 210,
+        marginTop: 3,
     },
     error: {
       color: 'red',
       fontSize: 12,
       marginTop: 7,
+      marginLeft: 25,
+      width: 300,
     },
     title: {
       fontSize: 25,
@@ -189,13 +191,26 @@ const styles = StyleSheet.create({
       alignItems: "center",
       padding: 10,
       marginTop: 20,
-      marginLeft: 20,
+      marginLeft: "8.5%",
       borderRadius: 5,
-      width: 300,
+      width: "83%",
       backgroundColor: "#f8f4fc",
       display: 'flex',
     },
     registerButton: {
+      fontWeight: "bold",
+      textAlign: "center",
+      alignItems: "center",
+      padding: 10,
+      marginTop: 20,
+      marginLeft: "8.5%",
+      borderRadius: 5,
+      width: "83%",
+      height: 50,
+      lineHeight: 30,
+      fontSize: 15,
+      backgroundColor: "orange",
+      color: "white",
     },
 });
 

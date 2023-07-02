@@ -5,13 +5,13 @@ import Recipes from './components/Recipes';
 
 export default function Home() {
   return (
-    <View style={styles.container}>
+    <View style={styleContainer.container}>
       <Recipes />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const styleContainer = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
