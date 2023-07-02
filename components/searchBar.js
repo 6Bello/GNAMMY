@@ -19,7 +19,7 @@ const SearchBar = () => {
 
   const executeQuery = () => {
     axios
-      .get(`http://192.168.1.8:3000/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
+      .get(`http://192.168.1.71:3000/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
       .then(response => {
         const data = response.data; // Ottiene i dati di risposta dall'API
         console.log(data); // Stampa i dati di risposta nella console

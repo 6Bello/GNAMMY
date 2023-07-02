@@ -21,7 +21,7 @@ const Recipes = () => {
 
     useEffect(() => {
         axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-            .get('http://192.168.1.8:3000/getRecipes')
+            .get('http://192.168.1.71:3000/getRecipes')
             .then(response => {
                 const data = response.data;        // Quando la risposta viene ricevuta con successo, assegna i dati alla costante 'data'
                 console.log(data);        // Stampa i dati sulla console
@@ -40,7 +40,7 @@ const Recipes = () => {
 
     const renderItem = ({ item, index }) => {
         const timestamp = new Date().getTime();
-        const imageUrlWithTimestamp = `http://192.168.1.8:3000/images/${item.id}?timestamp=${timestamp}`;
+        const imageUrlWithTimestamp = `http://192.168.1.71:3000/images/${item.id}?timestamp=${timestamp}`;
         const paddingItem = (items.length - index) * 250 - 2000;
 
         return (

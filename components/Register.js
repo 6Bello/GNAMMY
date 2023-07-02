@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import axios from "axios";
 
 import hashPassword from '../passwordUtils.js';
@@ -93,7 +93,7 @@ const Register = ({onRegistrationComplete}) => {
         const hashedPassword = await hashPassword(password);
         console.log('Password hash:', hashedPassword);
         
-        const response = await axios.post('http://192.168.1.8:3000/register', {
+        const response = await axios.post('http://192.168.1.71:3000/register', {
           email,
           password: hashedPassword,
           username,
@@ -135,11 +135,11 @@ const Register = ({onRegistrationComplete}) => {
             placeholder="Password"
             secureTextEntry={!showPassword}
             />
-            <TouchableOpacity style={styles.showHidePassword} onPress={togglePasswordVisibility}>
-                <Text>showPassword ? 'Hide Password' : 'Show Password'</Text>
-            </TouchableOpacity>       
         </View>
         <Text style={styles.error}>{passwordProblem}</Text>
+        <TouchableOpacity style={styles.showHidePassword} onPress={togglePasswordVisibility}>
+                <Text>{showPassword ? 'Hide Password' : 'Show Password'}</Text>
+            </TouchableOpacity>
         <TextInput style={styles.button} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={false} />
         <Text style={styles.error}>{confirmPasswordProblem}</Text>
         <TouchableOpacity onPress={handleRegistration}>
@@ -153,7 +153,6 @@ const Register = ({onRegistrationComplete}) => {
 const styles = StyleSheet.create({
     container: {
       backgroundColor: '#fff',
-      height: '100%',
       width: '100%',
     },
     Register: {
@@ -167,11 +166,13 @@ const styles = StyleSheet.create({
     showHidePassword: {
         color: 'blue',
         fontSize: 12,
+        marginLeft: 220,
+
     },
     error: {
       color: 'red',
       fontSize: 12,
-      marginTop: -7,
+      marginTop: 7,
     },
     title: {
       fontSize: 25,
@@ -188,11 +189,13 @@ const styles = StyleSheet.create({
       alignItems: "center",
       padding: 10,
       marginTop: 20,
-      marginLeft: 30,
+      marginLeft: 20,
       borderRadius: 5,
       width: 300,
       backgroundColor: "#f8f4fc",
       display: 'flex',
+    },
+    registerButton: {
     },
 });
 
