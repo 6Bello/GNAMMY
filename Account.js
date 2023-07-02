@@ -5,19 +5,31 @@ import Register from './components/Register';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showRegisterPage, setShowRegisterPage] = useState(false);
-
+  
   const handleLoginComplete = () => {
     setIsLoggedIn(true);
   };
-
+  
   const handleLogout = () => {
     setIsLoggedIn(false);
   };
+  
+  return (
+    <View>
+      {isLoggedIn ? (
+        <LoggedInPage handleLogout={handleLogout} />
+      ) : (
+        <NotLoggedInPage handleLoginComplete={handleLoginComplete}  />
+        )}
+    </View>
+  );
+}
 
+function NotLoggedInPage({ handleLoginComplete}) {
   const openRegistration = () => {
     setShowRegisterPage(true);
   };
+  const [showRegisterPage, setShowRegisterPage] = useState(false);
 
   const openLogin = () => {
     setShowRegisterPage(false);
@@ -36,32 +48,21 @@ export default function App() {
           <Text>Login</Text>
         </TouchableOpacity>
       </View>
-      );
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Login</Text>
+        <Text style={styles.subtitle} >Login to your account</Text>
+        <Login onLoginComplete={handleLoginComplete} />
+        <TouchableOpacity onPress={openRegistration}>
+          <Text style={styles.text2}>Don't have an account? </Text>
+          <Text style={styles.text3}>Register</Text>
+        </TouchableOpacity>
+      </View>
+    );
   }
 
-  return (
-    <View>
-      {isLoggedIn ? (
-        <LoggedInPage handleLogout={handleLogout} />
-      ) : (
-        <NotLoggedInPage handleLoginComplete={handleLoginComplete} openRegistration={openRegistration} />
-      )}
-    </View>
-  );
-}
-
-function NotLoggedInPage({ handleLoginComplete, openRegistration }) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <Text style={styles.subtitle} >Login to your account</Text>
-      <Login onLoginComplete={handleLoginComplete} />
-      <TouchableOpacity onPress={openRegistration}>
-        <Text style={styles.text2}>Don't have an account? </Text>
-        <Text style={styles.text3}>Register</Text>
-      </TouchableOpacity> 
-    </View>
-  );
 }
 
 function LoggedInPage({ handleLogout }) {
@@ -77,38 +78,38 @@ function LoggedInPage({ handleLogout }) {
 
 
 const styles = StyleSheet.create({
-    container: {
-      width: "100%",
-      height: "100%",
-      backgroundColor: "white",
-    },
+  container: {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "white",
+  },
 
-    title: {
-      fontSize: 25,
-      fontWeight: 'bold',
-      marginLeft: 100,
-      paddingTop: 25,
-    },
+  title: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    marginLeft: 100,
+    paddingTop: 25,
+  },
 
-    subtitle: {
-      fontSize: 15,
-      opacity: 0.5,
-      marginLeft: 100,
-    },
+  subtitle: {
+    fontSize: 15,
+    opacity: 0.5,
+    marginLeft: 100,
+  },
 
-    text2: {
-      fontSize: 15,
-      textAlign: "center",
-      marginTop: 20,
-      color: "black",
-      display: "flex",
-    },
+  text2: {
+    fontSize: 15,
+    textAlign: "center",
+    marginTop: 20,
+    color: "black",
+    display: "flex",
+  },
 
-    text3: {
-      display: "flex",
-      color: "orange",
-      fontSize: 15,
-      textAlign: "center",
-    }
+  text3: {
+    display: "flex",
+    color: "orange",
+    fontSize: 15,
+    textAlign: "center",
+  }
 
 });
