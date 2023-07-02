@@ -53,12 +53,12 @@ function NotLoggedInPage({ handleLoginComplete }) {
   } else {
     return (
       <ScrollView style={styles.container}>
-        <View style={{display:"flex", flexDirection:"row"}}>
-          <View>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 25}}>
+          <Image style={styles.image} source={require('./assets/hamburger.png')} />
+          <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
             <Text style={styles.title}>Login</Text>
             <Text style={styles.subtitle} >Login to your account</Text>
           </View>
-          <Image style={styles.image} source={require('./assets/hamburger.png')} />
         </View>
         <Login onLoginComplete={handleLoginComplete} />
         <Text style={styles.text2}>Don't have an account? </Text>
@@ -93,7 +93,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-    paddingTop: 25,
   },
 
   subtitle: {
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
   image: {
     width: 60,
     height: 60,
-    marginLeft: -100,
+    marginLeft: 30,
   },
 
   text2: {
