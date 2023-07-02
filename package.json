@@ -31,6 +31,7 @@
     "react-native-crypto-js": "^1.0.0",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-image-cache-hoc": "^2.0.0",
+    "react-native-linear-gradient": "^2.7.3",
     "react-native-randombytes": "^3.6.1",
     "react-native-reanimated": "^2.14.4",
     "react-native-redash": "^18.1.0",

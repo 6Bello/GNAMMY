@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { View, Text, FlatList, StyleSheet, Image, ImageBackground } from 'react-native';
+import Recipes from './components/Recipes';
 
 
 export default function Home() {
@@ -57,7 +57,7 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <FlatList data={items} renderItem={renderItem} onScroll={handleScroll} removeClippedSubviews={true} />
+      <Recipes />
     </View>
   );
 }

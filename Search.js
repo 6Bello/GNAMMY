@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { View, Text, FlatList, StyleSheet, Image, ImageBackground } from 'react-native';
 import SearchBar from './components/searchBar';
+import ListCategories from './components/ListCategories';
 
 
 export default function Search() {
 
   return (
     <View>
+      <ListCategories/>
       <SearchBar styles={{marginBottom: 10}}/>
-      <FlatList data={SearchBar.items} renderItem={SearchBar.renderItem} onScroll={SearchBar.handleScroll} removeClippedSubviews={true} />
     </View>
   );
 }
