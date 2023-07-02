@@ -53,7 +53,7 @@ function NotLoggedInPage({ handleLoginComplete }) {
   } else {
     return (
       <ScrollView style={styles.container}>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 25}}>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, marginLeft: 25}}>
           <Image style={styles.image} source={require('./assets/hamburger.png')} />
           <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
             <Text style={styles.title}>Login</Text>

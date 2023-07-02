@@ -14,7 +14,7 @@ const Login = ({ onLoginComplete }) => {
       console.log(hashedPassword);
 
       axios
-        .get("http://192.168.1.8:3000/login", {
+        .get("http://192.168.1.71:3000/login", {
           params: {
             email,
             password: hashedPassword,
@@ -41,7 +41,7 @@ const Login = ({ onLoginComplete }) => {
             <TextInput style={styles.button} value={password} onChangeText={setPassword} placeholder="Password" />
             <Text style={styles.fg}>Forget Password?</Text>
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                <Text style={{lineHeight: 27, color:"white"}}>Login</Text>
+                <Text style={{lineHeight: 30, color:"white", fontSize: 18, fontWeight:"bold"}}>Login</Text>
             </TouchableOpacity>
         </View>
     );
@@ -52,10 +52,11 @@ const styles = StyleSheet.create({
       alignItems: "center",
       padding: 10,
       marginTop: 20,
-      marginLeft: "8.5%",
+      marginLeft: "13%",
       borderRadius: 5,
-      width: "83%",
+      width: "74%",
       backgroundColor: "#f8f4fc",
+      display: 'flex',
     },
 
     fg: {
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       padding: 10,
       marginTop: 20,
-      marginLeft: 30,
+      marginLeft: "7%",
       width: 327,
       backgroundColor: "white",
       color: "#d8945c",
@@ -76,9 +77,9 @@ const styles = StyleSheet.create({
       alignItems: "center",
       padding: 10,
       marginTop: 20,
-      marginLeft: "8.5%",
+      marginLeft: "13%",
       borderRadius: 5,
-      width: "83%",
+      width: "74%",
       height: 50,
       lineHeight: 30,
       fontSize: 15,
