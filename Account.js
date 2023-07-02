@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Login from './components/Login';
 import Register from './components/Register';
 
@@ -42,16 +42,16 @@ function NotLoggedInPage({ handleLoginComplete}) {
 
   if (showRegisterPage) {
     return (
-      <View>
+      <ScrollView>
         <Register onRegistrationComplete={handleRegistrationComplete} />
         <TouchableOpacity onPress={openLogin}>
           <Text>Login</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   } else {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.title}>Login</Text>
         <Text style={styles.subtitle} >Login to your account</Text>
         <Login onLoginComplete={handleLoginComplete} />
@@ -59,7 +59,7 @@ function NotLoggedInPage({ handleLoginComplete}) {
           <Text style={styles.text2}>Don't have an account? </Text>
           <Text style={styles.text3}>Register</Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   }
 
