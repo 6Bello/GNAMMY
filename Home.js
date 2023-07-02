@@ -9,7 +9,7 @@ export default function Home() {
   
   useEffect(() => {  
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://192.168.56.1:3000/getRecipes')
+      .get('http://192.168.1.61:3000/getRecipes')
       .then(response => {
         const data = response.data;        // Quando la risposta viene ricevuta con successo, assegna i dati alla costante 'data'
         console.log(data);        // Stampa i dati sulla console
@@ -23,7 +23,7 @@ export default function Home() {
 
   const renderItem = ({ item, index }) => {
     const timestamp = new Date().getTime(); // Genera un timestamp corrente
-    const imageUrlWithTimestamp = `http://192.168.56.1:3000/images/${item.id}?timestamp=${timestamp}`;
+    const imageUrlWithTimestamp = `http://192.168.1.61:3000/images/${item.id}?timestamp=${timestamp}`;
     const paddingItem = ((items.length - index) * 250)-2000; // Imposta il padding inferiore in base all'indice dell'elemento
     return (
       <ImageBackground source={require('./R.jpg')}

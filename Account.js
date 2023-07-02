@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Login from './components/Login';
 import Register from './components/Register';
 
@@ -52,11 +52,13 @@ export default function App() {
 
 function NotLoggedInPage({ handleLoginComplete, openRegistration }) {
   return (
-    <View>
-      <Text>Benvenuto! Effettua il login o registrati per continuare.</Text>
-      <Login onLoginComplete={handleLoginComplete}/>
+    <View style={styles.container}>
+      <Text style={styles.title}>Login</Text>
+      <Text style={styles.subtitle} >Login to your account</Text>
+      <Login onLoginComplete={handleLoginComplete} />
       <TouchableOpacity onPress={openRegistration}>
-        <Text>Registrazione</Text>
+        <Text style={styles.text2}>Don't have an account? </Text>
+        <Text style={styles.text3}>Register</Text>
       </TouchableOpacity> 
     </View>
   );
@@ -72,3 +74,41 @@ function LoggedInPage({ handleLogout }) {
     </View>
   );
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+      width: "100%",
+      height: "100%",
+      backgroundColor: "white",
+    },
+
+    title: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      marginLeft: 100,
+      paddingTop: 25,
+    },
+
+    subtitle: {
+      fontSize: 15,
+      opacity: 0.5,
+      marginLeft: 100,
+    },
+
+    text2: {
+      fontSize: 15,
+      textAlign: "center",
+      marginTop: 20,
+      color: "black",
+      display: "flex",
+    },
+
+    text3: {
+      display: "flex",
+      color: "orange",
+      fontSize: 15,
+      textAlign: "center",
+    }
+
+});

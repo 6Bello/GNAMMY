@@ -93,7 +93,7 @@ const Register = ({onRegistrationComplete}) => {
         const hashedPassword = await hashPassword(password);
         console.log('Password hash:', hashedPassword);
         
-        const response = await axios.post('http://192.168.56.1:3000/register', {
+        const response = await axios.post('http://192.168.1.61:3000/register', {
           email,
           password: hashedPassword,
           username,
@@ -113,38 +113,49 @@ const Register = ({onRegistrationComplete}) => {
     
 
     return (
+        <View style={styles.container}>
         <View style={styles.Register}>
-        <TextInput value={username} onChangeText={setUsername} placeholder="Username" />
+          <Text style={styles.title}>Register</Text>
+        <Text style={styles.subtitle}>Register to enjoy your food</Text>
+          <TextInput style={styles.button} value={username} onChangeText={setUsername} placeholder="Username" />
         <Text style={styles.error}>{usernameProblem}</Text>
         <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-          <TextInput value={name} onChangeText={setName} placeholder="Name"/>
-          <TextInput value={surname} onChangeText={setSurname} placeholder="Cognome" style={{marginRight: 150}}/>
+        <TextInput style={styles.button} value={name} onChangeText={setName} placeholder="Name"/>
+        </View>  
+        <View>
+        <TextInput style={styles.button} value={surname} onChangeText={setSurname} placeholder="Cognome"/>
         </View>
         <Text style={styles.error}>{nameProblem}</Text>
-        <TextInput value={email} onChangeText={setEmail} placeholder="Email" />
+        <TextInput style={styles.button} value={email} onChangeText={setEmail} placeholder="Email" />
         <Text style={styles.error}>{emailProblem}</Text>
         <View style={styles.passwordContainer}>
-            <TextInput
+            <TextInput style={styles.button}
             value={password}
             onChangeText={thereArePasswordProblems}
             placeholder="Password"
             secureTextEntry={!showPassword}
             />
             <TouchableOpacity style={styles.showHidePassword} onPress={togglePasswordVisibility}>
-                <Text>{showPassword ? 'Hide Password' : 'Show Password'}</Text>
+                <Text>showPassword ? 'Hide Password' : 'Show Password'</Text>
             </TouchableOpacity>       
         </View>
         <Text style={styles.error}>{passwordProblem}</Text>
-        <TextInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={false} />
+        <TextInput style={styles.button} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={false} />
         <Text style={styles.error}>{confirmPasswordProblem}</Text>
         <TouchableOpacity onPress={handleRegistration}>
             <Text>Register</Text>
         </TouchableOpacity>
         </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+      backgroundColor: '#fff',
+      height: '100%',
+      width: '100%',
+    },
     Register: {
         marginHorizontal: 20,
     },
@@ -161,6 +172,27 @@ const styles = StyleSheet.create({
       color: 'red',
       fontSize: 12,
       marginTop: -7,
+    },
+    title: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      marginLeft: 100,
+      paddingTop: 25,
+    },
+    subtitle: {
+      fontSize: 15,
+      opacity: 0.5,
+      marginLeft: 100,
+    },
+    button: {
+      alignItems: "center",
+      padding: 10,
+      marginTop: 20,
+      marginLeft: 30,
+      borderRadius: 5,
+      width: 300,
+      backgroundColor: "#f8f4fc",
+      display: 'flex',
     },
 });
 

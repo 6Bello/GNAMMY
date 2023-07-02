@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import hashPassword from "../passwordUtils";
@@ -14,7 +14,7 @@ const Login = ({ onLoginComplete }) => {
       console.log(hashedPassword);
 
       axios
-        .get("http://192.168.56.1:3000/login", {
+        .get("http://192.168.1.61:3000/login", {
           params: {
             email,
             password: hashedPassword,
@@ -37,14 +37,57 @@ const Login = ({ onLoginComplete }) => {
 
     return (
         <View>
-            <TextInput value={email} onChangeText={setEmail} placeholder="Email" />
-            <TextInput value={password} onChangeText={setPassword} placeholder="Password" />
+            <TextInput style={styles.button} value={email} onChangeText={setEmail} placeholder="Email" />
+            <TextInput style={styles.button} value={password} onChangeText={setPassword} placeholder="Password" />
+            <Text style={styles.fg}>Forget Password?</Text>
             <TouchableOpacity onPress={handleLogin}>
-                <Text>Login</Text>
+                <Text style={styles.loginButton} >Login</Text>
             </TouchableOpacity>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    button: {
+      alignItems: "center",
+      padding: 10,
+      marginTop: 20,
+      marginLeft: 30,
+      borderRadius: 5,
+      width: 327,
+      backgroundColor: "#f8f4fc",
+    },
+
+    fg: {
+      fontWeight: "bold",
+      alignItems: "center",
+      padding: 10,
+      marginTop: 20,
+      marginLeft: 30,
+      width: 327,
+      backgroundColor: "white",
+      color: "#d8945c",
+      textAlign: "center"
+    },
+
+    loginButton: {
+      fontWeight: "bold",
+      textAlign: "center",
+      alignItems: "center",
+      padding: 10,
+      marginTop: 20,
+      marginLeft: 30,
+      borderRadius: 5,
+      width: 327,
+      height: 50,
+      lineHeight: 30,
+      fontSize: 15,
+      backgroundColor: "orange",
+      color: "white",
+    },
+
+    
+});
 
 export default Login;
 
