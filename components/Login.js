@@ -40,8 +40,8 @@ const Login = ({ onLoginComplete }) => {
             <TextInput style={styles.button} value={email} onChangeText={setEmail} placeholder="Email" />
             <TextInput style={styles.button} value={password} onChangeText={setPassword} placeholder="Password" />
             <Text style={styles.fg}>Forget Password?</Text>
-            <TouchableOpacity onPress={handleLogin}>
-                <Text style={styles.loginButton} >Login</Text>
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                <Text style={{lineHeight: 27, color:"white"}}>Login</Text>
             </TouchableOpacity>
         </View>
     );

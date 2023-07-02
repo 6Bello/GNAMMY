@@ -152,8 +152,8 @@ const Register = ({onRegistrationComplete}) => {
         <Text style={[styles.error, {
           display: confirmPasswordProblem ? 'flex' : 'none',
         }]}>{confirmPasswordProblem}</Text>
-        <TouchableOpacity onPress={handleRegistration}>
-            <Text style={styles.registerButton}>Register</Text>
+        <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
+            <Text style={{lineHeight: 27, color:"white"}}>Register</Text>
         </TouchableOpacity>
         </View>
         </View>

@@ -53,8 +53,8 @@ function NotLoggedInPage({ handleLoginComplete }) {
   } else {
     return (
       <ScrollView style={styles.container}>
-        <View>
-          <View style={{}}>
+        <View style={{display:"flex", flexDirection:"row"}}>
+          <View>
             <Text style={styles.title}>Login</Text>
             <Text style={styles.subtitle} >Login to your account</Text>
           </View>
@@ -93,19 +93,18 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-    marginLeft: 100,
     paddingTop: 25,
   },
 
   subtitle: {
     fontSize: 15,
     opacity: 0.5,
-    marginLeft: 100,
   },
 
   image: {
     width: 60,
     height: 60,
+    marginLeft: -100,
   },
 
   text2: {
