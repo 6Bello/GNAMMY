@@ -15,7 +15,7 @@ function App() {
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home} />
         <Tab.Screen name="search" component={Search} />
-        <Tab.Screen name="Account" component={Account}/>
+        <Tab.Screen name="Account" component={Account} options={{title:""}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
