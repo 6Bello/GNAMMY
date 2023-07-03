@@ -5,16 +5,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import Home from './Home.js';
 import Search from './Search.js';
 import Account from './Account.js';
+import {Ionicons} from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
 
 function App() {
-
   return (
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="search" component={Search} />
+        <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="Account" component={Account} options={{title:""}}/>
       </Tab.Navigator>
     </NavigationContainer>

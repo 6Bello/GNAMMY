@@ -7,9 +7,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
-    host: '0.0.0.0',
+    host: 'localhost',
     user: 'root',
-    port: '8888',
+    port: '8889',
     password: 'root',
     database: 'GNAMMY'
 });
