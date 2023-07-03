@@ -93,7 +93,7 @@ const Register = ({ onRegistrationComplete }) => {
       const hashedPassword = await hashPassword(password);
       console.log('Password hash:', hashedPassword);
 
-      const response = await axios.post('http://192.168.1.71:3000/register', {
+      const response = await axios.post('http://192.168.1.74:3000/register', {
         email,
         password: hashedPassword,
         username,
@@ -118,8 +118,8 @@ const Register = ({ onRegistrationComplete }) => {
         <View style={{ display: "flex", flexDirection: "row", marginTop: 30}}>
           <Image style={styles.image} source={require('../assets/bibimbap.png')} />
           <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
-            <Text style={styles.title}>Register</Text>
-            <Text style={styles.subtitle}>Register to enjoy your food</Text>
+            <Text style={styles.title}>Sign up</Text>
+            <Text style={styles.subtitle}>Sign up to enjoy your food</Text>
           </View>
         </View>
         <TextInput style={styles.button} value={username} onChangeText={setUsername} placeholder="Username" />
@@ -158,7 +158,7 @@ const Register = ({ onRegistrationComplete }) => {
           display: confirmPasswordProblem ? 'flex' : 'none',
         }]}>{confirmPasswordProblem}</Text>
         <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
-          <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight:"bold" }}>Register</Text>
+          <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight:"bold" }}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </View>

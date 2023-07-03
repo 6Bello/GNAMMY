@@ -62,7 +62,7 @@ const ListCategories = () => {
     setIsSearchClicked(true);
 
     axios
-      .get(`http://192.168.1.71:3000/getRecipesByCategories/${selectedCategoriesNames}`)
+      .get(`http://192.168.1.74:3000/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
         setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca

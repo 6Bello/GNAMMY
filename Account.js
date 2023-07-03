@@ -46,7 +46,7 @@ function NotLoggedInPage({ handleLoginComplete }) {
         <Register onRegistrationComplete={handleRegistrationComplete} />
         <Text style={styles.text2}>Already have an account?</Text>
         <TouchableOpacity onPress={openLogin}>
-          <Text style={styles.text3}>Login</Text>
+          <Text style={styles.text3}>Sign in</Text>
         </TouchableOpacity>
       </ScrollView>
     );
@@ -56,14 +56,14 @@ function NotLoggedInPage({ handleLoginComplete }) {
         <View style={{ display: "flex", flexDirection: "row", marginTop: 30, marginLeft: 25}}>
           <Image style={styles.image} source={require('./assets/hamburger.png')} />
           <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
-            <Text style={styles.title}>Login</Text>
-            <Text style={styles.subtitle} >Login to your account</Text>
+            <Text style={styles.title}>Sign in</Text>
+            <Text style={styles.subtitle} >Sign to your account</Text>
           </View>
         </View>
         <Login onLoginComplete={handleLoginComplete} />
         <Text style={styles.text2}>Don't have an account? </Text>
         <TouchableOpacity onPress={openRegistration}>
-          <Text style={styles.text3}>Register</Text>
+          <Text style={styles.text3}>Sign up</Text>
         </TouchableOpacity>
       </ScrollView>
     );

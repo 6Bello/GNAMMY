@@ -14,7 +14,7 @@ const Login = ({ onLoginComplete }) => {
       console.log(hashedPassword);
 
       axios
-        .get("http://192.168.1.71:3000/login", {
+        .get("http://192.168.1.74:3000/login", {
           params: {
             email,
             password: hashedPassword,
@@ -41,7 +41,7 @@ const Login = ({ onLoginComplete }) => {
             <TextInput style={styles.button}  value={password} onChangeText={setPassword} placeholder="Password" />
             <Text style={styles.fg}>Forget Password?</Text>
             <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                <Text style={{lineHeight: 30, color:"white", fontSize: 18, fontWeight:"bold"}}>Login</Text>
+                <Text style={{lineHeight: 30, color:"white", fontSize: 18, fontWeight:"bold"}}>Sign in</Text>
             </TouchableOpacity>
         </View>
     );

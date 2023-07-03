@@ -6,6 +6,7 @@ import Home from './Home.js';
 import Search from './Search.js';
 import Account from './Account.js';
 import {Ionicons} from '@expo/vector-icons';
+import Home2 from './components/Home2.js';
 
 const Tab = createBottomTabNavigator();
 
