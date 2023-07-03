@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import {Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, ActivityIndicator, ImageBackground } from "react-native";
+import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, ActivityIndicator, ImageBackground, Modal } from "react-native";
 import axios from "axios";
 
 import handleScroll from '../animations/handleScroll';
 import { opacity } from "react-native-redash";
+import { FlatList } from "react-native-gesture-handler";
 
-const ListCategories = () => {
-  const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItems}) => {
+  const [paddingTop, setpaddingTop] = useState(20);
   const [category, setCategory] = useState([
     { id: 0, name: "pasta", selected: false },
     { id: 1, name: "carne", selected: false },
@@ -35,15 +36,6 @@ const ListCategories = () => {
     { id: 24, name: "primo", selected: false },
     { id: 25, name: "secondo", selected: false }
   ]);
-  const [isSearchClicked, setIsSearchClicked] = useState(false); // Stato per tracciare se il pulsante di ricerca è stato cliccato
-  const [paddingTop, setpaddingTop] = useState(20); // Stato per memorizzare il padding superiore dell'immagine di sfondo
-  const [isLoading, setIsLoading] = useState(false); // Stato per tracciare lo stato di caricamento
-
-  const handleSearch = () => {
-    setIsLoading(true); // Imposta isLoading su true per mostrare l'indicatore di caricamento
-    setIsSearchClicked(true); // Imposta isSearchClicked su true per eseguire la ricerca quando l'effetto useEffect viene attivato
-  };
-
 
   const handlePress = (index) => {
     setCategory((prevCategory) => {
@@ -56,76 +48,63 @@ const ListCategories = () => {
     });
   };
 
-  const handleSearchByCategories = () => {
+  const searchByCategories = () => {
+    handleShowFilter();
     const selectedCategoriesNames = category.filter((item) => item.selected).map((item) => item.name);
-    setIsLoading(true);
-    setIsSearchClicked(true);
+    loadingTrue();
 
     axios
-      .get(`http://192.168.1.74:3000/getRecipesByCategories/${selectedCategoriesNames}`)
+      .get(`http://192.168.1.8:3000/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
-        setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+        updateItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+        console.log(data);
       })
       .catch((error) => {
         console.error(error);
       })
       .finally(() => {
-        setIsLoading(false);
+        loadingFalse();
       });
   };
 
 
   return (
-    <ScrollView>
-      <View>
-        {category.map((item, index) => (
-          <TouchableOpacity
-            style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}
-            key={item.id}
-            onPress={() => handlePress(index)}
-          >
-            <View style={{ display: "flex", flexDirection: "row", widht: 300, justifyContent:"space-between" }}>
-              <Text style={{ color: item.selected ? 'red' : 'black', fontWeight: item.selected ? 'bold' : 'normal', padding: 5, lineHeight: 25 }}>{item.name}</Text>
-              <Image source={item.selected ? require('../assets/check-2.png') : null} style={[styles.square,  {width: 20, height: 20, marginTop: 8, marginLeft: 80, position: "absolute"}]} />
-            </View>
-          </TouchableOpacity>
-        ))}
-        <Button title="Cerca" onPress={handleSearchByCategories} />
-      </View>
-      <ScrollView>
-        {isLoading ? (
-          <ActivityIndicator size="large" color="#0000ff" /> // Mostra l'indicatore di caricamento se isLoading è true
-        ) : (
-          items.map((recipe, index) => (
-            <View key={recipe.id}>
-              <ImageBackground
-                source={require('../R.jpg')}
-                style={{
-                  width: '100%',
-                  height: 200,
-                  backgroundColor: '#000',
-                  position: 'relative',
-                }}
-                imageStyle={{
-                  resizeMode: 'cover',
-                  position: 'absolute',
-                  width: '100%',
-                  height: 200,
-                  paddingBottom: paddingTop + ((items.length - index) * 250) - 2000,
-                  top: 0,
-                  alignSelf: 'flex-end',
-                }}
-                onScroll={handleScroll}
+    <View style={styles.centeredView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+        }}
+      >
+        <View style={styles.centeredView}>
+        <View style={styles.modalView}>
+          <FlatList
+            style={{marginTop: -20}}
+            data={category}
+            renderItem={({ item, index }) => (
+              <TouchableOpacity
+                style={{ display:"flex", flexDirection: 'row', alignItems: 'center', width: "33%"}}
+                key={item.id}
+                onPress={() => handlePress(index)}
               >
-                <Text style={{ color: 'black', textAlign: 'center' }}>{recipe.name}</Text>
-                <Text style={{ color: 'grey', textAlign: 'center' }}>{recipe.description}</Text>
-              </ImageBackground>
-            </View>
-          ))
-        )}
-      </ScrollView>
-    </ScrollView>
+                <View style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "flex-end"}}>
+                  <Text style={{ color: item.selected ? 'red' : 'black', fontWeight: item.selected ? 'bold' : 'normal', padding: 5, lineHeight: 25}}>{item.name}</Text>
+                  <Image source={item.selected ? require('../assets/check-2.png') : null} style={[styles.square, { width: 20, height: 20, marginTop: 8}]} />
+                </View>
+              </TouchableOpacity>
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            numColumns={3}
+          />
+          <TouchableOpacity style={{marginTop: 20}} onPress={searchByCategories}>
+            <Text style={{fontSize: 20, textAlign: 'center', marginTop: 10, marginBottom: 10}}>Applica filtri</Text>
+          </TouchableOpacity>
+        </View>
+        </View>
+      </Modal>
+    </View>
   );
 
 };
@@ -140,6 +119,26 @@ const styles = StyleSheet.create({
   },
   selectedSquareImg: {
   },
+  centeredView: {
+    height: "100%",
+    justifyContent: 'center',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
 });
 
 export default ListCategories;
