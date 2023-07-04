@@ -54,7 +54,7 @@ const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItem
     loadingTrue();
 
     axios
-      .get(`http://192.168.1.8:3000/getRecipesByCategories/${selectedCategoriesNames}`)
+      .get(`http://79.44.99.29:8889/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
         updateItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca

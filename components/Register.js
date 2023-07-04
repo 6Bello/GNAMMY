@@ -93,7 +93,7 @@ const Register = ({ onRegistrationComplete }) => {
       const hashedPassword = await hashPassword(password);
       console.log('Password hash:', hashedPassword);
 
-      const response = await axios.post('http://192.168.1.8:3000/register', {
+      const response = await axios.post('http://79.44.99.29:8889/register', {
         email,
         password: hashedPassword,
         username,
