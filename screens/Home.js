@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView } from 'react-native';
-import Recipes from './components/Recipes';
+import Recipes from '../components/Recipes';
 import axios from 'axios';
 
 

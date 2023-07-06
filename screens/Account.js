@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
-import Login from './components/Login';
-import Register from './components/Register';
-
+import Login from '../components/Login';
+import Register from '../components/Register';
+import LoggedInPage from '../components/LoggedInPage';
 export default function App({user, isLoggedIn, handleIsLoggedIn, updateUserData}) {
 
   return (
@@ -44,7 +44,7 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
     return (
       <ScrollView style={styles.container}>
         <View style={{ display: "flex", flexDirection: "row", marginTop: 30, marginLeft: 25}}>
-          <Image style={styles.image} source={require('./assets/hamburger.png')} />
+          <Image style={styles.image} source={require('../assets/hamburger.png')} />
           <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
             <Text style={styles.title}>Sign in</Text>
             <Text style={styles.subtitle} >Sign to your account</Text>
@@ -59,17 +59,6 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
     );
   }
 
-}
-
-function LoggedInPage({ user, handleIsLoggedIn }) {
-  return (
-    <View>
-      <Text>ciao {user.name}</Text>
-      <TouchableOpacity onPress={handleIsLoggedIn}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
-    </View>
-  );
 }
 
 

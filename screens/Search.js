@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
-import SearchBar from './components/searchBar';
-import ListCategories from './components/ListCategories';
-import Recipes from './components/Recipes';
+import SearchBar from '../components/searchBar';
+import ListCategories from '../components/ListCategories';
+import Recipes from '../components/Recipes';
 
 
 export default function Search() {
@@ -33,7 +33,7 @@ export default function Search() {
         <ListCategories handleShowFilter={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} />
         :
         <TouchableOpacity onPress={handleShowFilter} style={{ position: 'absolute', right: 5, top: 5 }}>
-          <Image style={{ width: 20, height: 20 }} source={require("./assets/filter.png")} />
+          <Image style={{ width: 20, height: 20 }} source={require("../assets/filter.png")} />
         </TouchableOpacity>
       }
       <ScrollView>
