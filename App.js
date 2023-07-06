@@ -31,9 +31,15 @@ const HeaderRightButton = () => {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
   const handleIsLoggedIn = () => {
     setIsLoggedIn(!isLoggedIn);
-    console.log(isLoggedIn);
+  };
+
+  const updateUserData = (data) => {
+    setUser(data);
+    console.log("ao");
+    console.log("user: ", user);
   };
 
   return (
@@ -66,7 +72,7 @@ function App() {
             )
           }}
         >
-          {() => <Account isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} />}
+          {() => <Account user={user} isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>

@@ -4,14 +4,13 @@ import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import hashPassword from "../passwordUtils";
 
-const Login = ({ onLoginComplete }) => {
+const Login = ({ onLoginComplete, updateUserData }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
     try {
       const hashedPassword = await hashPassword(password);
-      console.log(hashedPassword);
 
       axios
         .get("http://79.44.99.29:8889/login", {
@@ -22,6 +21,16 @@ const Login = ({ onLoginComplete }) => {
         })
         .then((response) => {
           if (response.status === 200) {
+            const userData = response.data;
+            console.log(userData)
+            updateUserData(userData);
+        
+            // Utilizza i dati estratti come desideri
+            console.log("Username:", userData.username);
+            console.log("Name:", userData.name);
+            console.log("Surname:", userData.surname);
+            console.log("Email:", userData.email);
+        
             onLoginComplete();
           } else {
             alert("Credenziali errate");

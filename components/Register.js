@@ -5,7 +5,7 @@ import axios from "axios";
 import hashPassword from '../passwordUtils.js';
 
 
-const Register = ({ OnRegistrationComplete }) => {
+const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [username, setUsername] = useState('');
   const [usernameProblem, setUsernameProblem] = useState('');
   const [name, setName] = useState('');
@@ -91,7 +91,6 @@ const Register = ({ OnRegistrationComplete }) => {
   const userRegistration = async (email, username, password, name, surname) => {
     try {
       const hashedPassword = await hashPassword(password);
-      console.log('Password hash:', hashedPassword);
 
       const response = await axios.post('http://79.44.99.29:8889/register', {
         email,
@@ -101,7 +100,7 @@ const Register = ({ OnRegistrationComplete }) => {
         surname,
       });
 
-      console.log(response);
+      updateUserData(response.data);
       OnRegistrationComplete(); // Call the callback to set isLoggedIn to true
       console.log('Account creato con successo!');
     } catch (error) {

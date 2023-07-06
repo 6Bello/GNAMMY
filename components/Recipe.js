@@ -4,7 +4,6 @@ const Recipe = ({ item, index, updateItems, items}) => {
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
   
     const toggleDescriptionVisible = () => {
-      console.log('toggleDescriptionVisible');
       const updatedItems = [...items];
       updatedItems[index] = {
         ...item,

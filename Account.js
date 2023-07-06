@@ -3,20 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import Login from './components/Login';
 import Register from './components/Register';
 
-export default function App({isLoggedIn, handleIsLoggedIn}) {
+export default function App({user, isLoggedIn, handleIsLoggedIn, updateUserData}) {
 
   return (
     <View>
       {isLoggedIn ? (
-        <LoggedInPage handleIsLoggedIn={handleIsLoggedIn} />
+        <LoggedInPage user={user} handleIsLoggedIn={handleIsLoggedIn} />
       ) : (
-        <NotLoggedInPage handleIsLoggedIn={handleIsLoggedIn} />
+        <NotLoggedInPage handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />
       )}
     </View>
   );
 }
 
-function NotLoggedInPage({ handleIsLoggedIn }) {
+function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
   const openRegistration = () => {
     setShowRegisterPage(true);
   };
@@ -33,7 +33,7 @@ function NotLoggedInPage({ handleIsLoggedIn }) {
   if (showRegisterPage) {
     return (
       <ScrollView style={styles.container}>
-        <Register OnRegistrationComplete={OnRegistrationComplete} />
+        <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>
         <Text style={styles.text2}>Already have an account?</Text>
         <TouchableOpacity onPress={openLogin}>
           <Text style={styles.text3}>Sign in</Text>
@@ -50,7 +50,7 @@ function NotLoggedInPage({ handleIsLoggedIn }) {
             <Text style={styles.subtitle} >Sign to your account</Text>
           </View>
         </View>
-        <Login onLoginComplete={handleIsLoggedIn} />
+        <Login onLoginComplete={handleIsLoggedIn} updateUserData={updateUserData}/>
         <Text style={styles.text2}>Don't have an account? </Text>
         <TouchableOpacity onPress={openRegistration}>
           <Text style={styles.text3}>Sign up</Text>
@@ -61,10 +61,10 @@ function NotLoggedInPage({ handleIsLoggedIn }) {
 
 }
 
-function LoggedInPage({ handleIsLoggedIn }) {
+function LoggedInPage({ user, handleIsLoggedIn }) {
   return (
     <View>
-      <Text>Utente loggato!</Text>
+      <Text>ciao {user.name}</Text>
       <TouchableOpacity onPress={handleIsLoggedIn}>
         <Text>Logout</Text>
       </TouchableOpacity>
