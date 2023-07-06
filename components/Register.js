@@ -5,7 +5,7 @@ import axios from "axios";
 import hashPassword from '../passwordUtils.js';
 
 
-const Register = ({ onRegistrationComplete }) => {
+const Register = ({ OnRegistrationComplete }) => {
   const [username, setUsername] = useState('');
   const [usernameProblem, setUsernameProblem] = useState('');
   const [name, setName] = useState('');
@@ -102,7 +102,7 @@ const Register = ({ onRegistrationComplete }) => {
       });
 
       console.log(response);
-      onRegistrationComplete(); // Call the callback to set isLoggedIn to true
+      OnRegistrationComplete(); // Call the callback to set isLoggedIn to true
       console.log('Account creato con successo!');
     } catch (error) {
       console.error(error);

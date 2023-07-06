@@ -3,28 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import Login from './components/Login';
 import Register from './components/Register';
 
-export default function App(isLoggedIn) {
-
-  const handleLoginComplete = () => {
-    setIsLoggedIn(true);
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
+export default function App({isLoggedIn, handleIsLoggedIn}) {
 
   return (
     <View>
       {isLoggedIn ? (
-        <LoggedInPage handleLogout={handleLogout} />
+        <LoggedInPage handleIsLoggedIn={handleIsLoggedIn} />
       ) : (
-        <NotLoggedInPage handleLoginComplete={handleLoginComplete} />
+        <NotLoggedInPage handleIsLoggedIn={handleIsLoggedIn} />
       )}
     </View>
   );
 }
 
-function NotLoggedInPage({ handleLoginComplete }) {
+function NotLoggedInPage({ handleIsLoggedIn }) {
   const openRegistration = () => {
     setShowRegisterPage(true);
   };
@@ -34,15 +26,14 @@ function NotLoggedInPage({ handleLoginComplete }) {
     setShowRegisterPage(false);
   };
 
-  const handleRegistrationComplete = () => {
+  const OnRegistrationComplete = () => {
     setShowRegisterPage(false);
-    handleLoginComplete(); // Set isLoggedIn to true
+    handleIsLoggedIn();
   };
-
   if (showRegisterPage) {
     return (
       <ScrollView style={styles.container}>
-        <Register onRegistrationComplete={handleRegistrationComplete} />
+        <Register OnRegistrationComplete={OnRegistrationComplete} />
         <Text style={styles.text2}>Already have an account?</Text>
         <TouchableOpacity onPress={openLogin}>
           <Text style={styles.text3}>Sign in</Text>
@@ -59,7 +50,7 @@ function NotLoggedInPage({ handleLoginComplete }) {
             <Text style={styles.subtitle} >Sign to your account</Text>
           </View>
         </View>
-        <Login onLoginComplete={handleLoginComplete} />
+        <Login onLoginComplete={handleIsLoggedIn} />
         <Text style={styles.text2}>Don't have an account? </Text>
         <TouchableOpacity onPress={openRegistration}>
           <Text style={styles.text3}>Sign up</Text>
@@ -70,11 +61,11 @@ function NotLoggedInPage({ handleLoginComplete }) {
 
 }
 
-function LoggedInPage({ handleLogout }) {
+function LoggedInPage({ handleIsLoggedIn }) {
   return (
     <View>
       <Text>Utente loggato!</Text>
-      <TouchableOpacity onPress={handleLogout}>
+      <TouchableOpacity onPress={handleIsLoggedIn}>
         <Text>Logout</Text>
       </TouchableOpacity>
     </View>

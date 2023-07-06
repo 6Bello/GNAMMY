@@ -6,7 +6,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import Home from './Home.js';
 import Search from './Search.js';
 import Account from './Account.js';
-import {Ionicons, MaterialCommunityIcons} from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import Home2 from './components/Home2.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Image, Button, IconButton } from 'react-native';
@@ -31,29 +31,43 @@ const HeaderRightButton = () => {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const handleIsLoggedIn = () => {
+    setIsLoggedIn(!isLoggedIn);
+    console.log(isLoggedIn);
+  };
+
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} options={
-          {headerTitle:"", 
-            tabBarIcon: ({color, size}) => (
-              <Ionicons name="ios-home" color={color} size={size}/>
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerTitle: "",
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="ios-home" color={color} size={size} />
             ),
-            // headerRight: () => (
-            //   <TouchableOpacity onPress={() => {
-            //     navigation.navigate('Search')
-            //   }}>
-            //   <Image style={{width: 25, height: 25, }} source={require("./assets/search.png")}/>
-            //   </TouchableOpacity>
-            //  )
-            headerRight: () => {
-              <HeaderRightButton />
-            }
-          }
-        }>
+            headerRight: () => (
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('Search');
+              }}>
+                <Image style={{ width: 25, height: 25 }} source={require("./assets/search.png")} />
+              </TouchableOpacity>
+            )
+          }}
+        />
+        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen
+          name="Account"
+          options={{
+            headerTitle: "",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name='account' size={size} color={color} />
+            )
+          }}
+        >
+          {() => <Account isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} />}
         </Tab.Screen>
-        <Tab.Screen name="Search" component={Search} isLoggedIn={isLoggedIn}/>
-        <Tab.Screen name="Account" component={Account} options={{headerTitle:"", tabBarIcon:({color, size}) => (<MaterialCommunityIcons name='account' size={size} color={color} />)}}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
