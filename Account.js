@@ -3,8 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import Login from './components/Login';
 import Register from './components/Register';
 
-export default function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+export default function App(isLoggedIn) {
 
   const handleLoginComplete = () => {
     setIsLoggedIn(true);

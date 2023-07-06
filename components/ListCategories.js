@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, ActivityIndicator, ImageBackground, Modal } from "react-native";
 import axios from "axios";
 
-import handleScroll from '../animations/handleScroll';
 import { opacity } from "react-native-redash";
 import { FlatList } from "react-native-gesture-handler";
 
 const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItems}) => {
-  const [paddingTop, setpaddingTop] = useState(20);
   const [category, setCategory] = useState([
     { id: 0, name: "pasta", selected: false },
     { id: 1, name: "carne", selected: false },

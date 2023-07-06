@@ -13,10 +13,11 @@ import { Image } from 'react-native';
 const Tab = createBottomTabNavigator();
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home2} options={
+        <Tab.Screen name="Home" component={Home} options={
           {headerTitle:"", 
             tabBarIcon: ({color, size}) => (
               <Ionicons name="ios-home" color={color} size={size}/>
@@ -32,7 +33,7 @@ function App() {
             )
           }
       }/>
-        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="Search" component={Search} isLoggedIn={isLoggedIn}/>
         <Tab.Screen name="Account" component={Account} options={{headerTitle:"", tabBarIcon:({color, size}) => (<MaterialCommunityIcons name='account' size={size} color={color} />)}}/>
       </Tab.Navigator>
     </NavigationContainer>
