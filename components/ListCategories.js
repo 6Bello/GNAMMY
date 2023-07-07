@@ -3,37 +3,8 @@ import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, Ac
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
 
-const ListCategories = ({ handleShowFilter, loadingTrue, loadingFalse, updateItems, filter = 0, onCategories }) => {
-  const [categories, setCategories] = useState([
-    { id: 0, name: "pasta", selected: false },
-    { id: 1, name: "carne", selected: false },
-    { id: 2, name: "pesce", selected: false },
-    { id: 3, name: "verdura", selected: false },
-    { id: 4, name: "frutta", selected: false },
-    { id: 5, name: "dolce", selected: false },
-    { id: 6, name: "antipasto", selected: false },
-    { id: 7, name: "contorno", selected: false },
-    { id: 8, name: "insalata", selected: false },
-    { id: 9, name: "zuppa", selected: false },
-    { id: 10, name: "pizza", selected: false },
-    { id: 11, name: "fritto", selected: false },
-    { id: 12, name: "salsa", selected: false },
-    { id: 13, name: "sugo", selected: false },
-    { id: 14, name: "soufflé", selected: false },
-    { id: 15, name: "sformato", selected: false },
-    { id: 16, name: "torta", selected: false },
-    { id: 17, name: "biscotto", selected: false },
-    { id: 18, name: "budino", selected: false },
-    { id: 19, name: "gelato", selected: false },
-    { id: 20, name: "bevanda", selected: false },
-    { id: 21, name: "cocktail", selected: false },
-    { id: 22, name: "aperitivo", selected: false },
-    { id: 23, name: "digestivo", selected: false },
-    { id: 24, name: "primo", selected: false },
-    { id: 25, name: "secondo", selected: false }
-  ]);
-  onCategories(categories);
-  
+const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateItems, filter = 0, onCategories, handleShow }) => {
+  const [categories, setCategories] = useState(initialCategories || []);
 
   const handlePress = (index) => {
     setCategories((prevCategories) => {
@@ -47,7 +18,7 @@ const ListCategories = ({ handleShowFilter, loadingTrue, loadingFalse, updateIte
   };
 
   const searchByCategories = () => {
-    handleShowFilter();
+    handleShow();
     const selectedCategoriesNames = categories.filter((item) => item.selected).map((item) => item.name);
     loadingTrue();
 
@@ -55,7 +26,7 @@ const ListCategories = ({ handleShowFilter, loadingTrue, loadingFalse, updateIte
       .get(`http://79.44.99.29:8889/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
-        updateItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+        updateItems(data);
         console.log(data);
       })
       .catch((error) => {
@@ -66,37 +37,56 @@ const ListCategories = ({ handleShowFilter, loadingTrue, loadingFalse, updateIte
       });
   };
 
+  if (onCategories) {
+    onCategories(categories); // Passa le categorie aggiornate al componente padre
+  }
+
   return (
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <FlatList
-            style={{ marginTop: -20 }}
-            data={categories}
-            renderItem={({ item, index }) => (
-              <TouchableOpacity
-                style={{ display: "flex", flexDirection: 'row', alignItems: 'center', width: "33%" }}
-                key={item.id}
-                onPress={() => handlePress(index)}
-              >
-                <View style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "flex-end" }}>
-                  <Text style={{ color: item.selected ? 'red' : 'black', fontWeight: item.selected ? 'bold' : 'normal', padding: 5, lineHeight: 25 }}>{item.name}</Text>
-                  <Image source={item.selected ? require('../assets/check-2.png') : null} style={[styles.square, { width: 20, height: 20, marginTop: 8 }]} />
-                </View>
-              </TouchableOpacity>
-            )}
-            keyExtractor={(item) => item.id.toString()}
-            numColumns={3}
-          />
-          {filter ?
-            <TouchableOpacity style={{ marginTop: 20 }} onPress={searchByCategories}>
-              <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10, marginBottom: 10 }}>Applica filtri</Text>
-            </TouchableOpacity> : null}
-        </View>
+    <View style={styles.centeredView}>
+      <View style={styles.modalView}>
+        <FlatList
+          style={{ marginTop: -20 }}
+          data={categories}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity
+              style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
+              key={item.id}
+              onPress={() => handlePress(index)}
+            >
+              <View style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "flex-end" }}>
+                <Text
+                  style={{
+                    color: item.selected ? "red" : "black",
+                    fontWeight: item.selected ? "bold" : "normal",
+                    padding: 5,
+                    lineHeight: 25,
+                  }}
+                >
+                  {item.name}
+                </Text>
+                <Image
+                  source={item.selected ? require("../assets/check-2.png") : null}
+                  style={[styles.square, { width: 20, height: 20, marginTop: 8 }]}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id.toString()}
+          numColumns={3}
+        />
+        {filter ? (
+          <TouchableOpacity style={{ marginTop: 20 }} onPress={searchByCategories}>
+            <Text style={{ fontSize: 20, textAlign: "center", marginTop: 10, marginBottom: 10 }}>Applica filtri</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={{ marginTop: 20 }} onPress={handleShow}>
+            <Text style={{ fontSize: 20, textAlign: "center", marginTop: 10, marginBottom: 10 }}>X</Text>
+          </TouchableOpacity>
+        )}
       </View>
+    </View>
   );
-
 };
-
 const styles = StyleSheet.create({
   square: {
     width: 20,
