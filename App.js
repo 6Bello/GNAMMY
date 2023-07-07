@@ -3,24 +3,19 @@ import axios from 'axios';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import Home from './screens/Home.js';
-import Account from './screens/Account.js';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import Home2 from './components/Home2.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Image, Button, IconButton, Text, View, StyleSheet, Animated } from 'react-native';
-import AddRecipes from './screens/AddRecipes.js';
-import Search from './screens/Search.js';
 
 const Tab = createBottomTabNavigator();
 
 const HeaderRightButton = () => {
   const navigation = useNavigation();
-
+  
   const handlePress = () => {
     navigation.navigate('Search');
   };
-
+  
   return (
     <TouchableOpacity onPress={handlePress} style={{ marginRight: 15 }}>
       <Ionicons name="search" size={24} color="white" />
@@ -28,6 +23,10 @@ const HeaderRightButton = () => {
   );
 };
 
+import Home from './screens/Home';
+import Account from './screens/Account';
+import AddRecipes from './screens/AddRecipes';
+import Search from './screens/Search';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
