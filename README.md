@@ -13,10 +13,10 @@ La community di gnammy 🌍👥 deciderà le migliori ricette e la possibilità 
 
 ## installazione
 ```
-$ git clone https://github.com/papaveri-fan-club/gnammy.git
-$ cd gnammy
-$ npm install
-$ npm run android
+git clone https://github.com/papaveri-fan-club/gnammy.git
+cd gnammy
+npm install
+npm run android
 ```
 
 ## membri
