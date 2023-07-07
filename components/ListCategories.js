@@ -68,14 +68,6 @@ const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItem
 
 
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-        }}
-      >
         <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <FlatList
@@ -101,8 +93,6 @@ const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItem
           </TouchableOpacity>
         </View>
         </View>
-      </Modal>
-    </View>
   );
 
 };

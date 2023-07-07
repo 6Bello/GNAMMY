@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image, Modal } from 'react-native';
 import SearchBar from '../components/searchBar';
 import ListCategories from '../components/ListCategories';
 import Recipes from '../components/Recipes';
@@ -24,13 +24,23 @@ export default function Search() {
 
   handleShowFilter = () => {
     setShowFilter(!showFilter);
-  } 
+  }
 
   return (
     <View>
       <SearchBar styles={{ marginBottom: 10 }} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} />
       {showFilter ?
-        <ListCategories handleShowFilter={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} />
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+            }}
+          >
+            <ListCategories handleShowFilter={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} />
+          </Modal>
+        </View>
         :
         <TouchableOpacity onPress={handleShowFilter} style={{ position: 'absolute', right: 5, top: 5 }}>
           <Image style={{ width: 20, height: 20 }} source={require("../assets/filter.png")} />
@@ -43,7 +53,7 @@ export default function Search() {
           items.length === 0 ? (
             <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
-              <Recipes items={items} updateItems={updateItems} />
+            <Recipes items={items} updateItems={updateItems} />
           )
         )}
       </ScrollView>
