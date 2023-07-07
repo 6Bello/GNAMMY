@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, ActivityIndicator, ImageBackground, Modal } from "react-native";
 import axios from "axios";
-
-import { opacity } from "react-native-redash";
 import { FlatList } from "react-native-gesture-handler";
 
-const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItems}) => {
-  const [category, setCategory] = useState([
+const ListCategories = ({ handleShowFilter, loadingTrue, loadingFalse, updateItems, filter = 0, onCategories }) => {
+  const [categories, setCategories] = useState([
     { id: 0, name: "pasta", selected: false },
     { id: 1, name: "carne", selected: false },
     { id: 2, name: "pesce", selected: false },
@@ -34,21 +32,23 @@ const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItem
     { id: 24, name: "primo", selected: false },
     { id: 25, name: "secondo", selected: false }
   ]);
+  onCategories(categories);
+  
 
   const handlePress = (index) => {
-    setCategory((prevCategory) => {
-      const updatedCategory = [...prevCategory];
-      updatedCategory[index] = {
-        ...updatedCategory[index],
-        selected: !updatedCategory[index].selected,
+    setCategories((prevCategories) => {
+      const updatedCategories = [...prevCategories];
+      updatedCategories[index] = {
+        ...updatedCategories[index],
+        selected: !updatedCategories[index].selected,
       };
-      return updatedCategory;
+      return updatedCategories;
     });
   };
 
   const searchByCategories = () => {
     handleShowFilter();
-    const selectedCategoriesNames = category.filter((item) => item.selected).map((item) => item.name);
+    const selectedCategoriesNames = categories.filter((item) => item.selected).map((item) => item.name);
     loadingTrue();
 
     axios
@@ -66,33 +66,33 @@ const ListCategories = ({handleShowFilter, loadingTrue, loadingFalse, updateItem
       });
   };
 
-
   return (
-        <View style={styles.centeredView}>
+      <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <FlatList
-            style={{marginTop: -20}}
-            data={category}
+            style={{ marginTop: -20 }}
+            data={categories}
             renderItem={({ item, index }) => (
               <TouchableOpacity
-                style={{ display:"flex", flexDirection: 'row', alignItems: 'center', width: "33%"}}
+                style={{ display: "flex", flexDirection: 'row', alignItems: 'center', width: "33%" }}
                 key={item.id}
                 onPress={() => handlePress(index)}
               >
-                <View style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "flex-end"}}>
-                  <Text style={{ color: item.selected ? 'red' : 'black', fontWeight: item.selected ? 'bold' : 'normal', padding: 5, lineHeight: 25}}>{item.name}</Text>
-                  <Image source={item.selected ? require('../assets/check-2.png') : null} style={[styles.square, { width: 20, height: 20, marginTop: 8}]} />
+                <View style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "flex-end" }}>
+                  <Text style={{ color: item.selected ? 'red' : 'black', fontWeight: item.selected ? 'bold' : 'normal', padding: 5, lineHeight: 25 }}>{item.name}</Text>
+                  <Image source={item.selected ? require('../assets/check-2.png') : null} style={[styles.square, { width: 20, height: 20, marginTop: 8 }]} />
                 </View>
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id.toString()}
             numColumns={3}
           />
-          <TouchableOpacity style={{marginTop: 20}} onPress={searchByCategories}>
-            <Text style={{fontSize: 20, textAlign: 'center', marginTop: 10, marginBottom: 10}}>Applica filtri</Text>
-          </TouchableOpacity>
+          {filter ?
+            <TouchableOpacity style={{ marginTop: 20 }} onPress={searchByCategories}>
+              <Text style={{ fontSize: 20, textAlign: 'center', marginTop: 10, marginBottom: 10 }}>Applica filtri</Text>
+            </TouchableOpacity> : null}
         </View>
-        </View>
+      </View>
   );
 
 };

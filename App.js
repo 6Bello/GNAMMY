@@ -10,6 +10,7 @@ import Home2 from './components/Home2.js';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Image, Button, IconButton, Text, View, StyleSheet, Animated } from 'react-native';
 import AddRecipes from './screens/addRecipes.js';
+import Search from './screens/Search.js';
 
 const Tab = createBottomTabNavigator();
 
@@ -80,7 +81,7 @@ function App() {
             )
           }}
         />
-        {/* <Tab.Screen name="Search" component={Search} /> */}
+        <Tab.Screen name="Search" component={Search} />
         <Tab.Screen name="AddRecipes" component={AddRecipes}
           options={{
             tabBarLabel: '',

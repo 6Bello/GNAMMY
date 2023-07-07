@@ -1,33 +1,79 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView } from 'react-native';
-import Recipes from '../components/Recipes';
+import React, { useState, useContext } from 'react';
+import ListCategories from '../components/ListCategories';
+import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 
 
-export default function Addecipes() {
-  const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
-  useEffect(() => {
-    axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://79.44.99.29:8889/getRecipes')
-      .then(response => {
-        const data = response.data;        // Quando la risposta viene ricevuta con successo, assegna i dati alla costante 'data'
-        console.log(data);        // Stampa i dati sulla console
-        setItems(data);        // Imposta gli elementi ottenuti come valore dello stato 'items'
-      })
-      .catch(error => {
-        console.error(error);        // Se si verifica un errore durante la richiesta, visualizza un messaggio di errore sulla console
+export default function AddRecipes() {
+  const [categories, setCategories] = useState([]);  
+  const getCategories = (newCategories) => {
+    setCategories(newCategories);
+  }
+  const logCategories = () => {
+    console.log(categories);
+  }
 
-      });
-  }, []);
+  const [recipe, setRecipe] = useState({
+    title: '',
+    categories: '',
+    time: '',
+    preparation: '',
+    description: '',
+    ingredients: '',
+    gluten: 1,
+  });
 
-  const updateItems = (data) => {
-    setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+  const handleInputChange = (campo, value) => {
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      [campo]: value,
+    }));
   };
 
+  const createRecipe = () => {
+    console.log(categories);
+    axios
+      .post('http://79.44.99.29:8889/recipes', recipe)
+
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  
   return (
-    <View style={styleContainer.container}>
-        <Recipes items={items} updateItems={updateItems} />
-    </View>
+    <ScrollView>
+    <TouchableOpacity onPress={logCategories}>
+      <Text>Get categories</Text>
+    </TouchableOpacity>
+      <TextInput
+        value={recipe.title}
+        onChangeText={(value) => handleInputChange('title', value)}
+        placeholder="Titolo"
+      />
+      <ListCategories onCategories={getCategories}/>
+      <TextInput
+        value={recipe.description}
+        onChangeText={(value) => handleInputChange('description', value)}
+        placeholder="Descrizione"
+      />
+      <TextInput
+        value={recipe.ingredients}
+        onChangeText={(value) => handleInputChange('ingredients', value)}
+        placeholder="Ingredienti"
+      />
+      <TextInput
+        value={recipe.preparation}
+        onChangeText={(value) => handleInputChange('preparation', value)}
+        placeholder="Preparazione"
+      />
+      <TouchableOpacity onPress={createRecipe}>
+        <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight:"bold" }}>Crea</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 

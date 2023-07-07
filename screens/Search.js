@@ -38,7 +38,7 @@ export default function Search() {
               Alert.alert("Modal has been closed.");
             }}
           >
-            <ListCategories handleShowFilter={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} />
+            <ListCategories handleShowFilter={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} filter={true} />
           </Modal>
         </View>
         :
