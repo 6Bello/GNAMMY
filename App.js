@@ -7,6 +7,11 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Image, Button, IconButton, Text, View, StyleSheet, Animated } from 'react-native';
 
+import Home from './screens/Home';
+import Account from './screens/Account';
+import AddRecipes from './screens/AddRecipes';
+import Search from './screens/Search';
+
 const Tab = createBottomTabNavigator();
 
 const HeaderRightButton = () => {
@@ -23,10 +28,6 @@ const HeaderRightButton = () => {
   );
 };
 
-import Home from './screens/Home';
-import Account from './screens/Account';
-import AddRecipes from './screens/AddRecipes';
-import Search from './screens/Search';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
