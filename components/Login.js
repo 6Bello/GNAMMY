@@ -13,7 +13,7 @@ const Login = ({ onLoginComplete, updateUserData }) => {
       const hashedPassword = await hashPassword(password);
 
       axios
-        .get("http://79.44.99.29:8889/login", {
+        .get("http://79.32.231.27:8889/login", {
           params: {
             email,
             password: hashedPassword,

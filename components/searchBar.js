@@ -8,7 +8,7 @@ const SearchBar = ({loadingTrue, loadingFalse, updateItems}) => {
   const searchByName = () => {
     loadingTrue();
     axios
-      .get(`http://79.44.99.29:8889/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
+      .get(`http://79.32.231.27:8889/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
       .then((response) => {
         const data = response.data; // Ottiene i dati di risposta dall'API
         console.log(data); // Stampa i dati di risposta nella console

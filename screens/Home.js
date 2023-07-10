@@ -8,7 +8,7 @@ export default function Home() {
   const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   useEffect(() => {
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://79.44.99.29:8889/getRecipes')
+      .get('http://79.32.231.27:8889/getRecipes')
       .then(response => {
         const data = response.data;        // Quando la risposta viene ricevuta con successo, assegna i dati alla costante 'data'
         console.log(data);        // Stampa i dati sulla console

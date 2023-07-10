@@ -66,7 +66,7 @@ export default function AddRecipes() {
   const createRecipe = () => {
     console.log(categories);
     axios
-      .post('http://79.44.99.29:8889/recipes', recipe)
+      .post('http://79.32.231.27:8889/recipes', recipe)
 
       .then((response) => {
         console.log(response.data);
