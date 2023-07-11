@@ -89,7 +89,6 @@ export default function Search() {
     </View >
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
