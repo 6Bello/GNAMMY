@@ -48,7 +48,6 @@ export default function Search() {
     setShowFilter(!showFilter);
   }
   const [isLoading, setIsLoading] = useState(false); // Stato per tracciare lo stato di caricamento
-
   const loadingTrue = () => {
     setIsLoading(true);
   }
