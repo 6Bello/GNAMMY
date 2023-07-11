@@ -33,13 +33,17 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
   if (showRegisterPage) {
     return (
       <ScrollView style={styles.container}>
-        <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>
-        <Text style={styles.text2}>Already have an account?</Text>
-        <TouchableOpacity onPress={openLogin}>
-          <Text style={styles.text3}>Sign in</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    );
+        <View style={{alignItems: 'center'}}>
+        <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>  
+        <View>
+          <Text style={styles.text2}>Already have an account?</Text>
+          <TouchableOpacity onPress={openLogin}>
+            <Text style={styles.text3}>Sign in</Text>
+          </TouchableOpacity>
+      </View>
+      </View>
+    </ScrollView>
+  );
   } else {
     return (
       <ScrollView style={styles.container}>
@@ -64,9 +68,9 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
     backgroundColor: "white",
+    height: "100%",
+    width: "100%",
   },
 
   title: {
@@ -91,6 +95,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: "black",
     display: "flex",
+    alignItems: "center",
   },
 
   text3: {

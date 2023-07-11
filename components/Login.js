@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import hashPassword from "../passwordUtils";
@@ -44,26 +44,50 @@ const Login = ({ onLoginComplete, updateUserData }) => {
     }
   };
 
+  let [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
     return (
-        <View>
+        <View style={styles.container}>
+          <View style={{marginTop: 20}}>
             <TextInput style={styles.button} value={email} onChangeText={setEmail} placeholder="Email" />
-            <TextInput style={styles.button}  value={password} onChangeText={setPassword} placeholder="Password" />
-            <Text style={styles.fg}>Forget Password?</Text>
-            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-                <Text style={{lineHeight: 30, color:"white", fontSize: 18, fontWeight:"bold"}}>Sign in</Text>
-            </TouchableOpacity>
+          </View>
+          <View style={styles.passwords}>
+            <TextInput style={styles.button}  value={password} onChangeText={setPassword} placeholder="Password" secureTextEntry={!showPassword}/>
+              <TouchableOpacity onPress={togglePasswordVisibility}>
+                {showPassword ? (
+                  <Image style={styles.imgShowHidePassword} source={require('./hideEye.png')} />
+                ) : (
+                  <Image style={styles.imgShowHidePassword} source={require("./viewEye.png")} />
+                )}
+              </TouchableOpacity>
+          </View>
+            <View style={{marginTop: 20}}>
+              <Text style={styles.fg}>Forget Password?</Text>
+            </View>
+            <View style={{marginTop: 20}}>
+              <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                  <Text style={{lineHeight: 30, color:"white", fontSize: 18, fontWeight:"bold"}}>Sign in</Text>
+              </TouchableOpacity>
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+      width: "100%",
+      backgroundColor: "white",
+      alignItems: "center",
+    },
+
     button: {
       alignItems: "center",
       padding: 10,
-      marginTop: 20,
-      marginLeft: "13%",
       borderRadius: 5,
-      width: "74%",
+      width: 300,
       backgroundColor: "#f8f4fc",
       display: 'flex',
     },
@@ -72,8 +96,6 @@ const styles = StyleSheet.create({
       fontWeight: "bold",
       alignItems: "center",
       padding: 10,
-      marginTop: 20,
-      marginLeft: "7%",
       width: 327,
       backgroundColor: "white",
       color: "#d8945c",
@@ -85,10 +107,8 @@ const styles = StyleSheet.create({
       textAlign: "center",
       alignItems: "center",
       padding: 10,
-      marginTop: 20,
-      marginLeft: "13%",
       borderRadius: 5,
-      width: "74%",
+      width: 300,
       height: 50,
       lineHeight: 30,
       fontSize: 15,
@@ -96,7 +116,18 @@ const styles = StyleSheet.create({
       color: "white",
     },
 
-    
+    imgShowHidePassword: {
+      width: 30,
+      height: 30,
+    },
+
+    passwords: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      marginTop: 20,
+      marginLeft: "7%",
+    },
 });
 
 export default Login;
