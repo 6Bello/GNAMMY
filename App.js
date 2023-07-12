@@ -17,13 +17,13 @@ const Tab = createBottomTabNavigator();
 const HeaderRightButton = () => {
   const navigation = useNavigation();
   
-  const handlePress = () => {
+  const Press = () => {
     navigation.navigate('Search');
   };
   
   return (
-    <TouchableOpacity onPress={handlePress} style={{ marginRight: 15 }}>
-      <Ionicons name="search" size={24} color="white" />
+    <TouchableOpacity onPress={Press} >
+      <Image style={{ width: 25, height: 25 }} source={require("./assets/search.png")} />
     </TouchableOpacity>
   );
 };
@@ -73,11 +73,7 @@ function App() {
               <Ionicons name="ios-home" color={color} size={size} />
             ),
             headerRight: () => (
-              <TouchableOpacity onPress={() => {
-                navigation.navigate('Search');
-              }}>
-                <Image style={{ width: 25, height: 25 }} source={require("./assets/search.png")} />
-              </TouchableOpacity>
+              <HeaderRightButton />
             )
           }}
         />
