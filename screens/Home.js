@@ -28,6 +28,7 @@ export default function Home() {
   
   return (
     <View style={styleContainer.container}>
+      
         <Recipes items={items} updateItems={updateItems} />
     </View>
   );
