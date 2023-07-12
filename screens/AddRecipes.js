@@ -73,6 +73,9 @@ export default function AddRecipes() {
     }else if (recipe.description === '') {
       alert('Inserisci la descrizione');  
       return;
+    }else if (recipe.categories === '') {
+      alert('Inserisci le categorie');
+      return;
     }else if (recipe.ingredients === '') {
       alert('Inserisci gli ingredienti');
       return;
