@@ -11,7 +11,6 @@ import Home from './screens/Home';
 import Account from './screens/Account';
 import AddRecipes from './screens/AddRecipes';
 import Search from './screens/Search';
-
 import HeaderRightButton from './components/HeaderRightButton';
 
 const Tab = createBottomTabNavigator();
@@ -101,7 +100,7 @@ function App() {
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='account' size={size} color={color} />
-            )
+            ), 
           }}
         >
           {() => <Account user={user} isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />}
