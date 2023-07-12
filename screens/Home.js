@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView } from 'react-native';
 import Recipes from '../components/Recipes';
 import axios from 'axios';
-
+import HeaderRightButton from '../components/HeaderRightButton';
 
 export default function Home() {
   const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
@@ -24,6 +24,8 @@ export default function Home() {
     setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
   };
 
+  const [showSearch, setShowSearch] = useState(false);
+  
   return (
     <View style={styleContainer.container}>
         <Recipes items={items} updateItems={updateItems} />

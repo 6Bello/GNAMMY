@@ -11,23 +11,9 @@ import Home from './screens/Home';
 import Account from './screens/Account';
 import AddRecipes from './screens/AddRecipes';
 import Search from './screens/Search';
+import HeaderRightButton from './components/HeaderRightButton';
 
 const Tab = createBottomTabNavigator();
-
-const HeaderRightButton = () => {
-  const navigation = useNavigation();
-  
-  const Press = () => {
-    navigation.navigate('Search');
-  };
-  
-  return (
-    <TouchableOpacity onPress={Press} >
-      <Image style={{ width: 25, height: 25 }} source={require("./assets/search.png")} />
-    </TouchableOpacity>
-  );
-};
-
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -109,7 +95,7 @@ function App() {
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='account' size={size} color={color} />
-            )
+            ), 
           }}
         >
           {() => <Account user={user} isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />}
