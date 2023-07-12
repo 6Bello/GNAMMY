@@ -24,8 +24,6 @@ export default function Home() {
     setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
   };
 
-  const [showSearch, setShowSearch] = useState(false);
-  
   return (
     <View style={styleContainer.container}>
       
