@@ -46,7 +46,7 @@ export default function AddRecipes() {
     console.log(categories);
   }
 
-  const [recipe, setRecipe] = useState({
+  const recipeInitialState = {
     title: '',
     categories: '',
     time: '',
@@ -54,7 +54,8 @@ export default function AddRecipes() {
     description: '',
     ingredients: '',
     gluten: 1,
-  });
+  };
+  const [recipe, setRecipe] = useState({recipeInitialState});
 
   const handleInputChange = (campo, value) => {
     setRecipe((prevRecipe) => ({
@@ -64,12 +65,34 @@ export default function AddRecipes() {
   };
 
   const createRecipe = () => {
+    const categoriesString = categories.filter((category) => category.selected).map((category) => category.name).join(', ');
+    recipe.categories = categoriesString;
+    if (recipe.title === '') {
+      alert('Inserisci il titolo');
+      return;
+    }else if (recipe.description === '') {
+      alert('Inserisci la descrizione');  
+      return;
+    }else if (recipe.ingredients === '') {
+      alert('Inserisci gli ingredienti');
+      return;
+    }else if (recipe.preparation === '') {
+      alert('Inserisci la preparazione');
+      return;
+    } else if (recipe.time === '') {
+      alert('Inserisci il tempo');
+      return;
+    } else if (recipe.gluten === '') {
+      alert('Inserisci se è gluten free');
+      return;
+    }
     console.log(categories);
     axios
       .post('http://79.32.231.27:8889/recipes', recipe)
 
       .then((response) => {
         console.log(response.data);
+        setCategories(recipeInitialState)
       })
       .catch((error) => {
         console.log(error);
@@ -118,6 +141,16 @@ export default function AddRecipes() {
         value={recipe.preparation}
         onChangeText={(value) => handleInputChange('preparation', value)}
         placeholder="Preparazione"
+      />
+      <TextInput
+        value={recipe.time}
+        onChangeText={(value) => handleInputChange('time', value)}
+        placeholder="Tempo"
+      />
+      <TextInput
+        value={recipe.gluten}
+        onChangeText={(value) => handleInputChange('gluten', value)}
+        placeholder="Glutine"
       />
       <TouchableOpacity onPress={createRecipe}>
         <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight:"bold" }}>Crea</Text>
