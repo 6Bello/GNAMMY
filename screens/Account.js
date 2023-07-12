@@ -34,13 +34,13 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
     return (
       <ScrollView style={styles.container}>
         <View style={{alignItems: 'center'}}>
-        <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>  
-        <View>
-          <Text style={styles.text2}>Already have an account?</Text>
-          <TouchableOpacity onPress={openLogin}>
-            <Text style={styles.text3}>Sign in</Text>
-          </TouchableOpacity>
-      </View>
+          <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>  
+          <View>
+            <Text style={styles.text2}>Already have an account?</Text>
+            <TouchableOpacity onPress={openLogin}>
+              <Text style={styles.text3}>Sign in</Text>
+            </TouchableOpacity>
+          </View>
       </View>
     </ScrollView>
   );

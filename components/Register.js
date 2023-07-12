@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '100%',
     alignItems: 'center',
+    marginLeft: 30,
   },
   Register: {
     marginHorizontal: 20,
@@ -231,6 +232,7 @@ const styles = StyleSheet.create({
   imgShowHidePassword: {
     width: 30,
     height: 30,
+    marginLeft: 5,
   },
 });
 

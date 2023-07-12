@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     imgShowHidePassword: {
       width: 30,
       height: 30,
+      marginLeft: 5,
     },
 
     passwords: {
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
       flexDirection: "row",
       alignItems: "center",
       marginTop: 20,
-      marginLeft: "7%",
+      marginLeft: 35,
     },
 });
 
