@@ -13,8 +13,6 @@ import AddRecipes from './screens/AddRecipes';
 import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
 
-import HeaderRightButton from './components/HeaderRightButton';
-
 const Tab = createBottomTabNavigator();
 
 function App() {
