@@ -69,7 +69,7 @@ function App() {
             )
           }}
         />
-        <Tab.Screen name="AddRecipes" component={AddRecipes}
+        <Tab.Screen name="AddRecipes"
           options={{
             tabBarLabel: '',
             tabBarIcon: ({ focused }) => (
@@ -93,7 +93,9 @@ function App() {
               </TouchableOpacity>
 
             ),
-          }} />
+          }} >
+          {() => <AddRecipes user={user}/> }
+        </Tab.Screen>
         <Tab.Screen
           name="Account"
           options={{

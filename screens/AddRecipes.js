@@ -1,11 +1,38 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import ListCategories from '../components/ListCategories';
-import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
 import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+
+import AlertSignUp from '../components/alertSignUp';
+import { set } from 'react-native-reanimated';
 
 
-export default function AddRecipes() {
+export default function AddRecipes({ user }) {
+  const [utenteLoggato, setUtenteLoggato] = useState(false);
+  const navigation = useNavigation();
+  useEffect(() => {
+    if (user != null) {
+      setUtenteLoggato(true);
+    } else {
+      setUtenteLoggato(false);
+    }
+    console.log(user);
+  });
+  const [modalVisible, setModalVisible] = useState(false);
+  const goToSignUp = () => {
+    navigation.navigate('Account');
+    setModalVisible(false);
+  }
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setModalVisible(true);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
   const [categories, setCategories] = useState([
     { id: 0, name: "pasta", selected: false },
     { id: 1, name: "carne", selected: false },
@@ -45,6 +72,7 @@ export default function AddRecipes() {
 
   const logCategories = () => {
     console.log(categories);
+    console.log(user)
   }
 
   const recipeInitialState = {
@@ -106,6 +134,7 @@ export default function AddRecipes() {
 
   return (
     <ScrollView>
+      {utenteLoggato ? null : (<AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible}/>)}
       <TouchableOpacity onPress={logCategories}>
         <Text>Get categories</Text>
       </TouchableOpacity>
@@ -157,7 +186,7 @@ export default function AddRecipes() {
         onPress={() => handleInputChange('gluten', !recipe.gluten)}
       >
         <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", marginTop: 5 }}>
-          <Text style={{marginRight: 10}} >gluten free</Text>
+          <Text style={{ marginRight: 10 }} >gluten free</Text>
           {recipe.gluten ? (<AntDesign name="closecircleo" size={20} color="red" />) : (<AntDesign name="checkcircleo" size={20} color="green" />)}
         </View>
       </TouchableOpacity>

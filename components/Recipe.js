@@ -4,6 +4,7 @@ const Recipe = ({ item, index, updateItems, items}) => {
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
   
     const toggleDescriptionVisible = () => {
+      console.log("item: ", item);
       const updatedItems = [...items];
       updatedItems[index] = {
         ...item,
@@ -30,7 +31,7 @@ const Recipe = ({ item, index, updateItems, items}) => {
           }}
         >
           <View>
-            <Text style={{ color: 'black', textAlign: 'center' }}>{item.name}</Text>
+            <Text style={{ color: 'black', textAlign: 'center' }}>{item.title}</Text>
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
               <TouchableOpacity style={styles.circle} onPress={() => { }} />
