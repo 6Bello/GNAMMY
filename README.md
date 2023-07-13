@@ -18,7 +18,9 @@ cd gnammy
 npm install
 npm run android
 ```
-
+## social
+https://www.instagram.com/gnammy.group/
 ## membri
 * [Giuseppe Albamonte](https://github.com/6Bello)
 * [Simone D'Antonio](https://github.com/simoodantonio)
+* [Cesare Covi](https://github.com/orgs/papaveri-fan-club/people/BiscoSwag)

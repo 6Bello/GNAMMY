@@ -1,4 +1,4 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,23 +11,9 @@ import Home from './screens/Home';
 import Account from './screens/Account';
 import AddRecipes from './screens/AddRecipes';
 import Search from './screens/Search';
+import HeaderRightButton from './components/HeaderRightButton';
 
 const Tab = createBottomTabNavigator();
-
-const HeaderRightButton = () => {
-  const navigation = useNavigation();
-  
-  const handlePress = () => {
-    navigation.navigate('Search');
-  };
-  
-  return (
-    <TouchableOpacity onPress={handlePress} style={{ marginRight: 15 }}>
-      <Ionicons name="search" size={24} color="white" />
-    </TouchableOpacity>
-  );
-};
-
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -60,10 +46,16 @@ function App() {
     outputRange: ['0deg', '360deg'],
   });
 
-
   return (
     <NavigationContainer>
       <Tab.Navigator>
+        <Tab.Screen
+          name="Search"
+          component={Search}
+          options={{
+            tabBarItemStyle:{display:'none'},
+          }}
+        />
         <Tab.Screen
           name="Home"
           component={Home}
@@ -73,47 +65,44 @@ function App() {
               <Ionicons name="ios-home" color={color} size={size} />
             ),
             headerRight: () => (
-              <TouchableOpacity onPress={() => {
-                navigation.navigate('Search');
-              }}>
-                <Image style={{ width: 25, height: 25 }} source={require("./assets/search.png")} />
-              </TouchableOpacity>
+              <HeaderRightButton />
             )
           }}
         />
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="AddRecipes" component={AddRecipes}
+        <Tab.Screen name="AddRecipes"
           options={{
             tabBarLabel: '',
             tabBarIcon: ({ focused }) => (
-              <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25}} onPress={handlePress}>
-              <View style={[{ alignItems: 'center' }, styles.shadow]}>
-                <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
-                  <View
-                    style={{
-                      width: 65,
-                      height: 65,
-                      borderRadius: 50,
-                      backgroundColor: 'red',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <MaterialCommunityIcons name="plus" color="white" size={40} />
-                  </View>
-                </Animated.View>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25 }} onPress={handlePress}>
+                <View style={[{ alignItems: 'center' }, styles.shadow]}>
+                  <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
+                    <View
+                      style={{
+                        width: 65,
+                        height: 65,
+                        borderRadius: 50,
+                        backgroundColor: 'red',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <MaterialCommunityIcons name="plus" color="white" size={40} />
+                    </View>
+                  </Animated.View>
+                </View>
+              </TouchableOpacity>
 
             ),
-          }} />
+          }} >
+          {() => <AddRecipes user={user}/> }
+        </Tab.Screen>
         <Tab.Screen
           name="Account"
           options={{
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='account' size={size} color={color} />
-            )
+            ), 
           }}
         >
           {() => <Account user={user} isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />}
@@ -125,14 +114,14 @@ function App() {
 
 const styles = StyleSheet.create({
   shadow: {
-      shadowColor: '#aaa',
-      shadowOffset: {
-          width: 0,
-          height: 10,
-      },
-      shadowOpacity: 1,
-      shadowRadius: 3.5,
-      elevation: 5,
+    shadowColor: '#aaa',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3.5,
+    elevation: 5,
   }
 })
 
