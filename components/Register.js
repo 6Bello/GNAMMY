@@ -114,59 +114,92 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   return (
     <View style={styles.container}>
       <View style={styles.Register}>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, width: 300}}>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, width: 300 }}>
           <Image style={styles.image} source={require('../assets/bibimbap.png')} />
-          <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
+          <View style={{ marginLeft: 20, flex: 1, justifyContent: "center" }}>
             <Text style={styles.title}>Sign up</Text>
             <Text style={styles.subtitle}>Sign up to enjoy your food</Text>
           </View>
         </View>
-        <View style={{marginTop: 20}}>
-          <TextInput style={styles.button} value={username} onChangeText={setUsername} placeholder="Username" />
+
+        <View style={{ marginTop: 20 }}>
+          <TextInput
+            style={styles.button}
+            value={username}
+            onChangeText={setUsername}
+            placeholder="Username"
+          />
+
           <Text style={[styles.error, {
             display: usernameProblem ? 'flex' : 'none',
           }]}>{usernameProblem}</Text>
         </View>
+
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-          <TextInput style={styles.button} value={name} onChangeText={setName} placeholder="Name" />
+          <TextInput
+            style={styles.button}
+            value={name}
+            onChangeText={setName}
+            placeholder="Name" />
         </View>
-        <View style={{marginTop: 20}}>
-          <TextInput style={styles.button} value={surname} onChangeText={setSurname} placeholder="Cognome" />
+
+        <View style={{ marginTop: 20 }}>
+          <TextInput
+            style={styles.button}
+            value={surname}
+            onChangeText={setSurname}
+            placeholder="Cognome" />
         </View>
+
         <Text style={[styles.error, {
           display: nameProblem ? 'flex' : 'none',
         }]}>{nameProblem}</Text>
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
+
           <View>
-            <TextInput style={styles.button} value={email} onChangeText={setEmail} placeholder="Email" />
+            <TextInput
+              style={styles.button}
+              value={email} onChangeText={setEmail}
+              placeholder="Email" />
           </View>
+
           <Text style={[styles.error, {
             display: emailProblem ? 'flex' : 'none',
           }]}>{emailProblem}</Text>
         </View>
-        <View style={{marginTop: 20}}>
-        <View style={styles.passwords}>
-            <TextInput style={styles.button}  value={password} onChangeText={thereArePasswordProblems} placeholder="Password" secureTextEntry={!showPassword}/>
-              <TouchableOpacity onPress={togglePasswordVisibility}>
-                {showPassword ? (
-                  <Image style={styles.imgShowHidePassword} source={require('./hideEye.png')} />
-                ) : (
-                  <Image style={styles.imgShowHidePassword} source={require("./viewEye.png")} />
-                )}
-              </TouchableOpacity>
+
+        <View style={{ marginTop: 20 }}>
+
+          <View style={styles.passwordInput}>
+            <TextInput
+              style={styles.textInput}
+              value={password}
+              onChangeText={thereArePasswordProblems}
+              placeholder="Password"
+              secureTextEntry={!showPassword}
+            />
+
+            <TouchableOpacity onPress={togglePasswordVisibility}>
+              {showPassword ? (
+                <Image style={styles.imgShowHidePassword} source={require('./hideEye.png')} />
+              ) : (
+                <Image style={styles.imgShowHidePassword} source={require("./viewEye.png")} />
+              )}
+            </TouchableOpacity>
           </View>
+
           <Text style={[styles.error, {
             display: passwordProblem ? 'flex' : 'none',
           }]}>{passwordProblem}</Text>
         </View>
-        <View style={{marginTop: 20}}>
+        <View style={{ marginTop: 20 }}>
           <TextInput style={styles.button} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={!showPassword} />
           <Text style={[styles.error, {
             display: confirmPasswordProblem ? 'flex' : 'none',
           }]}>{confirmPasswordProblem}</Text>
         </View>
         <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
-          <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight:"bold" }}>Sign up</Text>
+          <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight: "bold" }}>Sign up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -178,7 +211,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '100%',
     alignItems: 'center',
-    marginLeft: 30,
   },
   Register: {
     marginHorizontal: 20,
@@ -234,6 +266,20 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 5,
   },
+
+  passwordInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 5,
+    width: 300,
+    backgroundColor: "#f8f4fc",
+    display: "flex",
+  },
+
+  textInput: {
+    flex: 1,
+  }
 });
 
 export default Register;

@@ -57,6 +57,7 @@ const Login = ({ onLoginComplete, updateUserData }) => {
           value={email} onChangeText={setEmail}
           placeholder="Email" />
       </View>
+      
       <View style={styles.passwordInput}>
         <TextInput
           style={styles.textInput}
