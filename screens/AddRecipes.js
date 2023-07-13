@@ -148,6 +148,7 @@ export default function AddRecipes() {
       />
       <TextInput
         value={recipe.time}
+        keyboardType="numeric"
         onChangeText={(value) => handleInputChange('time', value)}
         placeholder="Tempo"
       />
