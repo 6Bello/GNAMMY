@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import ListCategories from '../components/ListCategories';
 import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
 import axios from 'axios';
+import { AntDesign } from '@expo/vector-icons';
 
 
 export default function AddRecipes() {
@@ -55,7 +56,7 @@ export default function AddRecipes() {
     ingredients: '',
     gluten: 1,
   };
-  const [recipe, setRecipe] = useState({recipeInitialState});
+  const [recipe, setRecipe] = useState({ recipeInitialState });
 
   const handleInputChange = (campo, value) => {
     setRecipe((prevRecipe) => ({
@@ -70,16 +71,16 @@ export default function AddRecipes() {
     if (recipe.title === '') {
       alert('Inserisci il titolo');
       return;
-    }else if (recipe.description === '') {
-      alert('Inserisci la descrizione');  
+    } else if (recipe.description === '') {
+      alert('Inserisci la descrizione');
       return;
-    }else if (recipe.categories === '') {
+    } else if (recipe.categories === '') {
       alert('Inserisci le categorie');
       return;
-    }else if (recipe.ingredients === '') {
+    } else if (recipe.ingredients === '') {
       alert('Inserisci gli ingredienti');
       return;
-    }else if (recipe.preparation === '') {
+    } else if (recipe.preparation === '') {
       alert('Inserisci la preparazione');
       return;
     } else if (recipe.time === '') {
@@ -102,12 +103,12 @@ export default function AddRecipes() {
       });
   };
 
-  
+
   return (
     <ScrollView>
-    <TouchableOpacity onPress={logCategories}>
-      <Text>Get categories</Text>
-    </TouchableOpacity>
+      <TouchableOpacity onPress={logCategories}>
+        <Text>Get categories</Text>
+      </TouchableOpacity>
       <TextInput
         value={recipe.title}
         onChangeText={(value) => handleInputChange('title', value)}
@@ -150,22 +151,33 @@ export default function AddRecipes() {
         onChangeText={(value) => handleInputChange('time', value)}
         placeholder="Tempo"
       />
-      <TextInput
-        value={recipe.gluten}
-        onChangeText={(value) => handleInputChange('gluten', value)}
-        placeholder="Glutine"
-      />
+      <TouchableOpacity
+        style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
+        onPress={() => handleInputChange('gluten', !recipe.gluten)}
+      >
+        <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", marginTop: 5 }}>
+          <Text style={{marginRight: 10}} >gluten free</Text>
+          {recipe.gluten ? (<AntDesign name="closecircleo" size={20} color="red" />) : (<AntDesign name="checkcircleo" size={20} color="green" />)}
+        </View>
+      </TouchableOpacity>
       <TouchableOpacity onPress={createRecipe}>
-        <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight:"bold" }}>Crea</Text>
+        <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight: "bold" }}>Crea</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 }
 
-const styleContainer = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  square: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginTop: 8,
   },
 });
