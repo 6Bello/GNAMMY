@@ -76,6 +76,7 @@ export default function AddRecipes({ user }) {
   }
 
   const recipeInitialState = {
+    creator: '',
     title: '',
     categories: '',
     time: '',
@@ -94,6 +95,7 @@ export default function AddRecipes({ user }) {
   };
 
   const createRecipe = () => {
+    recipe.creator = user.username;
     const categoriesString = categories.filter((category) => category.selected).map((category) => category.name).join(', ');
     recipe.categories = categoriesString;
     if (recipe.title === '') {
