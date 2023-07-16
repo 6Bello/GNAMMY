@@ -4,6 +4,86 @@ import axios from "axios";
 
 import hashPassword from '../passwordUtils.js';
 
+const MyTextInput = ({
+  placeholder,
+  value,
+  onChangeText,
+  secureTextEntry,
+  keyboardType,
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
+  const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
+
+  return (
+    <View>
+      <TextInput
+        style={[styles.button, { borderColor: borderColor, borderWidth: 1 }]}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+      />
+    </View>
+  );
+};
+
+const MyPasswordInput = ({
+  placeholder,
+  value,
+  onChangeText,
+  keyboardType,
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+  };
+
+  const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
+
+  let [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
+
+  return (
+    <View style={[styles.passwordInput, { borderColor: borderColor, borderWidth: 1 }]}>
+      <TextInput
+      style={styles.MyTextInput}
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        secureTextEntry={!showPassword}
+        keyboardType={keyboardType}
+      />
+      <TouchableOpacity onPress={togglePasswordVisibility}>
+        {showPassword ? (
+          <Image style={styles.imgShowHidePassword} source={require('./hideEye.png')} />
+        ) : (
+          <Image style={styles.imgShowHidePassword} source={require("./viewEye.png")} />
+        )}
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [username, setUsername] = useState('');
@@ -17,12 +97,6 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [passwordProblem, setPasswordProblem] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordProblem, setConfirmPasswordProblem] = useState('');
-
-
-  let [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
 
   const thereArePasswordProblems = (text) => {
     setPassword(text);
@@ -123,8 +197,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
         </View>
 
         <View style={{ marginTop: 20 }}>
-          <TextInput
-            style={styles.button}
+          <MyTextInput
             value={username}
             onChangeText={setUsername}
             placeholder="Username"
@@ -136,19 +209,20 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
         </View>
 
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-          <TextInput
-            style={styles.button}
-            value={name}
-            onChangeText={setName}
-            placeholder="Name" />
-        </View>
-
-        <View style={{ marginTop: 20 }}>
-          <TextInput
-            style={styles.button}
-            value={surname}
-            onChangeText={setSurname}
-            placeholder="Cognome" />
+          <View style={{ width: '48%' }}>
+            <MyTextInput
+              value={name}
+              onChangeText={setName}
+              placeholder="Name"
+            />
+          </View>
+          <View style={{ width: '48%' }}>
+            <MyTextInput
+              value={surname}
+              onChangeText={setSurname}
+              placeholder="Cognome"
+            />
+          </View>
         </View>
 
         <Text style={[styles.error, {
@@ -157,8 +231,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
         <View style={{ marginTop: 20 }}>
 
           <View>
-            <TextInput
-              style={styles.button}
+            <MyTextInput
               value={email} onChangeText={setEmail}
               placeholder="Email" />
           </View>
@@ -169,37 +242,27 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
         </View>
 
         <View style={{ marginTop: 20 }}>
-
-          <View style={styles.passwordInput}>
-            <TextInput
-              style={styles.textInput}
-              value={password}
-              onChangeText={thereArePasswordProblems}
-              placeholder="Password"
-              secureTextEntry={!showPassword}
-            />
-
-            <TouchableOpacity onPress={togglePasswordVisibility}>
-              {showPassword ? (
-                <Image style={styles.imgShowHidePassword} source={require('./hideEye.png')} />
-              ) : (
-                <Image style={styles.imgShowHidePassword} source={require("./viewEye.png")} />
-              )}
-            </TouchableOpacity>
-          </View>
+          <MyPasswordInput
+            style={styles.MyTextInput}
+            value={password}
+            onChangeText={thereArePasswordProblems}
+            placeholder="Password"
+          />
 
           <Text style={[styles.error, {
             display: passwordProblem ? 'flex' : 'none',
           }]}>{passwordProblem}</Text>
         </View>
         <View style={{ marginTop: 20 }}>
-          <TextInput style={styles.button} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={!showPassword} />
+          <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" />
           <Text style={[styles.error, {
             display: confirmPasswordProblem ? 'flex' : 'none',
           }]}>{confirmPasswordProblem}</Text>
         </View>
         <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
-          <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight: "bold" }}>Sign up</Text>
+          <Text style={{ lineHeight: 29, color: 'white', fontSize: 17, fontWeight: 'bold' }}>
+            Sign up
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -225,7 +288,6 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 12,
     marginTop: 10,
-    width: 300,
   },
   title: {
     fontSize: 25,
@@ -239,9 +301,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     borderRadius: 5,
-    width: 300,
     backgroundColor: "#f8f4fc",
     display: 'flex',
+    width: '100%',
   },
   registerButton: {
     fontWeight: "bold",
@@ -250,9 +312,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 20,
     borderRadius: 5,
-    width: 300,
     height: 50,
-    lineHeight: 30,
     fontSize: 20,
     backgroundColor: "orange",
     color: "white",
@@ -272,12 +332,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     borderRadius: 5,
-    width: 300,
     backgroundColor: "#f8f4fc",
     display: "flex",
   },
 
-  textInput: {
+  MyTextInput: {
     flex: 1,
   }
 });
