@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
 import hashPassword from "../passwordUtils";
+import MyTextInput from "./TextInput";
+import MyPasswordInput from "./PasswordInput";
 
 const Login = ({ onLoginComplete, updateUserData }) => {
   const [email, setEmail] = useState("");
@@ -51,37 +53,30 @@ const Login = ({ onLoginComplete, updateUserData }) => {
 
   return (
     <View style={styles.container}>
-      <View style={{ marginTop: 20 }}>
-        <TextInput
-          style={styles.button}
-          value={email} onChangeText={setEmail}
-          placeholder="Email" />
-      </View>
-      
-      <View style={styles.passwordInput}>
-        <TextInput
+      <View style={styles.Register}>
+        <View style={{ marginTop: 20 }}>
+          <MyTextInput
+            style={styles.button}
+            value={email} onChangeText={setEmail}
+            placeholder="Email" />
+        </View>
+        <View style={{marginTop: 20}}>
+        <MyPasswordInput
           style={styles.textInput}
           value={password}
           onChangeText={setPassword}
           placeholder="Password"
           secureTextEntry={!showPassword}
         />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          {showPassword ? (
-            <Image style={styles.imgShowHidePassword} source={require('./hideEye.png')} />
-          ) : (
-            <Image style={styles.imgShowHidePassword} source={require("./viewEye.png")} />
-          )}
-        </TouchableOpacity>
-
-      </View>
-      <View style={{ marginTop: 20 }}>
-        <Text style={styles.fg}>Forget Password?</Text>
-      </View>
-      <View style={{ marginTop: 20 }}>
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={{ lineHeight: 30, color: "white", fontSize: 18, fontWeight: "bold" }}>Sign in</Text>
-        </TouchableOpacity>
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <Text style={styles.fg}>Forget Password?</Text>
+        </View>
+        <View style={{ marginTop: 20 }}>
+          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+            <Text style={{ lineHeight: 30, color: "white", fontSize: 18, fontWeight: "bold" }}>Sign in</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
