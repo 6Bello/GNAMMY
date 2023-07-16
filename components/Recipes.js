@@ -7,13 +7,13 @@ import { initItems } from './initItems';
 
 import Recipe from './Recipe';
 
-const Recipes = ({ items, updateItems}) => {
+const Recipes = ({ items, updateItems, user}) => {
     initItems(items, updateItems);  
 
     return (
       <ScrollView style={styles.container}>
         {items.map((item, index) => (
-          <Recipe item={item} index={index} updateItems={updateItems} items={items}/>
+          <Recipe user={user} item={item} index={index} updateItems={updateItems} items={items}/>
         ))}
       </ScrollView>
     );

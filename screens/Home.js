@@ -4,7 +4,7 @@ import Recipes from '../components/Recipes';
 import axios from 'axios';
 import HeaderRightButton from '../components/HeaderRightButton';
 
-export default function Home() {
+export default function Home(user) {
   const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   useEffect(() => {
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <View style={styleContainer.container}>
       
-        <Recipes items={items} updateItems={updateItems} />
+        <Recipes items={items} updateItems={updateItems} user={user} />
     </View>
   );
 }

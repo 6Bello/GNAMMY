@@ -1,7 +1,12 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
-const Recipe = ({ item, index, updateItems, items}) => {
+import axios from 'axios';
+
+const Recipe = ({ user, item, index, updateItems, items}) => {
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
+    const [isLiked, setIsLiked] = useState(false);
+    const [colorHeart, setColorHeart] = useState('grey');
   
     const toggleDescriptionVisible = () => {
       console.log("item: ", item);
@@ -12,6 +17,27 @@ const Recipe = ({ item, index, updateItems, items}) => {
       };
       updateItems(updatedItems);
       setIsDescriptionVisible(!isDescriptionVisible);
+    };
+
+    const handleLike = () => {
+      setIsLiked(prevIsLiked => {
+        const updatedIsLiked = !prevIsLiked;
+        if (!updatedIsLiked) {
+          setColorHeart('grey');
+        } else {
+          setColorHeart('red');
+          const idRecipe = item.id;
+          console.log("item: ", idRecipe)
+          axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.user.id}`, {idRecipe})
+          .then(res => {
+            console.log('fatto!');
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        }
+        return updatedIsLiked;
+      });
     };
   
     return (
@@ -34,8 +60,9 @@ const Recipe = ({ item, index, updateItems, items}) => {
             <Text style={{ color: 'black', textAlign: 'center' }}>{item.title}</Text>
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
-              <TouchableOpacity style={styles.circle} onPress={() => { }} />
-              <TouchableOpacity style={styles.circle} onPress={() => { }} />
+              <TouchableOpacity style={styles.circle} onPress={handleLike}>
+                <Ionicons name="ios-heart" size={40} color={colorHeart}/>
+              </TouchableOpacity>
             </View>
           </View>
         </ImageBackground>
@@ -62,6 +89,8 @@ const Recipe = ({ item, index, updateItems, items}) => {
       height: 50,
       borderRadius: 50 / 2,
       backgroundColor: 'red',
+      justifyContent: 'center',
+      alignItems: 'center',
     }
   }); // Aggiungi questa parentesi graffa di chiusura
 

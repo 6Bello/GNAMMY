@@ -28,11 +28,12 @@ const Login = ({ onLoginComplete, updateUserData }) => {
             updateUserData(userData);
 
             // Utilizza i dati estratti come desideri
+            console.log("User ID:", userData.id);
             console.log("Username:", userData.username);
             console.log("Name:", userData.name);
             console.log("Surname:", userData.surname);
             console.log("Email:", userData.email);
-
+            
             onLoginComplete();
           } else {
             alert("Credenziali errate");

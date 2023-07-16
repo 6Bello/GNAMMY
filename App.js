@@ -24,7 +24,6 @@ function App() {
 
   const updateUserData = (data) => {
     setUser(data);
-    console.log("ao");
     console.log("user: ", user);
   };
 
@@ -58,7 +57,6 @@ function App() {
         />
         <Tab.Screen
           name="Home"
-          component={Home}
           options={{
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
@@ -68,7 +66,9 @@ function App() {
               <HeaderRightButton />
             )
           }}
-        />
+        >
+          {() => <Home user={user} />}
+        </Tab.Screen>
         <Tab.Screen name="AddRecipes"
           options={{
             tabBarLabel: '',
