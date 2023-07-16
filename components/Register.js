@@ -1,93 +1,10 @@
 import React, { useState } from "react";
 import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import axios from "axios";
+import MyTextInput from "./TextInput.js";
+import MyPasswordInput from "./PasswordInput.js";
 
 import hashPassword from '../passwordUtils.js';
-
-const MyTextInput = ({
-  placeholder,
-  value,
-  onChangeText,
-  secureTextEntry,
-  keyboardType,
-  autoComplete
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-  };
-
-  const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
-
-  return (
-    <View>
-      <TextInput
-        style={[styles.button, { borderColor: borderColor, borderWidth: 1 }]}
-        placeholder={placeholder}
-        value={value}
-        onChangeText={onChangeText}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        secureTextEntry={secureTextEntry}
-        keyboardType={keyboardType}
-        autoComplete={autoComplete}
-      />
-    </View>
-  );
-};
-
-const MyPasswordInput = ({
-  placeholder,
-  value,
-  onChangeText,
-  keyboardType,
-  autoComplete
-}) => {
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
-
-  const handleBlur = () => {
-    setIsFocused(false);
-  };
-
-  const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
-
-  let [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
-
-  return (
-    <View style={[styles.passwordInput, { borderColor: borderColor, borderWidth: 1 }]}>
-      <TextInput
-      style={styles.MyTextInput}
-        placeholder={placeholder}
-        value={value}
-        onChangeText={onChangeText}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        secureTextEntry={!showPassword}
-        keyboardType={keyboardType}
-        autoComplete={autoComplete}
-      />
-      <TouchableOpacity onPress={togglePasswordVisibility}>
-        {showPassword ? (
-          <Image style={styles.imgShowHidePassword} source={require('./hideEye.png')} />
-        ) : (
-          <Image style={styles.imgShowHidePassword} source={require("./viewEye.png")} />
-        )}
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [username, setUsername] = useState('');
