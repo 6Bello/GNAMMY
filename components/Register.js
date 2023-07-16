@@ -212,6 +212,7 @@ const styles = StyleSheet.create({
     color: 'red',
     fontSize: 12,
     marginTop: 10,
+    width: 300,
   },
   title: {
     fontSize: 25,
@@ -260,10 +261,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f4fc",
     display: "flex",
   },
-
-  MyTextInput: {
-    flex: 1,
-  }
+  textInputContainer: {
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#f8f4fc",
+    display: 'flex',
+    width: '100%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'gray',
+  },
+  
 });
 
 export default Register;

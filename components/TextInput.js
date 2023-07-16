@@ -40,6 +40,7 @@ const MyTextInput = ({
   };
 
   const styles = StyleSheet.create({
+    
     container: {
       backgroundColor: '#fff',
       width: '100%',

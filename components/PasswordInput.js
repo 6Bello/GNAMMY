@@ -67,7 +67,6 @@ const MyPasswordInput = ({
     error: {
       color: 'red',
       fontSize: 12,
-      marginTop: 10,
     },
     title: {
       fontSize: 25,
