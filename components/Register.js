@@ -10,6 +10,7 @@ const MyTextInput = ({
   onChangeText,
   secureTextEntry,
   keyboardType,
+  autoComplete
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -34,6 +35,7 @@ const MyTextInput = ({
         onBlur={handleBlur}
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
+        autoComplete={autoComplete}
       />
     </View>
   );
@@ -44,6 +46,7 @@ const MyPasswordInput = ({
   value,
   onChangeText,
   keyboardType,
+  autoComplete
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -73,6 +76,7 @@ const MyPasswordInput = ({
         onBlur={handleBlur}
         secureTextEntry={!showPassword}
         keyboardType={keyboardType}
+        autoComplete={autoComplete}
       />
       <TouchableOpacity onPress={togglePasswordVisibility}>
         {showPassword ? (
@@ -233,7 +237,9 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
           <View>
             <MyTextInput
               value={email} onChangeText={setEmail}
-              placeholder="Email" />
+              placeholder="Email" 
+              keyboardType={'email-address'}
+              autoComplete={'email'} />
           </View>
 
           <Text style={[styles.error, {
@@ -247,6 +253,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
             value={password}
             onChangeText={thereArePasswordProblems}
             placeholder="Password"
+            autoComplete={'password'}
           />
 
           <Text style={[styles.error, {
@@ -304,6 +311,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f8f4fc",
     display: 'flex',
     width: '100%',
+    height: 50,
   },
   registerButton: {
     fontWeight: "bold",
