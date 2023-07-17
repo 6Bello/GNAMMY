@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import axios from 'axios';
 
-const Recipe = ({ user, item, index, updateItems, items}) => {
+const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe}) => {
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
-    const [isLiked, setIsLiked] = useState(false);
-    const [colorHeart, setColorHeart] = useState('grey');
+    const [isLiked, setIsLiked] = useState(user.favouriteRecipes.includes(item.id));
+    const [colorHeart, setColorHeart] = useState(isLiked ? 'red' : 'grey');
   
     const toggleDescriptionVisible = () => {
       console.log("item: ", item);
@@ -25,9 +25,12 @@ const Recipe = ({ user, item, index, updateItems, items}) => {
         const updatedIsLiked = !prevIsLiked;
         if (!updatedIsLiked) {
           setColorHeart('grey');
-          axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.user.id}`, {idRecipe})
+          axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.id}`, {idRecipe})
           .then(res => {
             console.log('rimosso!');
+            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+            removeFavouriteRecipe(idRecipe);
+            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
           })
           .catch(error => {
             console.log(error);
@@ -35,9 +38,12 @@ const Recipe = ({ user, item, index, updateItems, items}) => {
         } else {
           setColorHeart('red');
           console.log("item: ", idRecipe)
-          axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.user.id}`, {idRecipe})
+          axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.id}`, {idRecipe})
           .then(res => {
-            console.log('aggiunto!');
+            console.log('fatto!');
+            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+            addFavouriteRecipe(idRecipe);
+            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
           })
           .catch(error => {
             console.log(error);
@@ -68,7 +74,7 @@ const Recipe = ({ user, item, index, updateItems, items}) => {
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
               <TouchableOpacity style={styles.circle} onPress={handleLike}>
-                <Ionicons name="ios-heart" size={40} color={colorHeart}/>
+                <Ionicons name="ios-heart" size={40} color={user.favouriteRecipes.includes(item.id) ? "red" : "grey"}/>
               </TouchableOpacity>
             </View>
           </View>

@@ -18,7 +18,17 @@ const Tab = createBottomTabNavigator();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(isLoggedIn ? user.favouriteRecipes : 0); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  const updateUserFavouriteRecipes = (updatedFavouriteRecipes) => {
+    setUserFavouriteRecipes(updatedFavouriteRecipes);
+  }
   const handleIsLoggedIn = () => {
+    if(isLoggedIn === false){
+      setUserFavouriteRecipes(user.favouriteRecipes);
+    }else{
+      console.log("prova");
+      setUserFavouriteRecipes(0);
+    }
     setIsLoggedIn(!isLoggedIn);
   };
 
@@ -50,11 +60,12 @@ function App() {
       <Tab.Navigator>
         <Tab.Screen
           name="Search"
-          component={Search}
           options={{
             tabBarItemStyle:{display:'none'},
           }}
-        />
+        >
+          {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Home"
           options={{
@@ -67,7 +78,7 @@ function App() {
             )
           }}
         >
-          {() => <Home user={user} />}
+          {() => <Home user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
         </Tab.Screen>
         <Tab.Screen name="AddRecipes"
           options={{

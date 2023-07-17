@@ -9,7 +9,7 @@ const LoggedInPage = ({ user, handleIsLoggedIn }) => {
             <View style={{ }}>
                 <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
                 <Text style={styles.title}>{user.name}</Text>
-                <Text style={styles.subtitle}>@{user.username}</Text>
+                <Text style={styles.subtitle}>@{user.name}</Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginLeft: 10, alignItems: "flex-end"  }}>
                 <View style={{ display: "flex", width: 100, alignItems: 'flex-end', marginLeft: -20}}>

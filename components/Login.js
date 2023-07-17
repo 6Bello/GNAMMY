@@ -33,6 +33,7 @@ const Login = ({ onLoginComplete, updateUserData }) => {
             console.log("Name:", userData.name);
             console.log("Surname:", userData.surname);
             console.log("Email:", userData.email);
+            console.log("fav recipes:", userData.favouriteRecipes)
             
             onLoginComplete();
           } else {
