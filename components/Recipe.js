@@ -20,17 +20,24 @@ const Recipe = ({ user, item, index, updateItems, items}) => {
     };
 
     const handleLike = () => {
+      const idRecipe = item.id;
       setIsLiked(prevIsLiked => {
         const updatedIsLiked = !prevIsLiked;
         if (!updatedIsLiked) {
           setColorHeart('grey');
+          axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.user.id}`, {idRecipe})
+          .then(res => {
+            console.log('rimosso!');
+          })
+          .catch(error => {
+            console.log(error);
+          });
         } else {
           setColorHeart('red');
-          const idRecipe = item.id;
           console.log("item: ", idRecipe)
           axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.user.id}`, {idRecipe})
           .then(res => {
-            console.log('fatto!');
+            console.log('aggiunto!');
           })
           .catch(error => {
             console.log(error);
