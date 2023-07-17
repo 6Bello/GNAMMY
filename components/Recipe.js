@@ -33,10 +33,20 @@ const Recipe = ({ item, index, updateItems, items}) => {
           <View>
             <Text style={{ color: 'black', textAlign: 'center' }}>{item.title}</Text>
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
+<<<<<<< Updated upstream
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
               <TouchableOpacity style={styles.circle} onPress={() => { }} />
               <TouchableOpacity style={styles.circle} onPress={() => { }} />
+=======
+            {user.user!==null ?
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
+              <TouchableOpacity style={styles.circle} onPress={handleLike}>
+                <Ionicons name="ios-heart" size={40} color={colorHeart}/>
+              </TouchableOpacity>
+>>>>>>> Stashed changes
             </View>
+            : null}
+            
           </View>
         </ImageBackground>
       </TouchableOpacity>

@@ -25,9 +25,14 @@ export default function Home() {
   };
 
   return (
+<<<<<<< Updated upstream
     <View style={styleContainer.container}>
       
         <Recipes items={items} updateItems={updateItems} />
+=======
+    <View style={styleContainer.container}>      
+        <Recipes items={items} updateItems={updateItems} user={user} />
+>>>>>>> Stashed changes
     </View>
   );
 }
