@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,13 +17,19 @@ const Tab = createBottomTabNavigator();
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(''); // Stato per memorizzare gli elementi ricevuti dalla ricerca
-  // setUserFavouriteRecipes(isLoggedIn ? user.favouriteRecipes : 0)
-  const updateUserFavouriteRecipes = (updatedUserFavouriteRecipes) => {
-    setUserFavouriteRecipes(updatedUserFavouriteRecipes);
-  }
-  const handleIsLoggedIn = () => {
+  const [user, setUser] = useState();
+  const updateUserData = (data) => {
+    setUser(data);
+  };
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    // Verifica se è la prima volta che l'effetto viene eseguito
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    console.log("userLogged: ", user);
     if(isLoggedIn === false){
       setUserFavouriteRecipes(user.favouriteRecipes);
     }else{
@@ -31,12 +37,14 @@ function App() {
       setUserFavouriteRecipes(0);
     }
     setIsLoggedIn(!isLoggedIn);
-  };
+  }, [user]);
+  
+  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(''); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  // setUserFavouriteRecipes(isLoggedIn ? user.favouriteRecipes : 0)
+  const updateUserFavouriteRecipes = (updatedUserFavouriteRecipes) => {
+    setUserFavouriteRecipes(updatedUserFavouriteRecipes);
+  }
 
-  const updateUserData = (data) => {
-    setUser(data);
-    console.log("user: ", user);
-  };
 
 
   const rotationValue = useRef(new Animated.Value(0)).current;
@@ -117,7 +125,7 @@ function App() {
             ), 
           }}
         >
-          {() => <Account user={user} isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />}
+          {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} />}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>

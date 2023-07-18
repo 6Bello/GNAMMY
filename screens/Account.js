@@ -3,20 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import Login from '../components/Login';
 import Register from '../components/Register';
 import LoggedInPage from '../components/LoggedInPage';
-export default function App({user, isLoggedIn, handleIsLoggedIn, updateUserData}) {
+export default function App({user, isLoggedIn, updateUserData}) {
 
   return (
     <View>
       {isLoggedIn ? (
-        <LoggedInPage user={user} handleIsLoggedIn={handleIsLoggedIn} />
+        <LoggedInPage user={user} />
       ) : (
-        <NotLoggedInPage handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />
+        <NotLoggedInPage updateUserData={updateUserData} />
       )}
     </View>
   );
 }
 
-function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
+function NotLoggedInPage({ updateUserData }) {
   const openRegistration = () => {
     setShowRegisterPage(true);
   };
@@ -28,7 +28,6 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
 
   const OnRegistrationComplete = () => {
     setShowRegisterPage(false);
-    handleIsLoggedIn();
   };
   if (showRegisterPage) {
     return (
@@ -54,7 +53,7 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
             <Text style={styles.subtitle} >Sign to your account</Text>
           </View>
         </View>
-        <Login onLoginComplete={handleIsLoggedIn} updateUserData={updateUserData}/>
+        <Login updateUserData={updateUserData}/>
         <Text style={styles.text2}>Don't have an account? </Text>
         <TouchableOpacity onPress={openRegistration}>
           <Text style={styles.text3}>Sign up</Text>

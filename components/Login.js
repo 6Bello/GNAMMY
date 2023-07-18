@@ -6,7 +6,7 @@ import hashPassword from "../passwordUtils";
 import MyTextInput from "./TextInput";
 import MyPasswordInput from "./PasswordInput";
 
-const Login = ({ onLoginComplete, updateUserData }) => {
+const Login = ({ updateUserData }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -34,8 +34,6 @@ const Login = ({ onLoginComplete, updateUserData }) => {
             console.log("Surname:", userData.surname);
             console.log("Email:", userData.email);
             console.log("fav recipes:", userData.favouriteRecipes)
-            
-            onLoginComplete();
           } else {
             alert("Credenziali errate");
           }
