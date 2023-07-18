@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import axios from 'axios';
+import { set } from 'react-native-reanimated';
 
 const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe}) => {
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
@@ -9,7 +10,7 @@ const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, a
     const [colorHeart, setColorHeart] = useState(isLiked ? 'red' : 'grey');
     useEffect(() => {
       setColorHeart(user.favouriteRecipes.includes(item.id) ? 'red' : 'grey');
-      console.log(userFavouriteRecipes, " useState")
+      console.log(item.title, " isLiked: ", isLiked);
     }, [userFavouriteRecipes]);
   
     const toggleDescriptionVisible = () => {
@@ -25,16 +26,13 @@ const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, a
 
     const handleLike = () => {
       const idRecipe = item.id;
-      setIsLiked(prevIsLiked => {
-        const updatedIsLiked = !prevIsLiked;
-        if (!updatedIsLiked) {
+        if (user.favouriteRecipes.includes(item.id)) {
           setColorHeart('grey');
           axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.id}`, {idRecipe})
           .then(res => {
             console.log('rimosso!');
-            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
-            removeFavouriteRecipe(idRecipe);
-            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+            removeFavouriteRecipe(idRecipe, index);
+            console.log("userFavouriteRecipes: ", user.favouriteRecipes);
           })
           .catch(error => {
             console.log(error);
@@ -44,17 +42,14 @@ const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, a
           console.log("item: ", idRecipe)
           axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.id}`, {idRecipe})
           .then(res => {
-            console.log('fatto!');
-            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
-            addFavouriteRecipe(idRecipe);
-            console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+            console.log('aggiunto!');
+            addFavouriteRecipe(idRecipe, index);
+            console.log("userFavouriteRecipes: ", user.favouriteRecipes);
           })
           .catch(error => {
             console.log(error);
           });
         }
-        return updatedIsLiked;
-      });
     };
   
     return (
