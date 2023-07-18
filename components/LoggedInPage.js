@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const LoggedInPage = ({ user, handleIsLoggedIn }) => {
+const LoggedInPage = ({ user }) => {
     return (
         <View style={{  marginLeft: 40,  display: "flex", flexDirection: "row"}}>
             <View style={{ }}>
