@@ -8,22 +8,17 @@ import { initItems } from './initItems';
 import Recipe from './Recipe';
 import { set } from 'react-native-reanimated';
 
-const Recipes = ({ items, updateItems, user, userFavouriteRecipes, updateUserFavouriteRecipes}) => {
-    const addFavouriteRecipe = (idRecipe) => {
-        console.log("user.favouriteRecipes-before: ", user.favouriteRecipes);
-        user.favouriteRecipes.push(idRecipe);
-        const updatedRecipes = [...user.favouriteRecipes];
-        console.log("user.favouriteRecipes: ", user.favouriteRecipes);
+const Recipes = ({ items, updateItems, user, userFavouriteRecipes = [0], updateUserFavouriteRecipes}) => {
+    const addFavouriteRecipe = (idRecipe) => {        
+        const updatedRecipes = [...userFavouriteRecipes, idRecipe];
         console.log("updatedRecipes: ", updatedRecipes);
         updateUserFavouriteRecipes(updatedRecipes);
         console.log("userFavouriteRecipes: ", userFavouriteRecipes);
       };
       
-      const removeFavouriteRecipe = (idRecipe) => {
-      console.log("user.favouriteRecipes-before: ", user.favouriteRecipes);
-      user.favouriteRecipes.splice(user.favouriteRecipes.indexOf(idRecipe), 1);
-      const updatedRecipes =  user.favouriteRecipes;
-      console.log("user.favouriteRecipes: ", user.favouriteRecipes);
+      const removeFavouriteRecipe = (idRecipe) => {      
+        const updatedRecipes = [...userFavouriteRecipes];
+        updatedRecipes.splice(updatedRecipes.indexOf(idRecipe), 1);        
       console.log("updatedRecipes: ", updatedRecipes);
       updateUserFavouriteRecipes(updatedRecipes);
       console.log("userFavouriteRecipes: ", userFavouriteRecipes);

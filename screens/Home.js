@@ -13,7 +13,7 @@ export default function Home({user, userFavouriteRecipes, updateUserFavouriteRec
       .then(response => {
         const data = response.data;        // Quando la risposta viene ricevuta con successo, assegna i dati alla costante 'data'
         const updatedData = data.map(item => {
-          if(user.favouriteRecipes.includes(item.id)){
+          if(userFavouriteRecipes.includes(item.id)){
             return {...item, isLiked: true};
           }else{
             return {...item, isLiked: false};

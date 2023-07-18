@@ -5,11 +5,12 @@ import { Ionicons } from '@expo/vector-icons';
 
 const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe }) => {
     const idRecipe = item.id;
-    const [isLiked, setIsLiked] = useState(user.favouriteRecipes.includes(idRecipe));
+    const [isLiked, setIsLiked] = useState(userFavouriteRecipes.includes(idRecipe));
 
     const [colorHeart, setColorHeart] = useState(isLiked ? 'red' : 'grey');
     useEffect(() => {
         setIsLiked(userFavouriteRecipes.includes(idRecipe));
+        console.log(item.title, 'isLiked: ', isLiked)
         setColorHeart(isLiked ? 'red' : 'grey');
     }, [userFavouriteRecipes]);
     useEffect(() => {
