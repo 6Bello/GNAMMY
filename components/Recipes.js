@@ -10,11 +10,10 @@ import { set } from 'react-native-reanimated';
 
 const Recipes = ({ items, updateItems, user, userFavouriteRecipes, updateUserFavouriteRecipes}) => {
     const addFavouriteRecipe = (idRecipe) => {
-      user.favouriteRecipes.push(idRecipe);
-      console.log(user.favouriteRecipes);
-      updateUserFavouriteRecipes(user.favouriteRecipes);
-      console.log("provs");
-    }
+        user.favouriteRecipes.push(idRecipe);
+        const updatedRecipes = [...userFavouriteRecipes, idRecipe];
+        updateUserFavouriteRecipes(updatedRecipes);
+      };
     
     const removeFavouriteRecipe = (idRecipe) => {
       user.favouriteRecipes.splice(user.favouriteRecipes.indexOf(idRecipe), 1);

@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import axios from 'axios';
 
@@ -7,6 +7,10 @@ const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, a
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
     const [isLiked, setIsLiked] = useState(user.favouriteRecipes.includes(item.id));
     const [colorHeart, setColorHeart] = useState(isLiked ? 'red' : 'grey');
+    useEffect(() => {
+      setColorHeart(user.favouriteRecipes.includes(item.id) ? 'red' : 'grey');
+      console.log(userFavouriteRecipes, " useState")
+    }, [userFavouriteRecipes]);
   
     const toggleDescriptionVisible = () => {
       console.log("item: ", item);
@@ -74,7 +78,7 @@ const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, a
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
               <TouchableOpacity style={styles.circle} onPress={handleLike}>
-                <Ionicons name="ios-heart" size={40} color={user.favouriteRecipes.includes(item.id) ? "red" : "grey"}/>
+                <Ionicons name="ios-heart" size={40} color={colorHeart}/>
               </TouchableOpacity>
             </View>
           </View>
