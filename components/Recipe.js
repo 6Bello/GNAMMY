@@ -40,6 +40,8 @@ const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, a
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
               {user!==null ? <LikeButton user={user} item={item} index={index} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe}/> : null /* se l'utente è loggato mostra il bottone like */} 
             </View>
+            : null}
+            
           </View>
         </ImageBackground>
       </TouchableOpacity>
