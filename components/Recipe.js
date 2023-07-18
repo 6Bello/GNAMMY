@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
-const Recipe = ({ item, index, updateItems, items}) => {
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
+import LikeButton from './LikeButton';
+
+const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe}) => {
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
   
     const toggleDescriptionVisible = () => {
@@ -13,6 +15,8 @@ const Recipe = ({ item, index, updateItems, items}) => {
       updateItems(updatedItems);
       setIsDescriptionVisible(!isDescriptionVisible);
     };
+
+   
   
     return (
       <TouchableOpacity
@@ -33,11 +37,8 @@ const Recipe = ({ item, index, updateItems, items}) => {
           <View>
             <Text style={{ color: 'black', textAlign: 'center' }}>{item.title}</Text>
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
-            {user.user!==null ?
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
-              <TouchableOpacity style={styles.circle} onPress={handleLike}>
-                <Ionicons name="ios-heart" size={40} color={colorHeart}/>
-              </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
+              {user!==null ? <LikeButton user={user} item={item} index={index} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe}/> : null /* se l'utente è loggato mostra il bottone like */} 
             </View>
             : null}
             
@@ -66,6 +67,8 @@ const Recipe = ({ item, index, updateItems, items}) => {
       height: 50,
       borderRadius: 50 / 2,
       backgroundColor: 'red',
+      justifyContent: 'center',
+      alignItems: 'center',
     }
   }); // Aggiungi questa parentesi graffa di chiusura
 

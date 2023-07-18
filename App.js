@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,16 +17,27 @@ const Tab = createBottomTabNavigator();
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-  const handleIsLoggedIn = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
-
-  const updateUserData = (data) => {
+  const [user, setUser] = useState();
+  const updateUserData = (data, userLogged) => {
     setUser(data);
-    console.log("ao");
-    console.log("user: ", user);
+    setIsLoggedIn(userLogged);
   };
+  const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
+  useEffect(() => {
+    // Verifica se è la prima volta che l'effetto viene eseguito
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    setUserFavouriteRecipes(user.favouriteRecipes); //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
+  }, [user]);
+
+  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(''); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  // setUserFavouriteRecipes(isLoggedIn ? user.favouriteRecipes : 0)
+  const updateUserFavouriteRecipes = (updatedUserFavouriteRecipes) => {
+    setUserFavouriteRecipes(updatedUserFavouriteRecipes);
+  }
+
 
 
   const rotationValue = useRef(new Animated.Value(0)).current;
@@ -51,14 +62,14 @@ function App() {
       <Tab.Navigator>
         <Tab.Screen
           name="Search"
-          component={Search}
           options={{
-            tabBarItemStyle:{display:'none'},
+            tabBarItemStyle: { display: 'none' },
           }}
-        />
+        >
+          {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Home"
-          component={Home}
           options={{
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
@@ -68,7 +79,9 @@ function App() {
               <HeaderRightButton />
             )
           }}
-        />
+        >
+          {() => <Home user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
+        </Tab.Screen>
         <Tab.Screen name="AddRecipes"
           options={{
             tabBarLabel: '',
@@ -94,7 +107,7 @@ function App() {
 
             ),
           }} >
-          {() => <AddRecipes user={user}/> }
+          {() => <AddRecipes user={user} />}
         </Tab.Screen>
         <Tab.Screen
           name="Account"
@@ -102,10 +115,10 @@ function App() {
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='account' size={size} color={color} />
-            ), 
+            ),
           }}
         >
-          {() => <Account user={user} isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />}
+          {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} />}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>

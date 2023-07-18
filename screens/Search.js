@@ -6,7 +6,7 @@ import ListCategories from '../components/ListCategories';
 import Recipes from '../components/Recipes';
 
 
-export default function Search() {
+export default function Search({user, userFavouriteRecipes, updateUserFavouriteRecipes}) {
   const [categories, setCategories] = useState([
     { id: 0, name: "pasta", selected: false },
     { id: 1, name: "carne", selected: false },
@@ -82,7 +82,7 @@ export default function Search() {
           items.length === 0 ? (
             <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
-            <Recipes items={items} updateItems={updateItems} />
+            <Recipes items={items} updateItems={updateItems} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
           )
         )}
       </ScrollView>

@@ -6,7 +6,7 @@ import hashPassword from "../passwordUtils";
 import MyTextInput from "./TextInput";
 import MyPasswordInput from "./PasswordInput";
 
-const Login = ({ onLoginComplete, updateUserData }) => {
+const Login = ({ updateUserData }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -25,15 +25,15 @@ const Login = ({ onLoginComplete, updateUserData }) => {
           if (response.status === 200) {
             const userData = response.data;
             console.log(userData)
-            updateUserData(userData);
+            updateUserData(userData, true);
 
             // Utilizza i dati estratti come desideri
+            console.log("User ID:", userData.id);
             console.log("Username:", userData.username);
             console.log("Name:", userData.name);
             console.log("Surname:", userData.surname);
             console.log("Email:", userData.email);
-
-            onLoginComplete();
+            console.log("fav recipes:", userData.favouriteRecipes)
           } else {
             alert("Credenziali errate");
           }
