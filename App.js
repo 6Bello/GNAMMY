@@ -18,27 +18,20 @@ const Tab = createBottomTabNavigator();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState();
-  const updateUserData = (data) => {
+  const updateUserData = (data, userLogged) => {
     setUser(data);
+    setIsLoggedIn(userLogged);
   };
-  const isFirstRender = useRef(true);
+  const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
     // Verifica se è la prima volta che l'effetto viene eseguito
     if (isFirstRender.current) {
       isFirstRender.current = false;
       return;
     }
-
-    console.log("userLogged: ", user);
-    if(isLoggedIn === false){
-      setUserFavouriteRecipes(user.favouriteRecipes);
-    }else{
-      console.log("prova");
-      setUserFavouriteRecipes(0);
-    }
-    setIsLoggedIn(!isLoggedIn);
+    setUserFavouriteRecipes(user.favouriteRecipes);
   }, [user]);
-  
+
   const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(''); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   // setUserFavouriteRecipes(isLoggedIn ? user.favouriteRecipes : 0)
   const updateUserFavouriteRecipes = (updatedUserFavouriteRecipes) => {
@@ -70,7 +63,7 @@ function App() {
         <Tab.Screen
           name="Search"
           options={{
-            tabBarItemStyle:{display:'none'},
+            tabBarItemStyle: { display: 'none' },
           }}
         >
           {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
@@ -114,7 +107,7 @@ function App() {
 
             ),
           }} >
-          {() => <AddRecipes user={user}/> }
+          {() => <AddRecipes user={user} />}
         </Tab.Screen>
         <Tab.Screen
           name="Account"
@@ -122,7 +115,7 @@ function App() {
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='account' size={size} color={color} />
-            ), 
+            ),
           }}
         >
           {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} />}
