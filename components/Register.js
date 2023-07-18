@@ -95,7 +95,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
         surname,
       });
       console.log(response.data);
-      updateUserData(response.data);
+      updateUserData(response.data, true);
       OnRegistrationComplete(); // Call the callback to set isLoggedIn to true
       console.log('Account creato con successo!');
     } catch (error) {

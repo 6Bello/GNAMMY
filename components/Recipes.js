@@ -9,18 +9,20 @@ import Recipe from './Recipe';
 import { set } from 'react-native-reanimated';
 
 const Recipes = ({ items, updateItems, user, userFavouriteRecipes = [0], updateUserFavouriteRecipes}) => {
+
+    //funzioni per aggiungere o rimuovere una ricetta dai preferiti
     const addFavouriteRecipe = (idRecipe) => {        
-        const updatedRecipes = [...userFavouriteRecipes, idRecipe];
+        const updatedRecipes = [...userFavouriteRecipes, idRecipe]; //aggiunge l'id della ricetta ad un clone dell array
         console.log("updatedRecipes: ", updatedRecipes);
-        updateUserFavouriteRecipes(updatedRecipes);
+        updateUserFavouriteRecipes(updatedRecipes); //aggiorna la variabile userFavouriteRecipes con il valore del clone
         console.log("userFavouriteRecipes: ", userFavouriteRecipes);
       };
       
       const removeFavouriteRecipe = (idRecipe) => {      
-        const updatedRecipes = [...userFavouriteRecipes];
-        updatedRecipes.splice(updatedRecipes.indexOf(idRecipe), 1);        
+        const updatedRecipes = [...userFavouriteRecipes]; //clona l'array
+        updatedRecipes.splice(updatedRecipes.indexOf(idRecipe), 1); //rimuove l'id della ricetta dall'array clone 
       console.log("updatedRecipes: ", updatedRecipes);
-      updateUserFavouriteRecipes(updatedRecipes);
+      updateUserFavouriteRecipes(updatedRecipes); //aggiorna la variabile userFavouriteRecipes con il valore del clone
       console.log("userFavouriteRecipes: ", userFavouriteRecipes);
     }
     

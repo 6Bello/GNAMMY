@@ -25,7 +25,7 @@ const Login = ({ updateUserData }) => {
           if (response.status === 200) {
             const userData = response.data;
             console.log(userData)
-            updateUserData(userData);
+            updateUserData(userData, true);
 
             // Utilizza i dati estratti come desideri
             console.log("User ID:", userData.id);

@@ -5,9 +5,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe }) => {
     const idRecipe = item.id;
-    const [isLiked, setIsLiked] = useState(userFavouriteRecipes.includes(idRecipe));
+    const [isLiked, setIsLiked] = useState(userFavouriteRecipes.includes(idRecipe)); // Stato per memorizzare se l'utente ha aggiunto la ricetta ai preferiti
 
-    const [colorHeart, setColorHeart] = useState(isLiked ? 'red' : 'grey');
+    const [colorHeart, setColorHeart] = useState(isLiked ? 'red' : 'grey'); // Stato per memorizzare il colore del cuore
+    //effetti per aaggiornare il colore del cuore
     useEffect(() => {
         setIsLiked(userFavouriteRecipes.includes(idRecipe));
         console.log(item.title, 'isLiked: ', isLiked)
@@ -17,10 +18,11 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
         setColorHeart(isLiked ? 'red' : 'grey');
     }, [isLiked]);
 
+    // Funzione per aggiungere o rimuovere la ricetta dai preferiti
     const handleLike = () => {
           if (userFavouriteRecipes.includes(idRecipe)) {
             setIsLiked(false);
-            axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.id}`, {idRecipe})
+            axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.id}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('rimosso!');
               removeFavouriteRecipe(idRecipe, index);
@@ -31,7 +33,7 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
           } else {
             setIsLiked(true);
             console.log("item: ", idRecipe)
-            axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.id}`, {idRecipe})
+            axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.id}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('aggiunto!');
               addFavouriteRecipe(idRecipe, index);

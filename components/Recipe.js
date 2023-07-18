@@ -38,7 +38,7 @@ const Recipe = ({ user, item, index, updateItems, items, userFavouriteRecipes, a
             <Text style={{ color: 'black', textAlign: 'center' }}>{item.title}</Text>
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
-              {user!==null ? <LikeButton user={user} item={item} index={index} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe}/> : null}
+              {user!==null ? <LikeButton user={user} item={item} index={index} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe}/> : null /* se l'utente è loggato mostra il bottone like */} 
             </View>
           </View>
         </ImageBackground>
