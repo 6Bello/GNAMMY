@@ -29,7 +29,7 @@ function App() {
       isFirstRender.current = false;
       return;
     }
-    setUserFavouriteRecipes(user.favouriteRecipes);
+    setUserFavouriteRecipes(user.favouriteRecipes); //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
   }, [user]);
 
   const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(''); // Stato per memorizzare gli elementi ricevuti dalla ricerca
