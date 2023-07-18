@@ -18,9 +18,10 @@ const Tab = createBottomTabNavigator();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
-  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(isLoggedIn ? user.favouriteRecipes : 0); // Stato per memorizzare gli elementi ricevuti dalla ricerca
-  const updateUserFavouriteRecipes = (updatedFavouriteRecipes) => {
-    setUserFavouriteRecipes(updatedFavouriteRecipes);
+  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(''); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  // setUserFavouriteRecipes(isLoggedIn ? user.favouriteRecipes : 0)
+  const updateUserFavouriteRecipes = (updatedUserFavouriteRecipes) => {
+    setUserFavouriteRecipes(updatedUserFavouriteRecipes);
   }
   const handleIsLoggedIn = () => {
     if(isLoggedIn === false){
