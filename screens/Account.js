@@ -3,12 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import Login from '../components/Login';
 import Register from '../components/Register';
 import LoggedInPage from '../components/LoggedInPage';
-export default function App({user, isLoggedIn, updateUserData}) {
+export default function App({user, isLoggedIn, updateUserData, userFavouriteRecipes}) {
 
   return (
     <View>
       {isLoggedIn ? (
-        <LoggedInPage user={user} />
+        <LoggedInPage user={user} userFavouriteRecipes={userFavouriteRecipes} />
       ) : (
         <NotLoggedInPage updateUserData={updateUserData} />
       )}

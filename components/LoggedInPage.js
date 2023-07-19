@@ -1,9 +1,13 @@
-import react from 'react';
+import react, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-const LoggedInPage = ({ user }) => {
+const LoggedInPage = ({ user, userFavouriteRecipes }) => {
+    const [userRecipesLiked, setUseRecipesLiked] = useState(userFavouriteRecipes.length-2);
+    useEffect(() => {
+        setUseRecipesLiked(userFavouriteRecipes.length-2);
+    }, [userFavouriteRecipes]);
     return (
         <View style={{  marginLeft: 40,  display: "flex", flexDirection: "row"}}>
             <View style={{ }}>
@@ -24,8 +28,8 @@ const LoggedInPage = ({ user }) => {
                     </View>
                 </View>
                 <View style={{ marginLeft: 25}}>
-                    <Text style={styles.infoName2}>Like{'\n'}totali</Text>
-                    <Text style={styles.infoNumber}>3</Text>
+                    <Text style={styles.infoName2}>Like{'\n'}messi</Text>
+                    <Text style={styles.infoNumber}>{userRecipesLiked}</Text>
                 </View>
                 <View style={{ marginLeft: 25}}>
                     <Text style={styles.infoName2}>Media{'\n'}Like</Text>
