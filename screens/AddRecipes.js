@@ -8,18 +8,9 @@ import { useNavigation } from '@react-navigation/native';
 import AlertSignUp from '../components/alertSignUp';
 
 
-export default function AddRecipes({ user }) {
-  const [utenteLoggato, setUtenteLoggato] = useState(false);
+export default function AddRecipes({ user, isLoggedIn }) {
   const [imageRecipe, setImageRecipe] = useState(require('../assets/user.png'));
   const navigation = useNavigation();
-  useEffect(() => {
-    if (user != null) {
-      setUtenteLoggato(true);
-    } else {
-      setUtenteLoggato(false);
-    }
-    console.log(user);
-  });
   const [modalVisible, setModalVisible] = useState(false);
   const goToSignUp = () => {
     navigation.navigate('Account');
@@ -72,7 +63,6 @@ export default function AddRecipes({ user }) {
 
   const logCategories = () => {
     console.log(categories);
-    console.log(user)
   }
 
   const recipeInitialState = {
@@ -193,7 +183,7 @@ export default function AddRecipes({ user }) {
 
   return (
     <ScrollView>
-      {utenteLoggato ? null : (<AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible}/>)}
+      {isLoggedIn ? null : (<AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible}/>)}
       <TouchableOpacity onPress={logCategories}>
         <Text>Get categories</Text>
       </TouchableOpacity>

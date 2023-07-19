@@ -107,7 +107,7 @@ function App() {
 
             ),
           }} >
-          {() => <AddRecipes user={user} />}
+          {() => <AddRecipes user={user} isLoggedIn={isLoggedIn}/>}
         </Tab.Screen>
         <Tab.Screen
           name="Account"
