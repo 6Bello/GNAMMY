@@ -66,10 +66,12 @@ export default function AddRecipes2({ user, isLoggedIn }) {
     title: '',
     categories: '',
     time: '',
+    portions: '',
     preparation: '',
     description: '',
     ingredients: '',
     gluten: 1,
+    difficulty: 0,
   };
   const [recipe, setRecipe] = useState(recipeInitialState);
 
@@ -179,16 +181,23 @@ export default function AddRecipes2({ user, isLoggedIn }) {
 
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
+      <View style={{alignItems: 'center', justifyContent: 'center',}}>
       {isLoggedIn ? null : (<AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible}/>)}
-      <View style={{display: 'flex', flexDirection: 'row'}}>
-        <Image source={imageRecipe} style={{ width: 45, height: 45}} />
-        <TextInput style={styles.input}
+      
+      <View style={{alignItems: 'center'}}>
+        <Text style={styles.title}>Descrivi la tua ricetta...</Text>
+      </View>
+      
+      <View style={[{display: 'flex', flexDirection: 'row', alignItems: 'center'}, styles.passwordInput, styles.input]}>
+        <Image source={imageRecipe} style={{width: 25, height: 25}}/>
+        <TextInput style={{flex: 1}}
         value={recipe.title}
         onChangeText={(value) => handleInputChange('title', value)}
-        placeholder="Titolo"
+        placeholder="Nome"
       />
       </View>
+
       {showCategories ?
         <View>
           <Modal
@@ -206,22 +215,35 @@ export default function AddRecipes2({ user, isLoggedIn }) {
           <Text>seleziona le categorie</Text>
         </TouchableOpacity>
       }
+      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 150, height: 50, alignItems: 'center'}}>
+        <Text>Per</Text>
+        <TextInput
+        style={{width: 50, height: 40, borderWidth: 1, borderRadius: 10, textAlign: 'center'}}
+        value={recipe.portions}
+        onChangeText={(value) => handleInputChange('portions', value)}
+        />
+        <Text>persone</Text>
+      </View>
       <TextInput
+        style={styles.input}
         value={recipe.description}
         onChangeText={(value) => handleInputChange('description', value)}
         placeholder="Descrizione"
       />
       <TextInput
+        style={styles.input}
         value={recipe.ingredients}
         onChangeText={(value) => handleInputChange('ingredients', value)}
         placeholder="Ingredienti"
       />
       <TextInput
+        style={styles.input}
         value={recipe.preparation}
         onChangeText={(value) => handleInputChange('preparation', value)}
         placeholder="Preparazione"
       />
       <TextInput
+        style={styles.input}
         value={recipe.time}
         keyboardType="numeric"
         onChangeText={(value) => handleInputChange('time', value)}
@@ -239,6 +261,7 @@ export default function AddRecipes2({ user, isLoggedIn }) {
       <TouchableOpacity onPress={createRecipe}>
         <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight: "bold" }}>Crea</Text>
       </TouchableOpacity>
+      </View>
     </ScrollView>
   );
 }
@@ -246,8 +269,7 @@ export default function AddRecipes2({ user, isLoggedIn }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'white',
   },
   square: {
     width: 20,
@@ -258,8 +280,14 @@ const styles = StyleSheet.create({
   },
   input : {
     height: 40,
+    width: 300,
     margin: 12,
     borderWidth: 1,
     borderRadius: 10,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 20,
   },
 });
