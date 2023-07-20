@@ -10,8 +10,11 @@ import { Image, Button, IconButton, Text, View, StyleSheet, Animated } from 'rea
 import Home from './screens/Home';
 import Account from './screens/Account';
 import AddRecipes from './screens/AddRecipes';
+import AddRecipes2 from './screens/AddRecipes copy';
+import NewRecipeCategory from './screens/NewRecipeCategory';
 import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
+import AddRecipes3 from './screens/AddRecipes3';
 
 const Tab = createBottomTabNavigator();
 
@@ -107,7 +110,7 @@ function App() {
 
             ),
           }} >
-          {() => <AddRecipes user={user} isLoggedIn={isLoggedIn}/>}
+          {() => <AddRecipes3 user={user} isLoggedIn={isLoggedIn}/>}
         </Tab.Screen>
         <Tab.Screen
           name="Account"
