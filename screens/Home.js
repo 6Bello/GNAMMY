@@ -6,6 +6,14 @@ import HeaderRightButton from '../components/HeaderRightButton';
 import { set } from 'react-native-reanimated';
 
 export default function Home({user, userFavouriteRecipes, updateUserFavouriteRecipes}) {
+  //refreshing
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  }, []);
+
+  //get recipes
   const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   useEffect(() => {
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
@@ -26,14 +34,15 @@ export default function Home({user, userFavouriteRecipes, updateUserFavouriteRec
         console.error(error);        // Se si verifica un errore durante la richiesta, visualizza un messaggio di errore sulla console
 
       });
-  }, []);
+    setRefreshing(false);
+  }, [refreshing]);
 
   const updateItems = (data) => {
     setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
   };
   return (
     <View style={styleContainer.container}>      
-        <Recipes items={items} updateItems={updateItems} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+        <Recipes items={items} updateItems={updateItems} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
     </View>
   );
 }
