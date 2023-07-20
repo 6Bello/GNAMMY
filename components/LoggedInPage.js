@@ -36,9 +36,6 @@ const LoggedInPage = ({ user, userFavouriteRecipes }) => {
                     <Text style={styles.infoNumber}>3</Text>
                 </View>
             </View>
-            {/* <TouchableOpacity onPress={handleIsLoggedIn}>
-          <Text>Logout</Text>
-        </TouchableOpacity> */}
         </View>
     );
 }

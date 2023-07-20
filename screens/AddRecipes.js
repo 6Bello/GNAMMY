@@ -75,7 +75,7 @@ export default function AddRecipes({ user, isLoggedIn }) {
     ingredients: '',
     gluten: 1,
   };
-  const [recipe, setRecipe] = useState({ recipeInitialState });
+  const [recipe, setRecipe] = useState(recipeInitialState);
 
   const handleInputChange = (campo, value) => {
     if(campo === 'title'){
@@ -135,10 +135,11 @@ export default function AddRecipes({ user, isLoggedIn }) {
         setImageRecipe('../assets/user.png');
       }
     }
-    setRecipe((prevRecipe) => ({
-      ...prevRecipe,
-      [campo]: value,
-    }));
+    const newRecipe = { ...recipe };
+    console.log(newRecipe);
+    newRecipe[campo] = value;
+    console.log(newRecipe);
+    setRecipe(newRecipe)
   };
 
   const createRecipe = () => {
@@ -167,7 +168,7 @@ export default function AddRecipes({ user, isLoggedIn }) {
       alert('Inserisci se è gluten free');
       return;
     }
-    console.log(categories);
+    console.log(recipe);
     axios
       .post('http://79.32.231.27:8889/recipes', recipe)
 
