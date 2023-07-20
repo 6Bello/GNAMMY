@@ -1,14 +1,30 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import AlertSignUp from '../components/alertSignUp';
+import { useNavigation } from '@react-navigation/native';
 
-export default function NewRecipeCategory ({ user, userFavouriteRecipes, SetChosen }) {
+export default function NewRecipeCategory ({ user, userFavouriteRecipes, SetChosen, isLoggedIn }) {
+    const [modalVisible, setModalVisible] = useState(false);
+    const navigation = useNavigation();
     const categoriaScelta = () => {
         SetChosen(true);
     }
+    const goToSignUp = () => {
+        navigation.navigate('Account');
+        setModalVisible(false);
+    };
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          setModalVisible(true);
+        });
+        return unsubscribe;
+    }, [navigation]);
+    
 
     return (
         <ScrollView style={styles.container}>
+            {isLoggedIn ? null : (<AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible}/>)}
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
                 <View style={{width: 300, alignItems: 'center'}}>
                     <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 50}}>Di che categoria fa parte il tuo piatto?</Text>

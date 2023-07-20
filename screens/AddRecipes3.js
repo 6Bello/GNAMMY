@@ -4,12 +4,12 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AddRecipes2 from './AddRecipes copy';
 import NewRecipeCategory from './NewRecipeCategory';
 
-export default function AddRecipes3 () {
+export default function AddRecipes3 ({isLoggedIn}) {
     const [chosen, SetChosen] = useState(false);
     
     if (chosen == false) {
         return (
-            <NewRecipeCategory SetChosen={SetChosen}/>
+            <NewRecipeCategory SetChosen={SetChosen} isLoggedIn={isLoggedIn}/>
         );
     } else {
         return (
