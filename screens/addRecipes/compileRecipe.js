@@ -1,98 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import ListCategories from '../components/ListCategories';
+import React, { useState} from 'react';
+import ListCategories from '../../components/ListCategories';
 import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
 import axios from 'axios';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import MyTextInput from '../components/TextInput';
+import MyTextInput from '../../components/TextInput';
 
-import AlertSignUp from '../components/alertSignUp';
-
-
-export default function AddRecipes({ user, isLoggedIn }) {
-  const [imageRecipe, setImageRecipe] = useState(require('../assets/user.png'));
-  const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const goToSignUp = () => {
-    navigation.navigate('Account');
-    setModalVisible(false);
-  }
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      setModalVisible(true);
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
-  const [starsSelected, setStarsSelected] = useState(0);
-  useEffect(() => {
-    recipe.difficulty = starsSelected;
-    console.log(recipe);
-  }, [starsSelected]);
+import AlertSignUp from '../../components/alertSignUp';
 
 
-
-  const [categories, setCategories] = useState([
-    { id: 0, name: "pasta", selected: false },
-    { id: 1, name: "carne", selected: false },
-    { id: 2, name: "pesce", selected: false },
-    { id: 3, name: "verdura", selected: false },
-    { id: 4, name: "frutta", selected: false },
-    { id: 5, name: "dolce", selected: false },
-    { id: 6, name: "antipasto", selected: false },
-    { id: 7, name: "contorno", selected: false },
-    { id: 8, name: "insalata", selected: false },
-    { id: 9, name: "zuppa", selected: false },
-    { id: 10, name: "pizza", selected: false },
-    { id: 11, name: "fritto", selected: false },
-    { id: 12, name: "salsa", selected: false },
-    { id: 13, name: "sugo", selected: false },
-    { id: 14, name: "soufflé", selected: false },
-    { id: 15, name: "sformato", selected: false },
-    { id: 16, name: "torta", selected: false },
-    { id: 17, name: "biscotto", selected: false },
-    { id: 18, name: "budino", selected: false },
-    { id: 19, name: "gelato", selected: false },
-    { id: 20, name: "bevanda", selected: false },
-    { id: 21, name: "cocktail", selected: false },
-    { id: 22, name: "aperitivo", selected: false },
-    { id: 23, name: "digestivo", selected: false },
-    { id: 24, name: "primo", selected: false },
-    { id: 25, name: "secondo", selected: false }
-  ]);
-
-  const handleCategories = (updatedCategories) => {
-    setCategories(updatedCategories); // Aggiorna lo stato delle categorie nel componente padre
-  };
-
-  const [showCategories, setShowCategories] = useState(false);
-  const handleShowCategories = () => {
-    setShowCategories(!showCategories);
-  }
-
-  const recipeInitialState = {
-    creator: '',
-    title: '',
-    categories: '',
-    time: '',
-    portions: '',
-    preparation: '',
-    description: '',
-    ingredients: '',
-    gluten: 1,
-    difficulty: 1,
-  };
-  const [recipe, setRecipe] = useState(recipeInitialState);
+const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe, got }) => {
+  const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
 
   const handleInputChange = (campo, value) => {
     if (campo === 'title') {
       if (value === 'carne') {
-        setImageRecipe(require('../assets/img_categories/carne.png'));
+        setImageRecipe(require('../../assets/img_categories/carne.png'));
       } else if (value === 'pasta') {
-        setImageRecipe(require('../assets/img_categories/pasta.png'));
+        setImageRecipe(require('../../assets/img_categories/pasta.png'));
       } else if (value === 'pesce') {
-        setImageRecipe(require('../assets/img_categories/pesce.png'));
+        setImageRecipe(require('../../assets/img_categories/pesce.png'));
         // }else if(value === 'verdura'){
         //   setImageRecipe(require('../assets/img_categories/verdura.png'));
         // }else if(value === 'frutta'){
@@ -140,7 +66,7 @@ export default function AddRecipes({ user, isLoggedIn }) {
         // }else if(value === 'secondo'){
         //   setImageRecipe(require('../assets/img_categories/secondo.png'));
       } else {
-        setImageRecipe('../assets/user.png');
+        setImageRecipe('../../assets/user.png');
       }
     }
     const newRecipe = { ...recipe };
@@ -150,51 +76,10 @@ export default function AddRecipes({ user, isLoggedIn }) {
     setRecipe(newRecipe)
   };
 
-  const createRecipe = () => {
-    recipe.creator = user.name;
-    const categoriesString = categories.filter((category) => category.selected).map((category) => category.name).join(', ');
-    recipe.categories = categoriesString;
-    if (recipe.title === '') {
-      alert('Inserisci il titolo');
-      return;
-    } else if (recipe.description === '') {
-      alert('Inserisci la descrizione');
-      return;
-    } else if (recipe.categories === '') {
-      alert('Inserisci le categorie');
-      return;
-    } else if (recipe.ingredients === '') {
-      alert('Inserisci gli ingredienti');
-      return;
-    } else if (recipe.preparation === '') {
-      alert('Inserisci la preparazione');
-      return;
-    } else if (recipe.time === '') {
-      alert('Inserisci il tempo');
-      return;
-    } else if (recipe.gluten === '') {
-      alert('Inserisci se è gluten free');
-      return;
-    }
-    console.log(recipe);
-    axios
-      .post('http://79.32.231.27:8889/addRecipes', recipe)
-
-      .then((response) => {
-        console.log(response.data);
-        setCategories(recipeInitialState)
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
 
   return (
     <ScrollView style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        {isLoggedIn ? null : (<AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible} />)}
-
         <View style={{ alignItems: 'center' }}>
           <Text style={styles.title}>Descrivi la tua ricetta...</Text>
         </View>
@@ -319,3 +204,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
+
+export default CompileRecipe
