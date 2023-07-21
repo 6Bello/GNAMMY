@@ -9,12 +9,11 @@ import { Image, Button, IconButton, Text, View, StyleSheet, Animated } from 'rea
 
 import Home from './screens/Home';
 import Account from './screens/Account';
-import AddRecipes from './screens/AddRecipes';
-import AddRecipes2 from './screens/AddRecipes copy';
-import NewRecipeCategory from './screens/NewRecipeCategory';
+import AddRecipes2 from './screens/compileRecipe';
+import NewRecipeCategory from './screens/selectCategory';
 import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
-import AddRecipes3 from './screens/AddRecipes3';
+import AddRecipes3 from './screens/AddRecipes';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,6 +23,7 @@ function App() {
   const updateUserData = (data, userLogged) => {
     setUser(data);
     setIsLoggedIn(userLogged);
+    console.log(user)
   };
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
