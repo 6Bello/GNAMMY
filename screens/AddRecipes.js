@@ -66,8 +66,8 @@ export default function AddRecipes({ user, isLoggedIn }) {
   }
 
   const recipeInitialState = {
-    creator: user.username,
-    creatorId: user.id,
+    creator: '',
+    creatorId: 0,
     title: '',
     categories: '',
     time: '',
@@ -144,6 +144,8 @@ export default function AddRecipes({ user, isLoggedIn }) {
   };
 
   const createRecipe = () => {
+    recipe.creator = user.username;
+    recipe.creatorId = user.id;
     const categoriesString = categories.filter((category) => category.selected).map((category) => category.name).join(', ');
     recipe.categories = categoriesString;
     if (recipe.title === '') {

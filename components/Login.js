@@ -23,6 +23,18 @@ const Login = ({ updateUserData }) => {
         })
         .then((response) => {
           if (response.status === 200) {
+            response.data.favouriteRecipes = response.data.favouriteRecipes
+              .slice(1, -1) // Rimuovi le virgole iniziali e finali
+              .split(",") // Dividi la stringa utilizzando la virgola come delimitatore
+              .map(str => parseInt(str)) // Converti le sottostringhe in numeri interi
+              .filter(num => !isNaN(num)); // Rimuovi gli elementi vuoti (isNaN restituisce true per elementi non numerici)
+
+            response.data.createdRecipes = response.data.createdRecipes
+              .slice(1, -1) // Rimuovi le virgole iniziali e finali
+              .split(",") // Dividi la stringa utilizzando la virgola come delimitatore
+              .map(str => parseInt(str)) // Converti le sottostringhe in numeri interi
+              .filter(num => !isNaN(num)); // Rimuovi gli elementi vuoti (isNaN restituisce true per elementi non numerici)
+
             const userData = response.data;
             console.log(userData)
             updateUserData(userData, true);
@@ -33,7 +45,8 @@ const Login = ({ updateUserData }) => {
             console.log("Name:", userData.name);
             console.log("Surname:", userData.surname);
             console.log("Email:", userData.email);
-            console.log("fav recipes:", userData.userFavouriteRecipes)
+            console.log("fav recipes:", userData.favouriteRecipes)
+            console.log("Created recipes:", userData.createdRecipes)
           } else {
             alert("Credenziali errate");
           }
@@ -60,14 +73,14 @@ const Login = ({ updateUserData }) => {
             value={email} onChangeText={setEmail}
             placeholder="Email" />
         </View>
-        <View style={{marginTop: 20}}>
-        <MyPasswordInput
-          style={styles.textInput}
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Password"
-          secureTextEntry={!showPassword}
-        />
+        <View style={{ marginTop: 20 }}>
+          <MyPasswordInput
+            style={styles.textInput}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Password"
+            secureTextEntry={!showPassword}
+          />
         </View>
         <View style={{ marginTop: 20 }}>
           <Text style={styles.fg}>Forget Password?</Text>

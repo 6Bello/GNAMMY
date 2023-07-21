@@ -22,6 +22,7 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
     const handleLike = () => {
           if (userFavouriteRecipes.includes(idRecipe)) {
             setIsLiked(false);
+            console.log("itemId: ", idRecipe)
             axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.id}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('rimosso!');
@@ -32,7 +33,7 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
             });
           } else {
             setIsLiked(true);
-            console.log("item: ", idRecipe)
+            console.log("itemId: ", idRecipe)
             axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.id}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('aggiunto!');

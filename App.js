@@ -118,7 +118,7 @@ function App() {
             ),
           }}
         >
-          {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} userFavouriteRecipes={userFavouriteRecipes} />}
+          {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>

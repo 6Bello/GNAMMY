@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Text, ImageBackground, ScrollView, StyleSheet, RefreshControl } from 'react-native';
-import { View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 import { initItems } from './initItems';
 
 import Recipe from './Recipe';
-import { set } from 'react-native-reanimated';
 
 const Recipes = ({ items, updateItems, user, userFavouriteRecipes = [0], updateUserFavouriteRecipes, refreshing, onRefresh }) => {
 
-  //funzioni per aggiungere o rimuovere una ricetta dai preferiti
+  // funzioni per aggiungere o rimuovere una ricetta dai preferiti
   const addFavouriteRecipe = (idRecipe) => {
     const updatedRecipes = [...userFavouriteRecipes, idRecipe]; //aggiunge l'id della ricetta ad un clone dell array
     console.log("updatedRecipes: ", updatedRecipes);

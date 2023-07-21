@@ -1,24 +1,25 @@
-import react, {useState, useEffect} from 'react';
+import react, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import UserRecipes from './UserRecipes';    
 
 
-const LoggedInPage = ({ user, userFavouriteRecipes }) => {
-    const [userRecipesLiked, setUseRecipesLiked] = useState(userFavouriteRecipes.length-2);
+const LoggedInPage = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes }) => {
+    const [userRecipesLiked, setUseRecipesLiked] = useState(userFavouriteRecipes.length - 2);
     useEffect(() => {
-        setUseRecipesLiked(userFavouriteRecipes.length-2);
+        setUseRecipesLiked(userFavouriteRecipes.length - 2);
     }, [userFavouriteRecipes]);
     return (
-        <View style={{  marginLeft: 40,  display: "flex", flexDirection: "row"}}>
-            <View style={{ }}>
+        <ScrollView style={{}}>
+            <View style={{ marginLeft: 40, display: "flex", flexDirection: "row" }}>
                 <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
                 <Text style={styles.title}>{user.name}</Text>
                 <Text style={styles.subtitle}>@{user.name}</Text>
             </View>
-            <View style={{ display: "flex", flexDirection: "row", marginLeft: 10, alignItems: "flex-end"  }}>
-                <View style={{ display: "flex", width: 100, alignItems: 'flex-end', marginLeft: -20}}>
+            <View style={{ display: "flex", flexDirection: "row", marginLeft: 10, alignItems: "flex-end" }}>
+                <View style={{ display: "flex", width: 100, alignItems: 'flex-end', marginLeft: -20 }}>
                     <Text style={styles.infoName}>Ricette</Text>
-                    <View style={{ alignItems: 'center', flexDirection: "row"}}>
+                    <View style={{ alignItems: 'center', flexDirection: "row" }}>
                         <Text style={styles.infoNumber}>3</Text>
                         <TouchableOpacity style={styles.addButton}>
                             <View style={{ backgroundColor: 'grey', borderRadius: 50, padding: 1, marginRight: -5, marginLeft: 7 }}>
@@ -27,16 +28,17 @@ const LoggedInPage = ({ user, userFavouriteRecipes }) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={{ marginLeft: 25}}>
+                <View style={{ marginLeft: 25 }}>
                     <Text style={styles.infoName2}>Like{'\n'}messi</Text>
                     <Text style={styles.infoNumber}>{userRecipesLiked}</Text>
                 </View>
-                <View style={{ marginLeft: 25}}>
+                <View style={{ marginLeft: 25 }}>
                     <Text style={styles.infoName2}>Media{'\n'}Like</Text>
                     <Text style={styles.infoNumber}>3</Text>
                 </View>
             </View>
-        </View>
+            <UserRecipes user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+        </ScrollView>
     );
 }
 
