@@ -14,10 +14,10 @@ const UserRecipes = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes })
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
     }, []);
-
-    console.log("user.createdRecipes: ", updateUserFavouriteRecipes);
+    
     //get recipes
     useEffect(() => {
+        console.log("user.createdRecipes: ", user.createdRecipes);
         axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
             .get('http://79.32.231.27:8889/getRecipesById', {
                 params: {
@@ -56,6 +56,8 @@ const styleContainer = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        height: 100,
+        width: '100%',
     },
 });
 

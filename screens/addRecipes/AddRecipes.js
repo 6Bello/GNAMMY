@@ -35,6 +35,7 @@ export default function AddRecipes ({isLoggedIn, user}) {
   
     const recipeInitialState = {
       creator: '',
+      creatorId: '',
       title: '',
       category: '',
       time: '',
@@ -48,7 +49,8 @@ export default function AddRecipes ({isLoggedIn, user}) {
     const [recipe, setRecipe] = useState(recipeInitialState);
 
     const createRecipe = () => {
-        recipe.creator = user.name;
+        recipe.creator = user.username;
+        recipe.creatorId = user.id;
         console.log(category)
         recipe.category = category;
         if (recipe.title === '') {
@@ -78,8 +80,9 @@ export default function AddRecipes ({isLoggedIn, user}) {
           .post('http://79.32.231.27:8889/addRecipes', recipe)
     
           .then((response) => {
+            user.createdRecipes.push(response.data[1]);
             console.log(response.data);
-            setCategory(recipeInitialState)
+            setRecipe(recipeInitialState)
           })
           .catch((error) => {
             console.log(error);

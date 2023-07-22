@@ -10,7 +10,7 @@ const LoggedInPage = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes }
         setUseRecipesLiked(userFavouriteRecipes.length - 2);
     }, [userFavouriteRecipes]);
     return (
-        <ScrollView style={{}}>
+        <View style={{height: '100%'}}>
             <View style={{ marginLeft: 40, display: "flex", flexDirection: "row" }}>
                 <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
                 <Text style={styles.title}>{user.name}</Text>
@@ -38,7 +38,7 @@ const LoggedInPage = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes }
                 </View>
             </View>
             <UserRecipes user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
-        </ScrollView>
+        </View>
     );
 }
 
