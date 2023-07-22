@@ -3,6 +3,7 @@ import { Image, View, TouchableOpacity, TextInput, StyleSheet} from 'react-nativ
 
 
 const MyTextInput = ({
+    myStyle,
     placeholder,
     value,
     onChangeText,
@@ -25,7 +26,7 @@ const MyTextInput = ({
     return (
       <View>
         <TextInput
-          style={[styles.button, { borderColor: borderColor, borderWidth: 1 }]}
+          style={[styles.button, myStyle, { borderColor: borderColor, borderWidth: 1 }]}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
@@ -75,7 +76,7 @@ const MyTextInput = ({
       backgroundColor: "#f8f4fc",
       display: 'flex',
       width: '100%',
-      height: 50,
+      height: 45,
     },
     registerButton: {
       fontWeight: "bold",

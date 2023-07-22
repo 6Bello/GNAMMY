@@ -9,9 +9,9 @@ import { Image, Button, IconButton, Text, View, StyleSheet, Animated } from 'rea
 
 import Home from './screens/Home';
 import Account from './screens/Account';
-import AddRecipes from './screens/AddRecipes';
 import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
+import AddRecipes from './screens/addRecipes/AddRecipes';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +21,7 @@ function App() {
   const updateUserData = (data, userLogged) => {
     setUser(data);
     setIsLoggedIn(userLogged);
+    console.log(user)
   };
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
@@ -82,33 +83,33 @@ function App() {
         >
           {() => <Home user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
         </Tab.Screen>
-        <Tab.Screen name="AddRecipes"
-          options={{
-            tabBarLabel: '',
-            tabBarIcon: ({ focused }) => (
-              <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25 }} onPress={handlePress}>
-                <View style={[{ alignItems: 'center' }, styles.shadow]}>
-                  <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
-                    <View
-                      style={{
-                        width: 65,
-                        height: 65,
-                        borderRadius: 50,
-                        backgroundColor: 'red',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <MaterialCommunityIcons name="plus" color="white" size={40} />
-                    </View>
-                  </Animated.View>
-                </View>
-              </TouchableOpacity>
-
-            ),
-          }} >
-          {() => <AddRecipes user={user} isLoggedIn={isLoggedIn}/>}
-        </Tab.Screen>
+          <Tab.Screen name="AddRecipes"
+            options={{
+              tabBarLabel: '',
+              tabBarIcon: ({ focused }) => (
+                <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25 }} onPress={handlePress}>
+                  <View style={[{ alignItems: 'center' }, styles.shadow]}>
+                    <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
+                      <View
+                        style={{
+                          width: 65,
+                          height: 65,
+                          borderRadius: 50,
+                          backgroundColor: 'red',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <MaterialCommunityIcons name="plus" color="white" size={40} />
+                      </View>
+                    </Animated.View>
+                  </View>
+                </TouchableOpacity>
+  
+              ),
+            }} >
+            {() => <AddRecipes user={user} isLoggedIn={isLoggedIn}/>}
+          </Tab.Screen>
         <Tab.Screen
           name="Account"
           options={{
