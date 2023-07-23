@@ -19,9 +19,9 @@ const Tab = createBottomTabNavigator();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState();
-  const updateUserData = (data, userLogged) => {
+  const updateUserData = (data, isLoggedIn) => {
     setUser(data);
-    setIsLoggedIn(userLogged);
+    setIsLoggedIn(isLoggedIn);
     console.log(user)
   };
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
@@ -34,11 +34,7 @@ function App() {
     setUserFavouriteRecipes(user.favouriteRecipes); //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
   }, [user]);
 
-  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState(''); // Stato per memorizzare gli elementi ricevuti dalla ricerca
-  // setUserFavouriteRecipes(isLoggedIn ? user.favouriteRecipes : 0)
-  const updateUserFavouriteRecipes = (updatedUserFavouriteRecipes) => {
-    setUserFavouriteRecipes(updatedUserFavouriteRecipes);
-  }
+  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
 
   const [userSearched, setUserSearched] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   const updateUserSearched = (data) => {
@@ -61,7 +57,6 @@ function App() {
     inputRange: [0, 290],
     outputRange: ['0deg', '360deg'],
   });
-
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -71,7 +66,7 @@ function App() {
             tabBarItemStyle: { display: 'none' },
           }}
         >
-          {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes}/>}
+          {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
         </Tab.Screen>
         <Tab.Screen
           name="Home"
@@ -85,35 +80,35 @@ function App() {
             )
           }}
         >
-          {() => <Home user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
+          {() => <Home user={user} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
         </Tab.Screen>
-          <Tab.Screen name="AddRecipes"
-            options={{
-              tabBarLabel: '',
-              tabBarIcon: ({ focused }) => (
-                <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25 }} onPress={handlePress}>
-                  <View style={[{ alignItems: 'center' }, styles.shadow]}>
-                    <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
-                      <View
-                        style={{
-                          width: 65,
-                          height: 65,
-                          borderRadius: 50,
-                          backgroundColor: 'red',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <MaterialCommunityIcons name="plus" color="white" size={40} />
-                      </View>
-                    </Animated.View>
-                  </View>
-                </TouchableOpacity>
-  
-              ),
-            }} >
-            {() => <AddRecipes user={user} isLoggedIn={isLoggedIn}/>}
-          </Tab.Screen>
+        <Tab.Screen name="AddRecipes"
+          options={{
+            tabBarLabel: '',
+            tabBarIcon: ({ focused }) => (
+              <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25 }} onPress={handlePress}>
+                <View style={[{ alignItems: 'center' }, styles.shadow]}>
+                  <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
+                    <View
+                      style={{
+                        width: 65,
+                        height: 65,
+                        borderRadius: 50,
+                        backgroundColor: 'red',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <MaterialCommunityIcons name="plus" color="white" size={40} />
+                    </View>
+                  </Animated.View>
+                </View>
+              </TouchableOpacity>
+
+            ),
+          }} >
+          {() => <AddRecipes user={user} isLoggedIn={isLoggedIn} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Account"
           options={{
@@ -123,15 +118,17 @@ function App() {
             ),
           }}
         >
-          {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
+          {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
         </Tab.Screen>
         <Tab.Screen
           name="ProfilePage"
           component={ProfilePage}
+          initialParams={{setUserFavouriteRecipes: setUserFavouriteRecipes}}
           options={{
             tabBarItemStyle: { display: 'none' },
           }}
         />
+
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -6,7 +6,7 @@ import UserRecipes from '../components/UserRecipes';
 
 const ProfilePage = ({ route }) => {
       // Accedi alle prop passate da 'CurrentComponent'
-    const { user, userFavouriteRecipes, updateUserFavouriteRecipes} = route.params;
+    const { user, userFavouriteRecipes, setUserFavouriteRecipes} = route.params;
     console.log("userFavouriteRecipes: ", userFavouriteRecipes);
     console.log("user: ", user);
     // const userRecipesLiked = user.favouriteRecipes.match(/(\d+)/g) ? user.favouriteRecipes.match(/(\d+)/g):0;
@@ -38,7 +38,7 @@ const ProfilePage = ({ route }) => {
                     <Text style={styles.infoNumber}>3</Text>
                 </View>
             </View>
-            <UserRecipes user={user} userLoggedIn={userFavouriteRecipes!=''} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+            <UserRecipes user={user} isLoggedIn={userFavouriteRecipes!=''} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
         </View>
     );
 }

@@ -11,7 +11,6 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
     //effetti per aaggiornare il colore del cuore
     useEffect(() => {
         setIsLiked(userFavouriteRecipes.includes(idRecipe));
-        console.log(item.title, 'isLiked: ', isLiked)
         setColorHeart(isLiked ? 'red' : 'grey');
     }, [userFavouriteRecipes]);
     useEffect(() => {
@@ -20,6 +19,8 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
 
     // Funzione per aggiungere o rimuovere la ricetta dai preferiti
     const handleLike = () => {
+      console.log("userFavouriteRecipesPrima: ", userFavouriteRecipes);
+      console.log("idRecipe: ", idRecipe);
           if (userFavouriteRecipes.includes(idRecipe)) {
             setIsLiked(false);
             console.log("itemId: ", idRecipe)

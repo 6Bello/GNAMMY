@@ -4,7 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import UserRecipes from './UserRecipes';    
 
 
-const LoggedInPage = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes }) => {
+const LoggedInPage = ({ user, userFavouriteRecipes, setUserFavouriteRecipes }) => {
     const [userRecipesLiked, setUseRecipesLiked] = useState(userFavouriteRecipes.length);
     useEffect(() => {
         setUseRecipesLiked(userFavouriteRecipes.length);
@@ -37,7 +37,7 @@ const LoggedInPage = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes }
                     <Text style={styles.infoNumber}>3</Text>
                 </View>
             </View>
-            <UserRecipes user={user} userLoggedIn={true}  userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+            <UserRecipes user={user} isLoggedIn={true}  userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
         </View>
     );
 }

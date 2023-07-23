@@ -8,7 +8,7 @@ import ProfilePage from './ProfilePage';
 
 import { useNavigation } from '@react-navigation/native';
 
-export default function Search({ user, userFavouriteRecipes, updateUserFavouriteRecipes }) {
+export default function Search({ user, userFavouriteRecipes, setUserFavouriteRecipes }) {
   const navigation = useNavigation();
   const [categories, setCategories] = useState([
     { id: 0, name: "pasta", selected: false },
@@ -69,7 +69,7 @@ export default function Search({ user, userFavouriteRecipes, updateUserFavourite
     navigation.navigate('ProfilePage', {
       user: userSearched,
       userFavouriteRecipes: userFavouriteRecipes,
-      updateUserFavouriteRecipes: updateUserFavouriteRecipes
+      setUserFavouriteRecipes: setUserFavouriteRecipes
     });
   };
   
@@ -102,7 +102,7 @@ export default function Search({ user, userFavouriteRecipes, updateUserFavourite
             <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
             recipes.length > 0 ? (
-              <Recipes recipes={recipes} updateRecipes={updateRecipes} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+              <Recipes recipes={recipes} updateRecipes={updateRecipes} user={user} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
             ) : (
               usersSearched.map((user) => {
                 return (

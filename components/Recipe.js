@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity} from 'react-native';
 import LikeButton from './LikeButton';
 
-const Recipe = ({ user,userLoggedIn=false,  item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe}) => {
+const Recipe = ({ user,isLoggedIn=false,  item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe}) => {
     const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
   
     const toggleDescriptionVisible = () => {
@@ -40,7 +40,7 @@ const Recipe = ({ user,userLoggedIn=false,  item, index, updateRecipes, recipes,
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
             <Text style={{color: "black", textAlign: 'center'}}>{item.creator}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
-              {userLoggedIn && user!=null ? <LikeButton user={user} item={item} index={index} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe}/> : null /* se l'utente è loggato mostra il bottone like */} 
+              {isLoggedIn && user!=null ? <LikeButton user={user} item={item} index={index} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe}/> : null /* se l'utente è loggato mostra il bottone like */} 
             </View>
             
           </View>

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react
 import axios from "axios";
 import Recipes from "./Recipes";
 
-const UserRecipes = ({ user, userLoggedIn = 0,  userFavouriteRecipes, updateUserFavouriteRecipes }) => {
+const UserRecipes = ({ user, isLoggedIn = false,  userFavouriteRecipes, setUserFavouriteRecipes }) => {
     const [recipes, setRecipes] = useState([0]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
     const updateRecipes = (newRecipes) => {
         setRecipes(newRecipes);
@@ -46,7 +46,7 @@ const UserRecipes = ({ user, userLoggedIn = 0,  userFavouriteRecipes, updateUser
 
     return (
         <View style={styleContainer.container}>
-            <Recipes recipes={recipes} updateRecipes={updateRecipes} user={user} userLoggedIn={userLoggedIn}  userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
+            <Recipes recipes={recipes} updateRecipes={updateRecipes} user={user} isLoggedIn={isLoggedIn}  userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
         </View>
     );
 }
