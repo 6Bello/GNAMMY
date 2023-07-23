@@ -37,7 +37,7 @@ const LoggedInPage = ({ user, userFavouriteRecipes, setUserFavouriteRecipes }) =
                     <Text style={styles.infoNumber}>3</Text>
                 </View>
             </View>
-            <UserRecipes user={user} isLoggedIn={true}  userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
+            <UserRecipes user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
         </View>
     );
 }

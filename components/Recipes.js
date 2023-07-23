@@ -4,7 +4,7 @@ import { initRecipes } from './initRecipes';
 
 import Recipe from './Recipe';
 
-const Recipes = ({ recipes, updateRecipes, user, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing, onRefresh }) => {
+const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing, onRefresh }) => {
 
   // funzioni per aggiungere o rimuovere una ricetta dai preferiti
   const addFavouriteRecipe = (idRecipe) => {
@@ -33,7 +33,7 @@ const Recipes = ({ recipes, updateRecipes, user, isLoggedIn = false, userFavouri
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       {recipes.map((item, index) => (
-        <Recipe user={user} isLoggedIn={isLoggedIn} item={item} index={index} updateRecipes={updateRecipes} recipes={recipes} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} />
+        <Recipe idUser={idUser} isLoggedIn={isLoggedIn} item={item} index={index} updateRecipes={updateRecipes} recipes={recipes} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} />
       ))}
     </ScrollView>
   );

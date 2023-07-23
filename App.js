@@ -19,9 +19,15 @@ const Tab = createBottomTabNavigator();
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState();
+  const [idUser, setIdUser] = useState(0);
   const updateUserData = (data, isLoggedIn) => {
     setUser(data);
     setIsLoggedIn(isLoggedIn);
+    if(isLoggedIn){
+      setIdUser(data.id);
+    }else{
+      setIdUser(0);
+    }
     console.log(user)
   };
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
@@ -66,7 +72,7 @@ function App() {
             tabBarItemStyle: { display: 'none' },
           }}
         >
-          {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
+          {() => <Search user={user} idUser={idUser} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
         </Tab.Screen>
         <Tab.Screen
           name="Home"
@@ -80,7 +86,7 @@ function App() {
             )
           }}
         >
-          {() => <Home user={user} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
+          {() => <Home user={user} idUser={idUser} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
         </Tab.Screen>
         <Tab.Screen name="AddRecipes"
           options={{

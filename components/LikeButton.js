@@ -3,7 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 
-const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe }) => {
+const LikeButton = ({ idUser, item, index, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe }) => {
     const idRecipe = item.id;
     const [isLiked, setIsLiked] = useState(userFavouriteRecipes.includes(idRecipe)); // Stato per memorizzare se l'utente ha aggiunto la ricetta ai preferiti
 
@@ -24,7 +24,7 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
           if (userFavouriteRecipes.includes(idRecipe)) {
             setIsLiked(false);
             console.log("itemId: ", idRecipe)
-            axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${user.id}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
+            axios.post(`http://79.32.231.27:8889/removeFavouriteRecipe/${idUser}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('rimosso!');
               removeFavouriteRecipe(idRecipe, index);
@@ -35,7 +35,7 @@ const LikeButton = ({ user, item, index, userFavouriteRecipes, addFavouriteRecip
           } else {
             setIsLiked(true);
             console.log("itemId: ", idRecipe)
-            axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${user.id}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
+            axios.post(`http://79.32.231.27:8889/addFavouriteRecipe/${idUser}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('aggiunto!');
               addFavouriteRecipe(idRecipe, index);

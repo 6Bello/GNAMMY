@@ -5,7 +5,7 @@ import axios from 'axios';
 import HeaderRightButton from '../components/HeaderRightButton';
 import { set } from 'react-native-reanimated';
 
-export default function Home({user, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes}) {
+export default function Home({idUser, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes}) {
   //refreshing
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -42,7 +42,7 @@ export default function Home({user, isLoggedIn, userFavouriteRecipes, setUserFav
   };
   return (
     <View style={styleContainer.container}>      
-        <Recipes recipes={recipes} updateRecipes={updateRecipes} user={user} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
+        <Recipes recipes={recipes} updateRecipes={updateRecipes} idUser={idUser} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
     </View>
   );
 }
