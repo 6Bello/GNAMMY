@@ -14,7 +14,7 @@ export default function Home({user, userFavouriteRecipes, updateUserFavouriteRec
   }, []);
 
   //get recipes
-  const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  const [recipes, setRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   useEffect(() => {
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
       .get('http://79.32.231.27:8889/getRecipes')
@@ -28,7 +28,7 @@ export default function Home({user, userFavouriteRecipes, updateUserFavouriteRec
           }
         });
         console.log(updatedData);        // Stampa i dati sulla console
-        setItems(updatedData);        // Imposta gli elementi ottenuti come valore dello stato 'items'
+        setRecipes(updatedData);        // Imposta gli elementi ottenuti come valore dello stato 'recipes'
       })
       .catch(error => {
         console.error(error);        // Se si verifica un errore durante la richiesta, visualizza un messaggio di errore sulla console
@@ -37,12 +37,12 @@ export default function Home({user, userFavouriteRecipes, updateUserFavouriteRec
     setRefreshing(false);
   }, [refreshing]);
 
-  const updateItems = (data) => {
-    setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+  const updateRecipes = (data) => {
+    setRecipes(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
   };
   return (
     <View style={styleContainer.container}>      
-        <Recipes items={items} updateItems={updateItems} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
+        <Recipes recipes={recipes} updateRecipes={updateRecipes} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
     </View>
   );
 }

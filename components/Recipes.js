@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Text, ImageBackground, ScrollView, StyleSheet, RefreshControl } from 'react-native';
-import { initItems } from './initItems';
+import { initRecipes } from './initRecipes';
 
 import Recipe from './Recipe';
 
-const Recipes = ({ items, updateItems, user, userFavouriteRecipes = [0], updateUserFavouriteRecipes, refreshing, onRefresh }) => {
+const Recipes = ({ recipes, updateRecipes, user, userLoggedIn = false, userFavouriteRecipes = [0], updateUserFavouriteRecipes, refreshing, onRefresh }) => {
 
   // funzioni per aggiungere o rimuovere una ricetta dai preferiti
   const addFavouriteRecipe = (idRecipe) => {
@@ -22,7 +22,7 @@ const Recipes = ({ items, updateItems, user, userFavouriteRecipes = [0], updateU
     console.log("userFavouriteRecipes: ", userFavouriteRecipes);
   }
 
-  initItems(items, updateItems);
+  initRecipes(recipes, updateRecipes);
 
   if (updateUserFavouriteRecipes === undefined) {
     console.log("funzione non definita");
@@ -32,8 +32,8 @@ const Recipes = ({ items, updateItems, user, userFavouriteRecipes = [0], updateU
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {items.map((item, index) => (
-        <Recipe user={user} item={item} index={index} updateItems={updateItems} items={items} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} />
+      {recipes.map((item, index) => (
+        <Recipe user={user} userLoggedIn={userLoggedIn} item={item} index={index} updateRecipes={updateRecipes} recipes={recipes} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} />
       ))}
     </ScrollView>
   );

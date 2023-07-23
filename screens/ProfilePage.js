@@ -1,20 +1,21 @@
 import react, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import UserRecipes from './UserRecipes';    
+import UserRecipes from '../components/UserRecipes';    
 
 
-const LoggedInPage = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes }) => {
-    const [userRecipesLiked, setUseRecipesLiked] = useState(userFavouriteRecipes.length);
-    useEffect(() => {
-        setUseRecipesLiked(userFavouriteRecipes.length);
-    }, [userFavouriteRecipes]);
+const ProfilePage = ({ route }) => {
+      // Accedi alle prop passate da 'CurrentComponent'
+    const { user, userFavouriteRecipes, updateUserFavouriteRecipes} = route.params;
+    console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+    console.log("user: ", user);
+    // const userRecipesLiked = user.favouriteRecipes.match(/(\d+)/g) ? user.favouriteRecipes.match(/(\d+)/g):0;
     return (
         <View style={{height: '100%'}}>
             <View style={{ marginLeft: 40, display: "flex", flexDirection: "row" }}>
                 <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
                 <Text style={styles.title}>{user.name}</Text>
-                <Text style={styles.subtitle}>@{user.name}</Text>
+                <Text style={styles.subtitle}>@{user.username}</Text>
             </View>
             <View style={{ display: "flex", flexDirection: "row", marginLeft: 10, alignItems: "flex-end" }}>
                 <View style={{ display: "flex", width: 100, alignItems: 'flex-end', marginLeft: -20 }}>
@@ -30,14 +31,14 @@ const LoggedInPage = ({ user, userFavouriteRecipes, updateUserFavouriteRecipes }
                 </View>
                 <View style={{ marginLeft: 25 }}>
                     <Text style={styles.infoName2}>Like{'\n'}messi</Text>
-                    <Text style={styles.infoNumber}>{userRecipesLiked}</Text>
+                    <Text style={styles.infoNumber}>{user.favouriteRecipes.length}</Text>
                 </View>
                 <View style={{ marginLeft: 25 }}>
                     <Text style={styles.infoName2}>Media{'\n'}Like</Text>
                     <Text style={styles.infoNumber}>3</Text>
                 </View>
             </View>
-            <UserRecipes user={user} userLoggedIn={true}  userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+            <UserRecipes user={user} userLoggedIn={userFavouriteRecipes!=''} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
         </View>
     );
 }
@@ -81,4 +82,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default LoggedInPage
+export default ProfilePage;

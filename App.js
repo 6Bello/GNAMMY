@@ -12,6 +12,7 @@ import Account from './screens/Account';
 import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
 import AddRecipes from './screens/addRecipes/AddRecipes';
+import ProfilePage from './screens/ProfilePage';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,7 +40,10 @@ function App() {
     setUserFavouriteRecipes(updatedUserFavouriteRecipes);
   }
 
-
+  const [userSearched, setUserSearched] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  const updateUserSearched = (data) => {
+    setUserSearched(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+  };
 
   const rotationValue = useRef(new Animated.Value(0)).current;
 
@@ -67,7 +71,7 @@ function App() {
             tabBarItemStyle: { display: 'none' },
           }}
         >
-          {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
+          {() => <Search user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes}/>}
         </Tab.Screen>
         <Tab.Screen
           name="Home"
@@ -121,6 +125,13 @@ function App() {
         >
           {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />}
         </Tab.Screen>
+        <Tab.Screen
+          name="ProfilePage"
+          component={ProfilePage}
+          options={{
+            tabBarItemStyle: { display: 'none' },
+          }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );

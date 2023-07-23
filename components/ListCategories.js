@@ -3,7 +3,7 @@ import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, Ac
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
 
-const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateItems, filter = 0, onCategories, handleShow }) => {
+const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRecipes, filter = 0, onCategories, handleShow }) => {
   const [categories, setCategories] = useState(initialCategories || []);
 
   const handlePress = (index) => {
@@ -26,7 +26,7 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateIt
       .get(`http://79.32.231.27:8889/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
-        updateItems(data);
+        updateRecipes(data);
         console.log(data);
       })
       .catch((error) => {

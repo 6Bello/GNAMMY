@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
 const AlertSignUp = ({ goToSignUp, modalVisible }) => {
-    const navigation = useNavigation();
     return (
         <Modal visible={modalVisible} animationType="fade" transparent={true} statusBarTranslucent={true}>
             <View style={styles.container}>

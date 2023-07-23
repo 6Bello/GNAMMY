@@ -4,9 +4,12 @@ import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, Touchabl
 import SearchBar from '../components/searchBar';
 import ListCategories from '../components/ListCategories';
 import Recipes from '../components/Recipes';
+import ProfilePage from './ProfilePage';
 
+import { useNavigation } from '@react-navigation/native';
 
-export default function Search({user, userFavouriteRecipes, updateUserFavouriteRecipes}) {
+export default function Search({ user, userFavouriteRecipes, updateUserFavouriteRecipes }) {
+  const navigation = useNavigation();
   const [categories, setCategories] = useState([
     { id: 0, name: "pasta", selected: false },
     { id: 1, name: "carne", selected: false },
@@ -39,10 +42,16 @@ export default function Search({user, userFavouriteRecipes, updateUserFavouriteR
     setCategories(updatedCategories); // Aggiorna lo stato delle categorie nel componente padre
   };
 
-  const [items, setItems] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
-  const updateItems = (data) => {
-    setItems(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+  const [recipes, setRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  const updateRecipes = (data) => {
+    setRecipes(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
   };
+
+  const [usersSearched, setUserSearched] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  const updateUsersSearched = (data) => {
+    setUserSearched(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
+  };
+
   const [showFilter, setShowFilter] = useState(false);
   const handleShowFilter = () => {
     setShowFilter(!showFilter);
@@ -55,9 +64,19 @@ export default function Search({user, userFavouriteRecipes, updateUserFavouriteR
     setIsLoading(false);
   }
 
+  const visitProfile = (userSearched) => {
+    console.log(user);
+    navigation.navigate('ProfilePage', {
+      user: userSearched,
+      userFavouriteRecipes: userFavouriteRecipes,
+      updateUserFavouriteRecipes: updateUserFavouriteRecipes
+    });
+  };
+  
+
   return (
     <View>
-      <SearchBar styles={{ marginBottom: 10 }} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} />
+      <SearchBar styles={{ marginBottom: 10 }} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
       {showFilter ?
         <View style={styles.centeredView}>
           <Modal
@@ -67,7 +86,7 @@ export default function Search({user, userFavouriteRecipes, updateUserFavouriteR
               Alert.alert("Modal has been closed.");
             }}
           >
-            <ListCategories initialCategories={categories} onCategories={handleCategories} handleShow={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateItems={updateItems} filter={true} />
+            <ListCategories initialCategories={categories} onCategories={handleCategories} handleShow={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} filter={true} />
           </Modal>
         </View>
         :
@@ -79,10 +98,22 @@ export default function Search({user, userFavouriteRecipes, updateUserFavouriteR
         {isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
-          items.length === 0 ? (
+          recipes.length === 0 && usersSearched.length === 0 ? (
             <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
-            <Recipes items={items} updateItems={updateItems} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+            recipes.length > 0 ? (
+              <Recipes recipes={recipes} updateRecipes={updateRecipes} user={user} userFavouriteRecipes={userFavouriteRecipes} updateUserFavouriteRecipes={updateUserFavouriteRecipes} />
+            ) : (
+              usersSearched.map((user) => {
+                return (
+                  <TouchableOpacity onPress={() => visitProfile(user)} key={user.id} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10 }}>
+                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require("../assets/user.png")} />
+                    <Text style={{ marginLeft: 10 }}>{user.username}</Text>
+                  </TouchableOpacity>
+                )
+              }
+              )
+            )
           )
         )}
       </ScrollView>
