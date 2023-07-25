@@ -15,12 +15,16 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
   };
 
   const removeFavouriteRecipe = (idRecipe) => {
-    const updatedRecipes = [...userFavouriteRecipes]; //clona l'array
-    updatedRecipes.splice(updatedRecipes.keyOf(idRecipe), 1); //rimuove l'id della ricetta dall'array clone 
-    console.log("updatedRecipes: ", updatedRecipes);
-    setUserFavouriteRecipes(updatedRecipes); //aggiorna la variabile userFavouriteRecipes con il valore del clone
-    console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+    const updatedRecipes = [...userFavouriteRecipes]; // Clone the array
+    const indexToRemove = updatedRecipes.indexOf(idRecipe); // Find the index of the recipe in the cloned array
+    if (indexToRemove !== -1) {
+      updatedRecipes.splice(indexToRemove, 1); // Remove the recipe from the cloned array
+      console.log("updatedRecipes: ", updatedRecipes);
+      setUserFavouriteRecipes(updatedRecipes); // Update the state variable userFavouriteRecipes with the cloned array
+      console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+    }
   }
+  
 
   initRecipes(recipes, updateRecipes);
 
