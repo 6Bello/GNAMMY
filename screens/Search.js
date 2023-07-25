@@ -4,7 +4,7 @@ import SearchBar from '../components/searchBar';
 import ListCategories from '../components/ListCategories';
 import Recipes from '../components/Recipes';
 import UserRecipes from '../components/UserRecipes';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUserFavouriteRecipes }) {
@@ -127,6 +127,12 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
           <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
           <Text style={styles.title}>{profile.name}</Text>
           <Text style={styles.subtitle}>@{profile.username}</Text>
+          <TouchableOpacity onPress={() => {
+            setProfileViewer(false);
+            setProfile({});
+          }} style={{ position: 'absolute', right: 5, top: 5 }}>
+            <Ionicons name="ios-close" color={"black"} size={30} />
+          </TouchableOpacity>
         </View>
         <View style={{ display: "flex", flexDirection: "row", marginLeft: 10, alignItems: "flex-end" }}>
           <View style={{ display: "flex", width: 100, alignItems: 'flex-end', marginLeft: -20 }}>
