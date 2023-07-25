@@ -126,48 +126,53 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
     );
   } else {
     return (
-      <View style={{ height: '100%' }}>
-        <View style={{ marginLeft: 40, display: "flex", flexDirection: "row" }}>
-          <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
-          <Text style={styles.title}>{profile.name}</Text>
-          <Text style={styles.subtitle}>@{profile.username}</Text>
-          <TouchableOpacity onPress={() => {
-            setProfileViewer(false);
-            setProfile({});
-          }} style={{ position: 'absolute', right: 5, top: 5 }}>
-            <Ionicons name="ios-close" color={"black"} size={30} />
-          </TouchableOpacity>
-        </View>
-        <View style={{ display: "flex", flexDirection: "row", marginLeft: 10, alignItems: "flex-end" }}>
-          <View style={{ display: "flex", width: 100, alignItems: 'flex-end', marginLeft: -20 }}>
-            <Text style={styles.infoName}>Ricette</Text>
-            <View style={{ alignItems: 'center', flexDirection: "row" }}>
+      <View>
+        <View style={{ height: '100%' }}>
+          <View style={{ display: "flex", flexDirection: "row" }}>
+            <Image source={require("../assets/user.png")} style={styles.imgUser} />
+            <View style={{ marginTop: 10 }}>
+              <Text style={styles.title}>{profile.name}</Text>
+              <Text style={styles.subtitle}>@{profile.username}</Text>
+            </View>
+            <TouchableOpacity onPress={() => {
+              setProfileViewer(false);
+              setProfile({});
+            }} style={{ position: 'absolute', right: 5, top: 5 }}>
+              <Ionicons name="ios-close" color={"black"} size={30} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.container}>
+            <View style={{ alignItems: 'center' }}>
+              <Text style={{ fontSize: 14 }}>Ricette</Text>
+              <View style={{ alignItems: 'center', flexDirection: "row" }}>
+                <Text style={styles.infoNumber}>3</Text>
+                <TouchableOpacity style={styles.addButton}>
+                  <View style={{ backgroundColor: 'grey', borderRadius: 50, padding: 1, marginRight: -5, marginLeft: 7 }}>
+                    <MaterialCommunityIcons name="plus" color={"black"} size={20} />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={{ marginLeft: 25 }}>
+              <Text style={styles.infoName2}>Like{'\n'}messi</Text>
+              <Text style={styles.infoNumber}>{profile.favouriteRecipes.length}</Text>
+            </View>
+            <View style={{ marginLeft: 25 }}>
+              <Text style={styles.infoName2}>Media{'\n'}Like</Text>
               <Text style={styles.infoNumber}>3</Text>
-              <TouchableOpacity style={styles.addButton}>
-                <View style={{ backgroundColor: 'grey', borderRadius: 50, padding: 1, marginRight: -5, marginLeft: 7 }}>
-                  <MaterialCommunityIcons name="plus" color={"black"} size={20} />
-                </View>
-              </TouchableOpacity>
             </View>
           </View>
-          <View style={{ marginLeft: 25 }}>
-            <Text style={styles.infoName2}>Like{'\n'}messi</Text>
-            <Text style={styles.infoNumber}>{profile.favouriteRecipes.length}</Text>
-          </View>
-          <View style={{ marginLeft: 25 }}>
-            <Text style={styles.infoName2}>Media{'\n'}Like</Text>
-            <Text style={styles.infoNumber}>3</Text>
-          </View>
+          <UserRecipes user={profile} idUser={idUser} isLoggedIn={userFavouriteRecipes != ''} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
         </View>
-        <UserRecipes user={profile} idUser={idUser} isLoggedIn={userFavouriteRecipes != ''} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
       </View>
     );
   }
 }
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginRight: 20,
   },
   previewProfile: {
     display: 'flex',
@@ -176,5 +181,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: 60,
     borderColor: '#9e9e9e'
-  }
+  },
+  imgUser: {
+    width: 50,
+    height: 50,
+    marginTop: 5
+  },
+
 });
