@@ -5,7 +5,7 @@ import axios from 'axios';
 import HeaderRightButton from '../components/HeaderRightButton';
 import { set } from 'react-native-reanimated';
 
-export default function Home({idUser, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes}) {
+export default function Home({ idUser, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes }) {
   //refreshing
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -21,10 +21,10 @@ export default function Home({idUser, isLoggedIn, userFavouriteRecipes, setUserF
       .then(response => {
         const data = response.data;        // Quando la risposta viene ricevuta con successo, assegna i dati alla costante 'data'
         const updatedData = data.map(item => {
-          if(userFavouriteRecipes.includes(item.id)){
-            return {...item, isLiked: true};
-          }else{
-            return {...item, isLiked: false};
+          if (userFavouriteRecipes.includes(item.id)) {
+            return { ...item, isLiked: true };
+          } else {
+            return { ...item, isLiked: false };
           }
         });
         console.log(updatedData);        // Stampa i dati sulla console
@@ -41,8 +41,17 @@ export default function Home({idUser, isLoggedIn, userFavouriteRecipes, setUserF
     setRecipes(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
   };
   return (
-    <View style={styleContainer.container}>      
-        <Recipes recipes={recipes} updateRecipes={updateRecipes} idUser={idUser} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
+    <View style={styleContainer.container}>
+      <Recipes
+        recipes={recipes}
+        updateRecipes={updateRecipes}
+        idUser={idUser}
+        isLoggedIn={isLoggedIn}
+        userFavouriteRecipes={userFavouriteRecipes}
+        setUserFavouriteRecipes={setUserFavouriteRecipes}
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+      />
     </View>
   );
 }

@@ -51,7 +51,7 @@ const MyPasswordInput = ({
 
   const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#fff',
+      backgroundColor: '#f7f7f8',
       width: '100%',
       alignItems: 'center',
     },

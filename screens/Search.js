@@ -75,7 +75,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
     return (
       <View>
         <SearchBar styles={{ marginBottom: 10 }} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
-        {showFilter ?
+        {/* {showFilter ?
           <View style={styles.centeredView}>
             <Modal
               animationType="slide"
@@ -91,8 +91,8 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
           <TouchableOpacity onPress={handleShowFilter} style={{ position: 'absolute', right: 5, top: 5 }}>
             <Image style={{ width: 20, height: 20 }} source={require("../assets/filter.png")} />
           </TouchableOpacity>
-        }
-        <ScrollView>
+        } */}
+        <ScrollView style={{ height: '100%', width: '100%', backgroundColor: '#f7f7f8' }}>
           {isLoading ? (
             <ActivityIndicator size="large" color="#0000ff" />
           ) : (
@@ -107,9 +107,13 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
                     <TouchableOpacity onPress={() => {
                       setProfileViewer(true);
                       setProfile(user);
-                    }} key={key} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10 }}>
+                      console.log(user)
+                    }} key={key} style={styles.previewProfile}>
                       <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require("../assets/user.png")} />
-                      <Text style={{ marginLeft: 10 }}>{user.username}</Text>
+                      <View>
+                        <Text style={{ marginLeft: 10 }}>{user.username}</Text>
+                        <Text style={{ marginLeft: 10, color: '#5A5A5A' }}> ricette create:{user.createdRecipes.length} </Text>
+                      </View>
                     </TouchableOpacity>
                   )
                 }
@@ -165,4 +169,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  previewProfile: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    height: 60,
+    borderColor: '#9e9e9e'
+  }
 });
