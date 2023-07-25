@@ -24,7 +24,7 @@ const Recipe = ({ idUser, isLoggedIn=false,  item, index, updateRecipes, recipes
         onPress={toggleDescriptionVisible}
       >
         <ImageBackground
-          source={{ uri: 'http://192.168.1.8:19000/assets/R.jpg' }}
+          source={require('../R.jpg')}
           style={{
             ...(item.isDescriptionVisible ? styles.readingDescription : styles.imageBackground),
             paddingBottom: 1,

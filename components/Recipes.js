@@ -33,8 +33,20 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       {recipes.map((item, key) => (
-        <Recipe idUser={idUser} isLoggedIn={isLoggedIn} item={item} index={key} updateRecipes={updateRecipes} recipes={recipes} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} />
+        <Recipe
+          key={key} // Add a unique "key" prop to the Recipe component
+          idUser={idUser}
+          isLoggedIn={isLoggedIn}
+          item={item}
+          index={key}
+          updateRecipes={updateRecipes}
+          recipes={recipes}
+          userFavouriteRecipes={userFavouriteRecipes}
+          addFavouriteRecipe={addFavouriteRecipe}
+          removeFavouriteRecipe={removeFavouriteRecipe}
+        />
       ))}
+
     </ScrollView>
   );
 };
