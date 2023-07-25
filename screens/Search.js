@@ -73,8 +73,8 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
 
   if (profileView == false) {
     return (
-      <View>
-        <SearchBar styles={{ marginBottom: 10 }} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
+      <View style={{height: '100%'}}>
+        <SearchBar loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
         {/* {showFilter ?
           <View style={styles.centeredView}>
             <Modal
@@ -92,7 +92,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
             <Image style={{ width: 20, height: 20 }} source={require("../assets/filter.png")} />
           </TouchableOpacity>
         } */}
-        <ScrollView style={{ height: '100%', width: '100%', backgroundColor: '#f7f7f8' }}>
+        <ScrollView style={{ height: '100%', width: '100%', backgroundColor: '#f7f7f8'}}>
           {isLoading ? (
             <ActivityIndicator size="large" color="#0000ff" />
           ) : (

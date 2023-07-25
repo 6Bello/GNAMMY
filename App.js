@@ -13,10 +13,11 @@ import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
 import AddRecipes from './screens/addRecipes/AddRecipes';
 import ProfilePage from './screens/ProfilePage';
+import SplashScreen from './screens/SplashScreen';
 
 const Tab = createBottomTabNavigator();
 
-function App() {
+function MainScreen() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState();
   const [idUser, setIdUser] = useState(0);
@@ -63,9 +64,25 @@ function App() {
     inputRange: [0, 290],
     outputRange: ['0deg', '360deg'],
   });
+
+  const [tabBarVisible, setTabBarVisible] = useState(false); // Stato per nascondere la tab bar durante la splash screen
+  const handleTabBarVisible = () => {
+    setTabBarVisible(true);
+  };
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator screenOptions={{
+        tabBarStyle: {
+          display: tabBarVisible ? 'flex' : 'none',  
+      }}}>
+        <Tab.Screen
+        name=" "
+        component={SplashScreen}
+        initialParams={{ setTabBarVisible: handleTabBarVisible }} // Pass the prop tabBarVisible to SplashScreen
+        options={{
+          tabBarItemStyle: { display: 'none' },
+        }}
+      />
         <Tab.Screen
           name="Search"
           options={{
@@ -153,4 +170,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default App;
+export default MainScreen;
