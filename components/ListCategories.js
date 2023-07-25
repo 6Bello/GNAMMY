@@ -6,12 +6,12 @@ import { FlatList } from "react-native-gesture-handler";
 const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRecipes, filter = 0, onCategories, handleShow }) => {
   const [categories, setCategories] = useState(initialCategories || []);
 
-  const handlePress = (index) => {
+  const handlePress = (key) => {
     setCategories((prevCategories) => {
       const updatedCategories = [...prevCategories];
-      updatedCategories[index] = {
-        ...updatedCategories[index],
-        selected: !updatedCategories[index].selected,
+      updatedCategories[key] = {
+        ...updatedCategories[key],
+        selected: !updatedCategories[key].selected,
       };
       return updatedCategories;
     });
@@ -47,11 +47,11 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
         <FlatList
           style={{ marginTop: -20 }}
           data={categories}
-          renderItem={({ item, index }) => (
+          renderItem={({ item, key }) => (
             <TouchableOpacity
               style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
               key={item.id}
-              onPress={() => handlePress(index)}
+              onPress={() => handlePress(key)}
             >
               <View style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "flex-end" }}>
                 <Text

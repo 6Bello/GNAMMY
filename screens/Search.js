@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { View, Text, FlatList, StyleSheet, ScrollView, ImageBackground, TouchableOpacity, ActivityIndicator, Image, Modal } from 'react-native';
+import { View, Text, FlatList, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Image, Modal } from 'react-native';
 import SearchBar from '../components/searchBar';
 import ListCategories from '../components/ListCategories';
 import Recipes from '../components/Recipes';
@@ -103,12 +102,12 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
               recipes.length > 0 ? (
                 <Recipes recipes={recipes} updateRecipes={updateRecipes} isLoggedIn={isLoggedIn} idUser={idUser} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
               ) : (
-                usersSearched.map((user) => {
+                usersSearched.map((user, key) => {
                   return (
                     <TouchableOpacity onPress={() => {
                       setProfileViewer(true);
                       setProfile(user);
-                    }} key={user.id} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10 }}>
+                    }} key={key} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', margin: 10 }}>
                       <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require("../assets/user.png")} />
                       <Text style={{ marginLeft: 10 }}>{user.username}</Text>
                     </TouchableOpacity>

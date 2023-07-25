@@ -16,7 +16,7 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
 
   const removeFavouriteRecipe = (idRecipe) => {
     const updatedRecipes = [...userFavouriteRecipes]; //clona l'array
-    updatedRecipes.splice(updatedRecipes.indexOf(idRecipe), 1); //rimuove l'id della ricetta dall'array clone 
+    updatedRecipes.splice(updatedRecipes.keyOf(idRecipe), 1); //rimuove l'id della ricetta dall'array clone 
     console.log("updatedRecipes: ", updatedRecipes);
     setUserFavouriteRecipes(updatedRecipes); //aggiorna la variabile userFavouriteRecipes con il valore del clone
     console.log("userFavouriteRecipes: ", userFavouriteRecipes);
@@ -32,8 +32,8 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
-      {recipes.map((item, index) => (
-        <Recipe idUser={idUser} isLoggedIn={isLoggedIn} item={item} index={index} updateRecipes={updateRecipes} recipes={recipes} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} />
+      {recipes.map((item, key) => (
+        <Recipe idUser={idUser} isLoggedIn={isLoggedIn} item={item} index={key} updateRecipes={updateRecipes} recipes={recipes} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} />
       ))}
     </ScrollView>
   );

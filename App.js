@@ -126,14 +126,14 @@ function App() {
         >
           {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
         </Tab.Screen>
-        <Tab.Screen
+        {/* <Tab.Screen
           name="ProfilePage"
           component={ProfilePage}
           initialParams={{setUserFavouriteRecipes: setUserFavouriteRecipes}}
           options={{
             tabBarItemStyle: { display: 'none' },
           }}
-        />
+        /> */}
 
       </Tab.Navigator>
     </NavigationContainer>
