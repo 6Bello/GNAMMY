@@ -73,7 +73,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
 
   if (profileView == false) {
     return (
-      <View style={{height: '100%'}}>
+      <View style={{ height: '100%' }}>
         <SearchBar loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
         {/* {showFilter ?
           <View style={styles.centeredView}>
@@ -92,7 +92,6 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
             <Image style={{ width: 20, height: 20 }} source={require("../assets/filter.png")} />
           </TouchableOpacity>
         } */}
-        <ScrollView style={{ height: '100%', width: '100%', backgroundColor: '#f7f7f8'}}>
           {isLoading ? (
             <ActivityIndicator size="large" color="#0000ff" />
           ) : (
@@ -102,27 +101,30 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
               recipes.length > 0 ? (
                 <Recipes recipes={recipes} updateRecipes={updateRecipes} isLoggedIn={isLoggedIn} idUser={idUser} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
               ) : (
-                usersSearched.map((user, key) => {
-                  return (
-                    <TouchableOpacity onPress={() => {
-                      setProfileViewer(true);
-                      setProfile(user);
-                      console.log(user)
-                    }} key={key} style={styles.previewProfile}>
+                <ScrollView>
+                  {usersSearched.map((user, key) => (
+                    <TouchableOpacity
+                      onPress={() => {
+                        setProfileViewer(true);
+                        setProfile(user);
+                        console.log(user);
+                      }}
+                      key={key}
+                      style={styles.previewProfile}
+                    >
                       <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require("../assets/user.png")} />
                       <View>
                         <Text style={{ marginLeft: 10 }}>{user.username}</Text>
-                        <Text style={{ marginLeft: 10, color: '#5A5A5A' }}> ricette create:{user.createdRecipes.length} </Text>
+                        <Text style={{ marginLeft: 10, color: '#5A5A5A' }}>ricette create: {user.createdRecipes.length}</Text>
                       </View>
                     </TouchableOpacity>
-                  )
-                }
-                )
+                  ))}
+                </ScrollView>
+
               )
             )
           )}
-        </ScrollView>
-      </View >
+        </View>
     );
   } else {
     return (
