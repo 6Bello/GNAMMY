@@ -35,7 +35,6 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
   // Function to render each recipe item
   const renderRecipeItem = ({ item, index }) => {
     if (index === recipes.length - 1) {
-      set
       return <View style={{ height: 100, backgroundColor: 'white' }} ><ActivityIndicator  style={{marginBottom: 20, position: 'absolute', bottom: 10}} animating={true} size="large" /></View>;
     }
     return (
