@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react
 import axios from "axios";
 import Recipes from "./Recipes";
 
-const UserRecipes = ({ user, idUser, isLoggedIn = false,  userFavouriteRecipes, setUserFavouriteRecipes }) => {
+const UserRecipes = ({ user, idUser, isLoggedIn = false, userFavouriteRecipes, setUserFavouriteRecipes }) => {
     const [recipes, setRecipes] = useState([0]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
     const updateRecipes = (newRecipes) => {
         setRecipes(newRecipes);
@@ -14,7 +14,7 @@ const UserRecipes = ({ user, idUser, isLoggedIn = false,  userFavouriteRecipes, 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
     }, []);
-    
+
     //get recipes
     useEffect(() => {
         console.log("user.createdRecipes: ", user.createdRecipes);
@@ -35,7 +35,6 @@ const UserRecipes = ({ user, idUser, isLoggedIn = false,  userFavouriteRecipes, 
                 });
                 console.log(updatedData);        // Stampa i dati sulla console
                 setRecipes(updatedData);        // Imposta gli elementi ottenuti come valore dello stato 'recipes'
-                console.log("recipesId: ", recipes)
             })
             .catch(error => {
                 console.error(error);        // Se si verifica un errore durante la richiesta, visualizza un messaggio di errore sulla console
@@ -46,7 +45,17 @@ const UserRecipes = ({ user, idUser, isLoggedIn = false,  userFavouriteRecipes, 
 
     return (
         <View style={styleContainer.container}>
-            <Recipes recipes={recipes} updateRecipes={updateRecipes} idUser={idUser} isLoggedIn={isLoggedIn}  userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} refreshing={refreshing} onRefresh={onRefresh} />
+            <Recipes
+                recipes={recipes}
+                updateRecipes={updateRecipes}
+                idUser={idUser}
+                isLoggedIn={isLoggedIn}
+                userFavouriteRecipes={userFavouriteRecipes}
+                setUserFavouriteRecipes={setUserFavouriteRecipes}
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+                endRefreshing={false}
+            />
         </View>
     );
 }

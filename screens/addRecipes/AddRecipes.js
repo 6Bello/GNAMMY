@@ -3,6 +3,7 @@ import CompileRecipe from './compileRecipe';
 import SelectCategory from './selectCategory';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
+import { set } from 'react-native-reanimated';
 
 export default function AddRecipes ({isLoggedIn, user}) {
     const navigation = useNavigation();
@@ -83,6 +84,7 @@ export default function AddRecipes ({isLoggedIn, user}) {
             user.createdRecipes.push(response.data[1]);
             console.log(response.data);
             setRecipe(recipeInitialState)
+            setCategory("")
           })
           .catch((error) => {
             console.log(error);

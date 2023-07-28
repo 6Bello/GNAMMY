@@ -4,7 +4,7 @@ import { initRecipes } from './initRecipes';
 
 import Recipe from './Recipe';
 
-const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing, onRefresh = () => { }, onEndRefresh = () => { } }) => {
+const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing = false, endRefreshing, onRefresh = () => { }, onEndRefresh }) => {
 
   // funzioni per aggiungere o rimuovere una ricetta dai preferiti
   const addFavouriteRecipe = (idRecipe) => {
@@ -35,7 +35,23 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
   // Function to render each recipe item
   const renderRecipeItem = ({ item, index }) => {
     if (index === recipes.length - 1) {
-      return <View style={{ height: 100, backgroundColor: 'white' }} ><ActivityIndicator  style={{marginBottom: 20, position: 'absolute', bottom: 10}} animating={true} size="large" /></View>;
+      return (
+        <View>
+          <Recipe
+            key={index} // It's recommended to use a unique identifier for the "key" prop. Here, using the index as a temporary solution.
+            idUser={idUser}
+            isLoggedIn={isLoggedIn}
+            item={item}
+            index={index}
+            updateRecipes={updateRecipes}
+            recipes={recipes}
+            userFavouriteRecipes={userFavouriteRecipes}
+            addFavouriteRecipe={addFavouriteRecipe}
+            removeFavouriteRecipe={removeFavouriteRecipe}
+          />
+          <View style={{height: 40}} ><ActivityIndicator style={{ marginBottom: 20, margin:  'auto' }} animating={endRefreshing} size="large" /></View>
+        </View>
+      )
     }
     return (
       <Recipe

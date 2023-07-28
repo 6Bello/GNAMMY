@@ -38,11 +38,10 @@ const Recipe = ({ idUser, isLoggedIn=false,  item, index, updateRecipes, recipes
             <Text style={{ color: 'black', textAlign: 'center' }}>{item.title}</Text>
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.description}</Text>
             <Text style={{ color: 'grey', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
-            <Text style={{color: "black", textAlign: 'center'}}>{item.creator}</Text>
+            <Text style={{color: "black", textAlign: 'center'}}>{item.creator_username}</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
               {isLoggedIn ? <LikeButton idUser={idUser} item={item} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe}/> : null /* se l'utente è loggato mostra il bottone like */} 
-            </View>
-            
+            </View>            
           </View>
         </ImageBackground>
       </TouchableOpacity>

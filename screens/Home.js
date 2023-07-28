@@ -6,7 +6,7 @@ import HeaderRightButton from '../components/HeaderRightButton';
 import { set } from 'react-native-reanimated';
 import { ActivityIndicator } from 'react-native';
 
-export default function Home({ idUser, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes }) {
+export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes }) {
   //refreshing
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -24,7 +24,11 @@ export default function Home({ idUser, isLoggedIn, userFavouriteRecipes, setUser
   const [recipes, setRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
   useEffect(() => {
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://79.32.231.27:8889/getRecipes')
+      .get('http://79.32.231.27:8889/getRecipes', {
+        params: {
+          preferences: isLoggedIn ? { antipasto: user.userPreferences.antipasto, primo: user.userPreferences.primo, secondo: user.userPreferences.secondo } : null
+        }
+      })
       .then(response => {
         const data = response.data;        // Quando la risposta viene ricevuta con successo, assegna i dati alla costante 'data'
         const updatedData = data.map(item => {
@@ -47,6 +51,7 @@ export default function Home({ idUser, isLoggedIn, userFavouriteRecipes, setUser
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
       .get('http://79.32.231.27:8889/getRecipes', {
         params: {
+          preferences: isLoggedIn ? { antipasto: user.userPreferences.antipasto, primo: user.userPreferences.primo, secondo: user.userPreferences.secondo } : null,
           lastRecipe: Array.isArray(recipes) && recipes.length > 0 ? recipes[recipes.length - 1].id : null
       }
     })
@@ -65,8 +70,8 @@ export default function Home({ idUser, isLoggedIn, userFavouriteRecipes, setUser
       .catch(error => {
         console.error(error);        // Se si verifica un errore durante la richiesta, visualizza un messaggio di errore sulla console
       });
-      setEndRefreshing(false);
-  }, [endRefreshing]);
+    setEndRefreshing(false);
+   }, [endRefreshing]);
 
   const updateRecipes = (data) => {
     setRecipes(data); // Aggiorna lo stato degli elementi con i risultati della ricerca

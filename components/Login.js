@@ -47,6 +47,9 @@ const Login = ({ updateUserData }) => {
             console.log("Email:", userData.email);
             console.log("fav recipes:", userData.favouriteRecipes)
             console.log("Created recipes:", userData.createdRecipes)
+            console.log("% antipasto:", userData.userPreferences.antipasto)
+            console.log("% primo:", userData.userPreferences.primo)
+            console.log("% secondo:", userData.userPreferences.secondo)
           } else {
             alert("Credenziali errate");
           }
