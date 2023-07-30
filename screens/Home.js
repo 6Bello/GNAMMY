@@ -6,6 +6,8 @@ import HeaderRightButton from '../components/HeaderRightButton';
 import { set } from 'react-native-reanimated';
 import { ActivityIndicator } from 'react-native';
 
+import sendEmail from '../components/functions/sendEmail';
+
 export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes }) {
   //refreshing
   const [refreshing, setRefreshing] = React.useState(false);
@@ -22,7 +24,12 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
 
   //get recipes
   const [recipes, setRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+
   useEffect(() => {
+    if(isLoggedIn){
+      console.log(user.email)
+      sendEmail(user.email);
+    }
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
       .get('http://79.32.231.27:8889/getRecipes', {
         params: {
@@ -38,7 +45,6 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
             return { ...item, isLiked: false };
           }
         });
-        console.log(updatedData);        // Stampa i dati sulla console
         setRecipes(updatedData);        // Imposta gli elementi ottenuti come valore dello stato 'recipes'
       })
       .catch(error => {
