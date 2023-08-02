@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Image } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+
+const c = 'pasta';
+const b = 'I';
 
 const AlertSignUp = ({ goToSignUp, modalVisible }) => {
     return (
-        <Modal visible={modalVisible} animationType="fade" transparent={true} statusBarTranslucent={true}>
+        <Modal visible={modalVisible} animationType="fade" statusBarTranslucent={true}>
             <View style={styles.container}>
+            <Image source={require('../assets/' + c + '.png')} style={styles.backgroundImage} />
                 <Text style={styles.text}>Per poter accedere a questa funzionalità devi prima registrarti</Text>
                 <TouchableOpacity style={styles.button} onPress={goToSignUp}>
                     <Text style={styles.buttonText}>Registrati</Text>
@@ -17,7 +22,7 @@ const AlertSignUp = ({ goToSignUp, modalVisible }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        // backgroundColor: '#ffb74d',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -37,6 +42,14 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 20,
     },
+    backgroundImage: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+    },
+
 });
 
 export default AlertSignUp;
