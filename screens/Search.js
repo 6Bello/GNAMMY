@@ -51,10 +51,6 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
     setUserSearched(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
   };
 
-  const [showFilter, setShowFilter] = useState(false);
-  const handleShowFilter = () => {
-    setShowFilter(!showFilter);
-  }
   const [isLoading, setIsLoading] = useState(false); // Stato per tracciare lo stato di caricamento
   const loadingTrue = () => {
     setIsLoading(true);
@@ -92,39 +88,46 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
             <Image style={{ width: 20, height: 20 }} source={require("../assets/filter.png")} />
           </TouchableOpacity>
         } */}
-          {isLoading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          recipes.length === 0 && usersSearched.length === 0 ? (
+            <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
-            recipes.length === 0 && usersSearched.length === 0 ? (
-              <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
+            recipes.length > 0 ? (
+              <Recipes
+                recipes={recipes}
+                updateRecipes={updateRecipes}
+                isLoggedIn={isLoggedIn} idUser={idUser}
+                userFavouriteRecipes={userFavouriteRecipes}
+                setUserFavouriteRecipes={setUserFavouriteRecipes}
+                endRefreshing={isLoading}
+                />
             ) : (
-              recipes.length > 0 ? (
-                <Recipes recipes={recipes} updateRecipes={updateRecipes} isLoggedIn={isLoggedIn} idUser={idUser} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
-              ) : (
-                <ScrollView>
-                  {usersSearched.map((user, key) => (
-                    <TouchableOpacity
-                      onPress={() => {
-                        setProfileViewer(true);
-                        setProfile(user);
-                        console.log(user);
-                      }}
-                      key={key}
-                      style={styles.previewProfile}
-                    >
-                      <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require("../assets/user.png")} />
-                      <View>
-                        <Text style={{ marginLeft: 10 }}>{user.username}</Text>
-                        <Text style={{ marginLeft: 10, color: '#5A5A5A' }}>ricette create: {user.createdRecipes.length}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
+              <ScrollView>
+                {usersSearched.map((user, key) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setProfileViewer(true);
+                      setProfile(user);
+                      console.log(user);
+                    }}
+                    key={key}
+                    style={styles.previewProfile}
+                  >
+                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require("../assets/user.png")} />
+                    <View>
+                      <Text style={{ marginLeft: 10 }}>{user.username}</Text>
+                      <Text style={{ marginLeft: 10, color: '#5A5A5A' }}>ricette create: {user.createdRecipes.length}</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
 
-              )
             )
-          )}
-        </View>
+          )
+        )}
+      </View>
     );
   } else {
     return (

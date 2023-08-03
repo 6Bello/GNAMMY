@@ -42,9 +42,7 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
       .catch(error => {
         console.error(error);
       })
-      .finally(() => {
-        loadingFalse();
-      });
+      loadingFalse();
   };
 
   useEffect(() => {
