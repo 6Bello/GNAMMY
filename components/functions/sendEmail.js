@@ -1,7 +1,11 @@
   import axios from 'axios';
   const sendEmail = (email) => {
     axios
-      .post('http://79.32.231.27:8889/sendEmail', {email})
+      .post('http://79.32.231.27:8889/sendEmail', {
+        params: {
+          email
+        }
+      })
       .then((response) => {
         if (response.status === 200) {
           alert('Email inviata');

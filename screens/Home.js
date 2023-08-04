@@ -28,7 +28,7 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
   useEffect(() => {
     if(isLoggedIn){
       console.log(user.email)
-      sendEmail(user.email);
+      // sendEmail(user.email);
     }
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
       .get('http://79.32.231.27:8889/getRecipes', {

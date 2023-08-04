@@ -43,11 +43,6 @@ function MainScreen() {
 
   const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
 
-  const [userSearched, setUserSearched] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
-  const updateUserSearched = (data) => {
-    setUserSearched(data); // Aggiorna lo stato degli elementi con i risultati della ricerca
-  };
-
   const rotationValue = useRef(new Animated.Value(0)).current;
 
   const handlePress = () => {
