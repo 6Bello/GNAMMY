@@ -3,6 +3,7 @@ import { Text, ImageBackground, ScrollView, View, StyleSheet, RefreshControl, Vi
 import { initRecipes } from './initRecipes';
 
 import Recipe from './Recipe';
+import { set } from 'react-native-reanimated';
 
 const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing = false, endRefreshing, onRefresh = () => { }, onEndRefresh }) => {
 
@@ -39,6 +40,7 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
         <View>
           <Recipe
             key={index} // It's recommended to use a unique identifier for the "key" prop. Here, using the index as a temporary solution.
+            scrollCount={scrollCount}
             idUser={idUser}
             isLoggedIn={isLoggedIn}
             item={item}
@@ -56,6 +58,7 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
     return (
       <Recipe
         key={index} // It's recommended to use a unique identifier for the "key" prop. Here, using the index as a temporary solution.
+        scrollCount={scrollCount}
         idUser={idUser}
         isLoggedIn={isLoggedIn}
         item={item}
@@ -70,8 +73,15 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
   };
   const getItemCount = () => recipes != undefined ? recipes.length : 0;
 
+  const [scrollCount, setScrollCount] = useState(0); // Initialize the state variable "scrollCount" with the value 0
+  const handleScroll = () => {
+    setScrollCount(scrollCount + 1); // Increment the state variable "scrollCount" by 1
+    console.log("scrollCount: ", scrollCount);
+  }
   return (
     <VirtualizedList
+      onScroll={handleScroll}
+      maxToRenderPerBatch={1}
       style={styles.container}
       data={recipes}
       renderItem={renderRecipeItem}

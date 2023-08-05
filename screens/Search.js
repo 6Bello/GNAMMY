@@ -151,11 +151,6 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
               <Text style={{ fontSize: 14 }}>Ricette</Text>
               <View style={{ alignItems: 'center', flexDirection: "row" }}>
                 <Text style={styles.infoNumber}>3</Text>
-                <TouchableOpacity style={styles.addButton}>
-                  <View style={{ backgroundColor: 'grey', borderRadius: 50, padding: 1, marginRight: -5, marginLeft: 7 }}>
-                    <MaterialCommunityIcons name="plus" color={"black"} size={20} />
-                  </View>
-                </TouchableOpacity>
               </View>
             </View>
             <View style={{ marginLeft: 25 }}>
