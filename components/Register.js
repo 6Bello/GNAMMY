@@ -87,7 +87,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     try {
       const hashedPassword = await hashPassword(password);
 
-      const response = await axios.post('http://79.32.231.27:8889/register', {
+      const response = await axios.post('http://gnammy.mywire.org:443/register', {
         email,
         password: hashedPassword,
         username,

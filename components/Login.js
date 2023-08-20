@@ -15,7 +15,7 @@ const Login = ({ updateUserData }) => {
       const hashedPassword = await hashPassword(password);
 
       axios
-        .get("http://79.32.231.27:8889/login", {
+        .get("http://gnammy.mywire.org:443/login", {
           params: {
             email,
             password: hashedPassword,
