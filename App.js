@@ -60,7 +60,7 @@ function MainScreen() {
     outputRange: ['0deg', '360deg'],
   });
 
-  const [tabBarVisible, setTabBarVisible] = useState(false); // Stato per nascondere la tab bar durante la splash screen
+  const [tabBarVisible, setTabBarVisible] = useState(true); // Stato per nascondere la tab bar durante la splash screen
   const handleTabBarVisible = () => {
     setTabBarVisible(true);
   };

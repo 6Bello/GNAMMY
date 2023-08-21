@@ -18,7 +18,19 @@ const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRe
 
   return (
     <TouchableOpacity
-      style={{ marginBottom: 5, marginTop: 15, overflow: 'hidden',height: ITEM_HEIGHT, width: ITEM_WIDTH, backgroundColor: 'black', position: 'relative', justifyContent: 'center', alignItems: 'center' }}
+      style={{
+        marginBottom: 5,
+        marginTop: 15,
+        overflow: 'hidden',
+        height: ITEM_HEIGHT,
+        width: ITEM_WIDTH,
+        backgroundColor: 'black',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        borderWidth: 5,
+        borderColor: 'grey',
+      }}
       onPress={toggleDescriptionVisible}
     >
       {/* <ImageBackground
@@ -30,23 +42,25 @@ const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRe
           imageStyle={{      
           }}
         > */}
-      <Animated.Image 
-        style={{
-          height: ITEM_HEIGHT * 2,
-          width: ITEM_WIDTH,
-          resizeMode: 'cover',
-          position: 'absolute',
-          transform: [
-            {
-              translateY: scrollY.interpolate({
-                inputRange,
-                outputRange: [-height * 0.2, 0, height * 0.2],
-              })
-            }
-          ]
+      <View style={{ width: ITEM_WIDTH, height: ITEM_HEIGHT, justifyContent: 'center', alignItems: 'center', position: 'absolute', borderRadius: 10, borderWidth: 2, borderColor: 'black' }} >
+        <Animated.Image
+          style={{
+            height: ITEM_HEIGHT * 2,
+            width: ITEM_WIDTH,
+            resizeMode: 'cover',
+            position: 'absolute',
+            transform: [
+              {
+                translateY: scrollY.interpolate({
+                  inputRange,
+                  outputRange: [-height * 0.2, 0, height * 0.2],
+                })
+              }
+            ],
           }}
-          source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Secondo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Dolce' ? null : require('../assets/img_categories/antipasto.jpg')}
+          source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Secondo' ? require('../assets/img_categories/secondo.jpg') : item.category === 'Dolce' ? null : require('../assets/img_categories/antipasto.jpg')}
         />
+      </View>
       <View style={{ height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute' }}></View>
       <View>
         <Text style={{ color: 'white', textAlign: 'center', fontSize: 50 }}>{item.category}</Text>

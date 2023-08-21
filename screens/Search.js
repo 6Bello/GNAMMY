@@ -69,7 +69,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
 
   if (profileView == false) {
     return (
-      <View style={{ height: '100%' }}>
+      <View style={{alignItems: 'center', paddingBottom: 150}}>
         <SearchBar loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
         {/* {showFilter ?
           <View style={styles.centeredView}>
@@ -95,14 +95,14 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
             <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
             recipes.length > 0 ? (
-              <Recipes
-                recipes={recipes}
-                updateRecipes={updateRecipes}
-                isLoggedIn={isLoggedIn} idUser={idUser}
-                userFavouriteRecipes={userFavouriteRecipes}
-                setUserFavouriteRecipes={setUserFavouriteRecipes}
-                endRefreshing={isLoading}
-                />
+              <Recipes            
+              recipes={recipes}
+              updateRecipes={updateRecipes}
+              isLoggedIn={isLoggedIn} idUser={idUser}
+              userFavouriteRecipes={userFavouriteRecipes}
+              setUserFavouriteRecipes={setUserFavouriteRecipes}
+              endRefreshing={isLoading}
+              />
             ) : (
               <ScrollView>
                 {usersSearched.map((user, key) => (

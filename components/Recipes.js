@@ -5,7 +5,7 @@ import { initRecipes } from './initRecipes';
 import Recipe from './Recipe';
 
 const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing = false, endRefreshing, onRefresh = () => { }, onEndRefresh }) => {
-
+console.log(recipes)
   const addFavouriteRecipe = (idRecipe) => {
     const updatedRecipes = [...userFavouriteRecipes, idRecipe];
     setUserFavouriteRecipes(updatedRecipes);
@@ -81,24 +81,27 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
   };
 
   return (
-    <Animated.FlatList
-      style={styles.container}
-      data={recipes}
-      renderItem={renderRecipeItem}
-      onScroll={Animated.event(
-        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-        { useNativeDriver: true }
-      )}
-      keyExtractor={(item, index) => index.toString()}
-      onEndReached={onEndRefresh}
-      onEndReachedThreshold={0.1}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-        />
-      }
-    />
+    <View style={{justifyContent: 'center', height: '100%'}} >
+      <Animated.FlatList
+        style={styles.container}
+        data={recipes}
+        renderItem={renderRecipeItem}
+        showsVerticalScrollIndicator={false}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        onEndReached={onEndRefresh}
+        onEndReachedThreshold={0.1}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      />
+    </View>
   );
 };
 
