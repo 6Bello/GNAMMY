@@ -20,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "crypto-random-string": "^5.0.0",
+    "dimensions": "^0.1.0",
     "expo": "~48.0.15",
     "expo-crypto": "^12.2.2",
     "expo-linear-gradient": "~12.1.2",

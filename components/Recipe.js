@@ -1,25 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image, Animated } from 'react-native';
 import LikeButton from './LikeButton';
 import ParallaxImage from '../parallaxeffect';
 
-const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe }) => {
+const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe, ITEM_HEIGHT, ITEM_WIDTH, scrollY, inputRange, height }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
-  const [topImage, setTopImage] = useState(-100);
-
-  const heightComponent = useRef(null);
-  useEffect(() => {
-    // Verifica che il riferimento sia stato impostato
-    if (heightComponent.current) {
-      // Misura il componente
-      heightComponent.current.measure((x, y, width, height, pageX, pageY) => {
-        // Qui puoi ottenere i valori di altezza (height) e la posizione Y (pageY) del componente
-        if(pageY>800 || pageY < 0) return;
-        console.log('PageY: ', pageY);
-        setTopImage((-pageY/5)-100);
-      });
-    }
-  }, [scrollCount]);
 
   const toggleDescriptionVisible = () => {
     const updatedRecipes = [...recipes];
@@ -31,10 +16,9 @@ const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRe
     setIsDescriptionVisible(!isDescriptionVisible);
   };
 
-
   return (
-    <TouchableOpacity ref={heightComponent}
-      style={{ marginBottom: 5, marginTop: 15, overflow: 'hidden' }}
+    <TouchableOpacity
+      style={{ marginBottom: 5, marginTop: 15, overflow: 'hidden',height: ITEM_HEIGHT, width: ITEM_WIDTH, backgroundColor: 'black', position: 'relative', justifyContent: 'center', alignItems: 'center' }}
       onPress={toggleDescriptionVisible}
     >
       {/* <ImageBackground
@@ -46,10 +30,25 @@ const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRe
           imageStyle={{      
           }}
         > */}
-      <Image style={{ height: '200%', width: '100%', position: 'absolute', top: topImage }} source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Secondo' ? require('../assets/img_categories/secondo.jpg') : item.category === 'Dolce' ? null : require('../assets/img_categories/antipasto.jpg')} />
+      <Animated.Image 
+        style={{
+          height: ITEM_HEIGHT * 2,
+          width: ITEM_WIDTH,
+          resizeMode: 'cover',
+          position: 'absolute',
+          transform: [
+            {
+              translateY: scrollY.interpolate({
+                inputRange,
+                outputRange: [-height * 0.2, 0, height * 0.2],
+              })
+            }
+          ]
+          }}
+          source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Secondo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Dolce' ? null : require('../assets/img_categories/antipasto.jpg')}
+        />
       <View style={{ height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute' }}></View>
       <View>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{topImage}</Text>
         <Text style={{ color: 'white', textAlign: 'center', fontSize: 50 }}>{item.category}</Text>
         <Text style={{ color: 'white', textAlign: 'center' }}>{item.description}</Text>
         <Text style={{ color: 'white', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
