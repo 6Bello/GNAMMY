@@ -3,15 +3,15 @@ import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, Ac
 import axios from "axios";
 import { FlatList } from "react-native-gesture-handler";
 
-const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateItems, filter = 0, onCategories, handleShow }) => {
+const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRecipes, filter = 0, onCategories, handleShow }) => {
   const [categories, setCategories] = useState(initialCategories || []);
 
-  const handlePress = (index) => {
+  const handlePress = (key) => {
     setCategories((prevCategories) => {
       const updatedCategories = [...prevCategories];
-      updatedCategories[index] = {
-        ...updatedCategories[index],
-        selected: !updatedCategories[index].selected,
+      updatedCategories[key] = {
+        ...updatedCategories[key],
+        selected: !updatedCategories[key].selected,
       };
       return updatedCategories;
     });
@@ -23,10 +23,10 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateIt
     loadingTrue();
 
     axios
-      .get(`http://79.32.231.27:8889/getRecipesByCategories/${selectedCategoriesNames}`)
+      .get(`http://gnammy.mywire.org:80/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
-        updateItems(data);
+        updateRecipes(data);
         console.log(data);
       })
       .catch((error) => {
@@ -47,11 +47,11 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateIt
         <FlatList
           style={{ marginTop: -20 }}
           data={categories}
-          renderItem={({ item, index }) => (
+          renderItem={({ item, key }) => (
             <TouchableOpacity
               style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
               key={item.id}
-              onPress={() => handlePress(index)}
+              onPress={() => handlePress(key)}
             >
               <View style={{ display: "flex", flexDirection: "row", width: "100%", justifyContent: "flex-end" }}>
                 <Text

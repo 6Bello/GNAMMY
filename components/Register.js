@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import axios from "axios";
+import MyTextInput from "./TextInput.js";
+import MyPasswordInput from "./PasswordInput.js";
 
 import hashPassword from '../passwordUtils.js';
-
 
 const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [username, setUsername] = useState('');
@@ -18,17 +19,11 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordProblem, setConfirmPasswordProblem] = useState('');
 
-
-  let [showPassword, setShowPassword] = useState(false);
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState);
-  };
-
   const thereArePasswordProblems = (text) => {
     setPassword(text);
     const problems = [];
-    if (!(text.length >= 8 && text.length <= 18)) {
-      problems.push('tra 8 e 18 caratteri');
+    if (!(text.length >= 8 && text.length <= 30)) {
+      problems.push('tra 8 e 30 caratteri');
     }
     if (!/[a-z]/.test(text)) {
       problems.push('una lettera minuscola');
@@ -39,7 +34,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     if (!/[0-9]/.test(text)) {
       problems.push('un numero');
     }
-    if (!/[@$!%*?&]/.test(text)) {
+    if (!/[@$!%*?&-]/.test(text)) {
       problems.push('un carattere speciale');
     }
     if (problems.length > 0) {
@@ -59,7 +54,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     };
 
     const isPasswordValid = (password, confirmPassword) => {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,18}$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,30}$/;
       return password === confirmPassword && passwordRegex.test(password);
     };
 
@@ -92,15 +87,15 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     try {
       const hashedPassword = await hashPassword(password);
 
-      const response = await axios.post('http://79.32.231.27:8889/register', {
+      const response = await axios.post('http://gnammy.mywire.org:80/register', {
         email,
         password: hashedPassword,
         username,
         name,
         surname,
       });
-
-      updateUserData(response.data);
+      console.log(response.data);
+      updateUserData(response.data, true);
       OnRegistrationComplete(); // Call the callback to set isLoggedIn to true
       console.log('Account creato con successo!');
     } catch (error) {
@@ -114,50 +109,84 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   return (
     <View style={styles.container}>
       <View style={styles.Register}>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 30}}>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, width: 300 }}>
           <Image style={styles.image} source={require('../assets/bibimbap.png')} />
-          <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
+          <View style={{ marginLeft: 20, flex: 1, justifyContent: "center" }}>
             <Text style={styles.title}>Sign up</Text>
             <Text style={styles.subtitle}>Sign up to enjoy your food</Text>
           </View>
         </View>
-        <TextInput style={styles.button} value={username} onChangeText={setUsername} placeholder="Username" />
-        <Text style={[styles.error, {
-          display: usernameProblem ? 'flex' : 'none',
-        }]}>{usernameProblem}</Text>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-          <TextInput style={styles.button} value={name} onChangeText={setName} placeholder="Name" />
+
+        <View style={{ marginTop: 20 }}>
+          <MyTextInput
+            value={username}
+            onChangeText={setUsername}
+            placeholder="Username"
+          />
+
+          <Text style={[styles.error, {
+            display: usernameProblem ? 'flex' : 'none',
+          }]}>{usernameProblem}</Text>
         </View>
-        <View>
-          <TextInput style={styles.button} value={surname} onChangeText={setSurname} placeholder="Cognome" />
+
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+          <View style={{ width: '48%' }}>
+            <MyTextInput
+              value={name}
+              onChangeText={setName}
+              placeholder="Name"
+            />
+          </View>
+          <View style={{ width: '48%' }}>
+            <MyTextInput
+              value={surname}
+              onChangeText={setSurname}
+              placeholder="Cognome"
+            />
+          </View>
         </View>
+
         <Text style={[styles.error, {
           display: nameProblem ? 'flex' : 'none',
         }]}>{nameProblem}</Text>
-        <TextInput style={styles.button} value={email} onChangeText={setEmail} placeholder="Email" />
-        <Text style={[styles.error, {
-          display: emailProblem ? 'flex' : 'none',
-        }]}>{emailProblem}</Text>
-        <View style={styles.passwordContainer}>
-          <TextInput style={styles.button}
+        <View style={{ marginTop: 20 }}>
+
+          <View>
+            <MyTextInput
+              value={email} onChangeText={setEmail}
+              placeholder="Email" 
+              keyboardType={'email-address'}
+              autoComplete={'email'} />
+          </View>
+
+          <Text style={[styles.error, {
+            display: emailProblem ? 'flex' : 'none',
+          }]}>{emailProblem}</Text>
+        </View>
+
+        <View style={{ marginTop: 20 }}>
+          <MyPasswordInput
+            style={styles.MyTextInput}
             value={password}
             onChangeText={thereArePasswordProblems}
             placeholder="Password"
-            secureTextEntry={!showPassword}
+            autoComplete={'password'}
           />
+
+          <Text style={[styles.error, {
+            display: passwordProblem ? 'flex' : 'none',
+          }]}>{passwordProblem}</Text>
         </View>
-        <Text style={[styles.error, {
-          display: passwordProblem ? 'flex' : 'none',
-        }]}>{passwordProblem}</Text>
-        <TouchableOpacity style={styles.showHidePassword} onPress={togglePasswordVisibility}>
-          <Text>{showPassword ? 'Hide Password' : 'Show Password'}</Text>
-        </TouchableOpacity>
-        <TextInput style={styles.button} value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" secureTextEntry={!showPassword} />
-        <Text style={[styles.error, {
-          display: confirmPasswordProblem ? 'flex' : 'none',
-        }]}>{confirmPasswordProblem}</Text>
+        <View style={{ marginTop: 20 }}>
+          <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" />
+          <Text style={[styles.error, {
+            display: confirmPasswordProblem ? 'flex' : 'none',
+          }]}>{confirmPasswordProblem}</Text>
+        </View>
         <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
-          <Text style={{ lineHeight: 29, color: "white", fontSize: 17, fontWeight:"bold" }}>Sign up</Text>
+          <Text style={{ lineHeight: 29, color: 'white', fontSize: 17, fontWeight: 'bold' }}>
+            Sign up
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -166,30 +195,24 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: '#f7f7f8',
     width: '100%',
+    alignItems: 'center',
   },
   Register: {
     marginHorizontal: 20,
   },
-  passwordContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  showHidePassword: {
-    color: 'blue',
-    fontSize: 12,
-    marginLeft: 210,
-    marginTop: 15,
-    marginBottom: -5,
+  passwords: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
   },
   error: {
     color: 'red',
     fontSize: 12,
     marginTop: 10,
-    marginLeft: "11%",
-    width: "81%",
+    width: 300,
   },
   title: {
     fontSize: 25,
@@ -202,12 +225,11 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     padding: 10,
-    marginTop: 20,
-    marginLeft: "8.5%",
     borderRadius: 5,
-    width: "83%",
     backgroundColor: "#f8f4fc",
     display: 'flex',
+    width: '100%',
+    height: 50,
   },
   registerButton: {
     fontWeight: "bold",
@@ -215,11 +237,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     marginTop: 20,
-    marginLeft: "8.5%",
     borderRadius: 5,
-    width: "83%",
     height: 50,
-    lineHeight: 30,
     fontSize: 20,
     backgroundColor: "orange",
     color: "white",
@@ -227,8 +246,33 @@ const styles = StyleSheet.create({
   image: {
     width: 60,
     height: 60,
-    marginLeft: 30,
   },
+  imgShowHidePassword: {
+    width: 30,
+    height: 30,
+    marginLeft: 5,
+  },
+
+  passwordInput: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#f8f4fc",
+    display: "flex",
+  },
+  textInputContainer: {
+    alignItems: "center",
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#f8f4fc",
+    display: 'flex',
+    width: '100%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'gray',
+  },
+  
 });
 
 export default Register;

@@ -1,40 +1,49 @@
-import react from 'react';
+import react, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import UserRecipes from './UserRecipes';    
 
 
-const LoggedInPage = ({ user, handleIsLoggedIn }) => {
+const LoggedInPage = ({ user, userFavouriteRecipes, setUserFavouriteRecipes }) => {
+    const [userRecipesLiked, setUseRecipesLiked] = useState(userFavouriteRecipes.length);
+    useEffect(() => {
+        setUseRecipesLiked(userFavouriteRecipes.length);
+    }, [userFavouriteRecipes]);
     return (
-        <View style={{  marginLeft: 40,  display: "flex", flexDirection: "row"}}>
-            <View style={{ }}>
-                <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
-                <Text style={styles.title}>{user.name}</Text>
-                <Text style={styles.subtitle}>@{user.username}</Text>
-            </View>
-            <View style={{ display: "flex", flexDirection: "row", marginLeft: 10, alignItems: "flex-end"  }}>
-                <View style={{ display: "flex", width: 100, alignItems: 'flex-end', marginLeft: -20}}>
-                    <Text style={styles.infoName}>Ricette</Text>
-                    <View style={{ alignItems: 'center', flexDirection: "row"}}>
-                        <Text style={styles.infoNumber}>3</Text>
-                        <TouchableOpacity style={styles.addButton}>
-                            <View style={{ backgroundColor: 'grey', borderRadius: 50, padding: 1, marginRight: -5, marginLeft: 7 }}>
-                                <MaterialCommunityIcons name="plus" color={"black"} size={20} />
+        <View style={{height: '100%'}}>
+            <View style={{display: 'flex', justifyContent: 'center', width: '100%',  margin:5}}>
+                <View style={{ flexDirection: "row", marginBottom: 5}}>
+                    <View style={{flexDirection:'row', width: '40%', justifyContent: 'center'}}>
+                        <Image source={require("../assets/user.png")} style={{ width: 50, height: 50 }} />
+                        <View >
+                            <Text style={styles.title}>{user.name}</Text>
+                            <Text style={styles.subtitle}>@{user.name}</Text>
+                        </View>
+                    </View>
+                    <View style={{justifyContent: 'center', width: '60%', flexDirection: 'row'}}>
+                        <View style={{alignItems: 'flex-end'}}>
+                            <Text style={styles.infoName}>Ricette</Text>
+                            <View style={{ alignItems: 'center', flexDirection: "row" }}>
+                                <Text style={styles.infoNumber}>3</Text>
+                                <TouchableOpacity style={styles.addButton}>
+                                    <View style={{ backgroundColor: 'grey', borderRadius: 50, padding: 1, marginRight: -5, marginLeft: 7 }}>
+                                        <MaterialCommunityIcons name="plus" color={"black"} size={20} />
+                                    </View>
+                                </TouchableOpacity>
                             </View>
-                        </TouchableOpacity>
+                        </View>
+                        <View style={{ marginLeft: 25 }}>
+                            <Text style={styles.infoName2}>Like{'\n'}messi</Text>
+                            <Text style={styles.infoNumber}>{userRecipesLiked}</Text>
+                        </View>
+                        <View style={{ marginLeft: 25 }}>
+                            <Text style={styles.infoName2}>Media{'\n'}Like</Text>
+                            <Text style={styles.infoNumber}>3</Text>
+                        </View>
                     </View>
                 </View>
-                <View style={{ marginLeft: 25}}>
-                    <Text style={styles.infoName2}>Like{'\n'}totali</Text>
-                    <Text style={styles.infoNumber}>3</Text>
-                </View>
-                <View style={{ marginLeft: 25}}>
-                    <Text style={styles.infoName2}>Media{'\n'}Like</Text>
-                    <Text style={styles.infoNumber}>3</Text>
-                </View>
             </View>
-            {/* <TouchableOpacity onPress={handleIsLoggedIn}>
-          <Text>Logout</Text>
-        </TouchableOpacity> */}
+            <UserRecipes user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
         </View>
     );
 }

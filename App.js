@@ -1,4 +1,4 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,39 +9,39 @@ import { Image, Button, IconButton, Text, View, StyleSheet, Animated } from 'rea
 
 import Home from './screens/Home';
 import Account from './screens/Account';
-import AddRecipes from './screens/AddRecipes';
 import Search from './screens/Search';
+import HeaderRightButton from './components/HeaderRightButton';
+import AddRecipes from './screens/addRecipes/AddRecipes';
+import ProfilePage from './screens/ProfilePage';
+import SplashScreen from './screens/SplashScreen';
 
 const Tab = createBottomTabNavigator();
 
-const HeaderRightButton = () => {
-  const navigation = useNavigation();
-  
-  const handlePress = () => {
-    navigation.navigate('Search');
-  };
-  
-  return (
-    <TouchableOpacity onPress={handlePress} style={{ marginRight: 15 }}>
-      <Ionicons name="search" size={24} color="white" />
-    </TouchableOpacity>
-  );
-};
-
-
-function App() {
+function MainScreen() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-  const handleIsLoggedIn = () => {
-    setIsLoggedIn(!isLoggedIn);
-  };
-
-  const updateUserData = (data) => {
+  const [user, setUser] = useState();
+  const [idUser, setIdUser] = useState(0);
+  const updateUserData = (data, isLoggedIn) => {
     setUser(data);
-    console.log("ao");
-    console.log("user: ", user);
+    setIsLoggedIn(isLoggedIn);
+    if(isLoggedIn){
+      setIdUser(data.id);
+    }else{
+      setIdUser(0);
+    }
+    console.log(user)
   };
+  const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
+  useEffect(() => {
+    // Verifica se è la prima volta che l'effetto viene eseguito
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    setUserFavouriteRecipes(user.favouriteRecipes); //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
+  }, [user]);
 
+  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
 
   const rotationValue = useRef(new Animated.Value(0)).current;
 
@@ -60,64 +60,93 @@ function App() {
     outputRange: ['0deg', '360deg'],
   });
 
-
+  const [tabBarVisible, setTabBarVisible] = useState(true); // Stato per nascondere la tab bar durante la splash screen
+  const handleTabBarVisible = () => {
+    setTabBarVisible(true);
+  };
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator screenOptions={{
+        tabBarStyle: {
+          display: tabBarVisible ? 'flex' : 'none',  
+      }}}>
+        <Tab.Screen
+        name=" "
+        component={SplashScreen}
+        initialParams={{ setTabBarVisible: handleTabBarVisible }} // Pass the prop tabBarVisible to SplashScreen
+        options={{
+          tabBarItemStyle: { display: 'none' },
+        }}
+      />
+        <Tab.Screen
+          name="Search"
+          options={{
+            tabBarItemStyle: { display: 'none' },
+          }}
+        >
+          {() => <Search user={user} idUser={idUser} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Home"
-          component={Home}
           options={{
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-home" color={color} size={size} />
             ),
             headerRight: () => (
-              <TouchableOpacity onPress={() => {
-                navigation.navigate('Search');
-              }}>
-                <Image style={{ width: 25, height: 25 }} source={require("./assets/search.png")} />
-              </TouchableOpacity>
+              <HeaderRightButton />
             )
           }}
-        />
-        <Tab.Screen name="Search" component={Search} />
-        <Tab.Screen name="AddRecipes" component={AddRecipes}
+        >
+          {() => <Home user={user} idUser={idUser} isLoggedIn={isLoggedIn} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
+        </Tab.Screen>
+        <Tab.Screen name="AddRecipes"
           options={{
             tabBarLabel: '',
             tabBarIcon: ({ focused }) => (
-              <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25}} onPress={handlePress}>
-              <View style={[{ alignItems: 'center' }, styles.shadow]}>
-                <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
-                  <View
-                    style={{
-                      width: 65,
-                      height: 65,
-                      borderRadius: 50,
-                      backgroundColor: 'red',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <MaterialCommunityIcons name="plus" color="white" size={40} />
-                  </View>
-                </Animated.View>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity style={{ width: 65, height: 65, justifyContent: 'center', alignItems: 'center', marginBottom: 25 }} onPress={handlePress}>
+                <View style={[{ alignItems: 'center' }, styles.shadow]}>
+                  <Animated.View style={{ transform: [{ rotate: rotateInterpolation }] }}>
+                    <View
+                      style={{
+                        width: 65,
+                        height: 65,
+                        borderRadius: 50,
+                        backgroundColor: 'red',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <MaterialCommunityIcons name="plus" color="white" size={40} />
+                    </View>
+                  </Animated.View>
+                </View>
+              </TouchableOpacity>
 
             ),
-          }} />
+          }} >
+          {() => <AddRecipes user={user} isLoggedIn={isLoggedIn} />}
+        </Tab.Screen>
         <Tab.Screen
           name="Account"
           options={{
             headerTitle: "",
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='account' size={size} color={color} />
-            )
+            ),
           }}
         >
-          {() => <Account user={user} isLoggedIn={isLoggedIn} handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />}
+          {() => <Account user={user} isLoggedIn={isLoggedIn} updateUserData={updateUserData} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />}
         </Tab.Screen>
+        {/* <Tab.Screen
+          name="ProfilePage"
+          component={ProfilePage}
+          initialParams={{setUserFavouriteRecipes: setUserFavouriteRecipes}}
+          options={{
+            tabBarItemStyle: { display: 'none' },
+          }}
+        /> */}
+
       </Tab.Navigator>
     </NavigationContainer>
   );
@@ -125,15 +154,15 @@ function App() {
 
 const styles = StyleSheet.create({
   shadow: {
-      shadowColor: '#aaa',
-      shadowOffset: {
-          width: 0,
-          height: 10,
-      },
-      shadowOpacity: 1,
-      shadowRadius: 3.5,
-      elevation: 5,
+    shadowColor: '#aaa',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 3.5,
+    elevation: 5,
   }
 })
 
-export default App;
+export default MainScreen;

@@ -3,20 +3,20 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'rea
 import Login from '../components/Login';
 import Register from '../components/Register';
 import LoggedInPage from '../components/LoggedInPage';
-export default function App({user, isLoggedIn, handleIsLoggedIn, updateUserData}) {
+export default function App({user, isLoggedIn, updateUserData, userFavouriteRecipes, setUserFavouriteRecipes}) {
 
   return (
     <View>
       {isLoggedIn ? (
-        <LoggedInPage user={user} handleIsLoggedIn={handleIsLoggedIn} />
+        <LoggedInPage user={user} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
       ) : (
-        <NotLoggedInPage handleIsLoggedIn={handleIsLoggedIn} updateUserData={updateUserData} />
+        <NotLoggedInPage updateUserData={updateUserData} />
       )}
     </View>
   );
 }
 
-function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
+function NotLoggedInPage({ updateUserData }) {
   const openRegistration = () => {
     setShowRegisterPage(true);
   };
@@ -28,18 +28,21 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
 
   const OnRegistrationComplete = () => {
     setShowRegisterPage(false);
-    handleIsLoggedIn();
   };
   if (showRegisterPage) {
     return (
       <ScrollView style={styles.container}>
-        <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>
-        <Text style={styles.text2}>Already have an account?</Text>
-        <TouchableOpacity onPress={openLogin}>
-          <Text style={styles.text3}>Sign in</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    );
+        <View style={{alignItems: 'center'}}>
+          <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>  
+          <View>
+            <Text style={styles.text2}>Already have an account?</Text>
+            <TouchableOpacity onPress={openLogin}>
+              <Text style={styles.text3}>Sign in</Text>
+            </TouchableOpacity>
+          </View>
+      </View>
+    </ScrollView>
+  );
   } else {
     return (
       <ScrollView style={styles.container}>
@@ -50,7 +53,7 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
             <Text style={styles.subtitle} >Sign to your account</Text>
           </View>
         </View>
-        <Login onLoginComplete={handleIsLoggedIn} updateUserData={updateUserData}/>
+        <Login updateUserData={updateUserData}/>
         <Text style={styles.text2}>Don't have an account? </Text>
         <TouchableOpacity onPress={openRegistration}>
           <Text style={styles.text3}>Sign up</Text>
@@ -64,9 +67,9 @@ function NotLoggedInPage({ handleIsLoggedIn, updateUserData }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
     backgroundColor: "white",
+    height: "100%",
+    width: "100%",
   },
 
   title: {
@@ -91,6 +94,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     color: "black",
     display: "flex",
+    alignItems: "center",
   },
 
   text3: {
