@@ -22,8 +22,8 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const thereArePasswordProblems = (text) => {
     setPassword(text);
     const problems = [];
-    if (!(text.length >= 8 && text.length <= 18)) {
-      problems.push('tra 8 e 18 caratteri');
+    if (!(text.length >= 8 && text.length <= 30)) {
+      problems.push('tra 8 e 30 caratteri');
     }
     if (!/[a-z]/.test(text)) {
       problems.push('una lettera minuscola');
@@ -34,7 +34,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     if (!/[0-9]/.test(text)) {
       problems.push('un numero');
     }
-    if (!/[@$!%*?&]/.test(text)) {
+    if (!/[@$!%*?&-]/.test(text)) {
       problems.push('un carattere speciale');
     }
     if (problems.length > 0) {
@@ -54,7 +54,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     };
 
     const isPasswordValid = (password, confirmPassword) => {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,18}$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-])[A-Za-z\d@$!%*?&-]{8,30}$/;
       return password === confirmPassword && passwordRegex.test(password);
     };
 
@@ -87,7 +87,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     try {
       const hashedPassword = await hashPassword(password);
 
-      const response = await axios.post('http://gnammy.mywire.org:443/register', {
+      const response = await axios.post('http://gnammy.mywire.org:80/register', {
         email,
         password: hashedPassword,
         username,

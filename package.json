@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/stack": "^6.3.16",
     "argon2": "^0.30.3",
+    "autocomplete": "^0.0.1",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -35,6 +36,7 @@
     "react": "18.2.0",
     "react-animate": "^3.0.0",
     "react-native": "^0.71.8",
+    "react-native-autocomplete-input": "^5.3.2",
     "react-native-crypto-js": "^1.0.0",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-image-cache-hoc": "^2.0.0",
@@ -45,6 +47,7 @@
     "react-native-redash": "^18.1.0",
     "react-native-safe-area-context": "^4.6.3",
     "react-router-dom": "^6.13.0",
+    "react-search-box": "^3.0.0",
     "styled-components": "^6.0.2"
   },
   "devDependencies": {
