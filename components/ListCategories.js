@@ -23,7 +23,7 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
     loadingTrue();
 
     axios
-      .get(`http://gnammy.mywire.org:443/getRecipesByCategories/${selectedCategoriesNames}`)
+      .get(`http://gnammy.mywire.org:80/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
         updateRecipes(data);

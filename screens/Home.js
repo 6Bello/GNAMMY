@@ -31,7 +31,7 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
       // sendEmail(user.email);
     }
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://gnammy.mywire.org:443/getRecipes', {
+      .get('http://gnammy.mywire.org:80/getRecipes', {
         params: {
           preferences: isLoggedIn ? { antipasto: user.userPreferences.antipasto, primo: user.userPreferences.primo, secondo: user.userPreferences.secondo } : null
         }
@@ -55,7 +55,7 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
 
   useEffect(() => {
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://gnammy.mywire.org:443/getRecipes', {
+      .get('http://gnammy.mywire.org:80/getRecipes', {
         params: {
           preferences: isLoggedIn ? { antipasto: user.userPreferences.antipasto, primo: user.userPreferences.primo, secondo: user.userPreferences.secondo } : null,
           lastRecipe: Array.isArray(recipes) && recipes.length > 0 ? recipes[recipes.length - 1].id : null

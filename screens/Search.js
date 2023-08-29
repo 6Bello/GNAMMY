@@ -69,7 +69,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
 
   if (profileView == false) {
     return (
-      <View style={{ height: '100%' }}>
+      <View style={{alignItems: 'center', paddingBottom: 150}}>
         <SearchBar loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
         {/* {showFilter ?
           <View style={styles.centeredView}>
@@ -95,14 +95,14 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
             <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
             recipes.length > 0 ? (
-              <Recipes
-                recipes={recipes}
-                updateRecipes={updateRecipes}
-                isLoggedIn={isLoggedIn} idUser={idUser}
-                userFavouriteRecipes={userFavouriteRecipes}
-                setUserFavouriteRecipes={setUserFavouriteRecipes}
-                endRefreshing={isLoading}
-                />
+              <Recipes            
+              recipes={recipes}
+              updateRecipes={updateRecipes}
+              isLoggedIn={isLoggedIn} idUser={idUser}
+              userFavouriteRecipes={userFavouriteRecipes}
+              setUserFavouriteRecipes={setUserFavouriteRecipes}
+              endRefreshing={isLoading}
+              />
             ) : (
               <ScrollView>
                 {usersSearched.map((user, key) => (
@@ -151,11 +151,6 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
               <Text style={{ fontSize: 14 }}>Ricette</Text>
               <View style={{ alignItems: 'center', flexDirection: "row" }}>
                 <Text style={styles.infoNumber}>3</Text>
-                <TouchableOpacity style={styles.addButton}>
-                  <View style={{ backgroundColor: 'grey', borderRadius: 50, padding: 1, marginRight: -5, marginLeft: 7 }}>
-                    <MaterialCommunityIcons name="plus" color={"black"} size={20} />
-                  </View>
-                </TouchableOpacity>
               </View>
             </View>
             <View style={{ marginLeft: 25 }}>

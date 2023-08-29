@@ -1,44 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ImageBackground, ScrollView, View, StyleSheet, RefreshControl, VirtualizedList, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Animated, Dimensions, FlatList, RefreshControl, ActivityIndicator } from 'react-native';
 import { initRecipes } from './initRecipes';
 
 import Recipe from './Recipe';
 
 const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing = false, endRefreshing, onRefresh = () => { }, onEndRefresh }) => {
-
-  // funzioni per aggiungere o rimuovere una ricetta dai preferiti
+console.log(recipes)
   const addFavouriteRecipe = (idRecipe) => {
-    const updatedRecipes = [...userFavouriteRecipes, idRecipe]; //aggiunge l'id della ricetta ad un clone dell array
-    console.log("updatedRecipes: ", updatedRecipes);
-    setUserFavouriteRecipes(updatedRecipes); //aggiorna la variabile userFavouriteRecipes con il valore del clone
-    console.log("userFavouriteRecipes: ", userFavouriteRecipes);
+    const updatedRecipes = [...userFavouriteRecipes, idRecipe];
+    setUserFavouriteRecipes(updatedRecipes);
   };
 
   const removeFavouriteRecipe = (idRecipe) => {
-    const updatedRecipes = [...userFavouriteRecipes]; // Clone the array
-    const indexToRemove = updatedRecipes.indexOf(idRecipe); // Find the index of the recipe in the cloned array
-    if (indexToRemove !== -1) {
-      updatedRecipes.splice(indexToRemove, 1); // Remove the recipe from the cloned array
-      console.log("updatedRecipes: ", updatedRecipes);
-      setUserFavouriteRecipes(updatedRecipes); // Update the state variable userFavouriteRecipes with the cloned array
-      console.log("userFavouriteRecipes: ", userFavouriteRecipes);
-    }
-  }
-
+    const updatedRecipes = userFavouriteRecipes.filter(recipeId => recipeId !== idRecipe);
+    setUserFavouriteRecipes(updatedRecipes);
+  };
 
   initRecipes(recipes, updateRecipes);
 
-  if (typeof setUserFavouriteRecipes !== 'function') {
-    console.log("setUserFavouriteRecipes is not a function");
-  }
+  const { width, height } = Dimensions.get('screen');
+  console.log(width, height);
+  const ITEM_WIDTH = width * 0.77;
+  const ITEM_HEIGHT = 350;
+  const scrollY = React.useRef(new Animated.Value(0)).current;
 
-  // Function to render each recipe item
   const renderRecipeItem = ({ item, index }) => {
     if (index === recipes.length - 1) {
       return (
         <View>
           <Recipe
-            key={index} // It's recommended to use a unique identifier for the "key" prop. Here, using the index as a temporary solution.
+            key={index}
             idUser={idUser}
             isLoggedIn={isLoggedIn}
             item={item}
@@ -48,14 +39,25 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
             userFavouriteRecipes={userFavouriteRecipes}
             addFavouriteRecipe={addFavouriteRecipe}
             removeFavouriteRecipe={removeFavouriteRecipe}
+            ITEM_HEIGHT={ITEM_HEIGHT}
+            ITEM_WIDTH={ITEM_WIDTH}
+            scrollY={scrollY}
+            height={height}
+            inputRange={[
+              (index - 1) * height, //2,
+              index * height, // 2,
+              (index + 1) * height, //2,
+            ]}
           />
-          <View style={{height: 40}} ><ActivityIndicator style={{ marginBottom: 20, margin:  'auto' }} animating={endRefreshing} size="large" /></View>
+          <View style={{ height: 40 }}>
+            <ActivityIndicator style={{ marginBottom: 20, alignSelf: 'center' }} animating={endRefreshing} size="large" />
+          </View>
         </View>
-      )
+      );
     }
     return (
       <Recipe
-        key={index} // It's recommended to use a unique identifier for the "key" prop. Here, using the index as a temporary solution.
+        key={index}
         idUser={idUser}
         isLoggedIn={isLoggedIn}
         item={item}
@@ -65,30 +67,41 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
         userFavouriteRecipes={userFavouriteRecipes}
         addFavouriteRecipe={addFavouriteRecipe}
         removeFavouriteRecipe={removeFavouriteRecipe}
+        ITEM_HEIGHT={ITEM_HEIGHT}
+        ITEM_WIDTH={ITEM_WIDTH}
+        scrollY={scrollY}
+        height={height}
+        inputRange={[
+          (index - 1) * ITEM_HEIGHT,
+          index * ITEM_HEIGHT,
+          (index + 1) * ITEM_HEIGHT,
+        ]}
       />
-    )
+    );
   };
-  const getItemCount = () => recipes != undefined ? recipes.length : 0;
 
   return (
-    <VirtualizedList
-      style={styles.container}
-      data={recipes}
-      renderItem={renderRecipeItem}
-      keyExtractor={(item, index) => index.toString()}
-      getItemCount={() => recipes.length}
-      getItem={(data, index) => data[index]}
-      onEndReached={onEndRefresh} // Call the function when reaching the end of the list
-      onEndReachedThreshold={0.1}
-      refreshControl={
-        <RefreshControl
-          refreshing={refreshing}
-          onRefresh={() => {
-            onRefresh(); // Call the onRefresh function to perform the actual refresh action
-          }}
-        />
-      }
-    />
+    <View style={{justifyContent: 'center', height: '100%'}} >
+      <Animated.FlatList
+        style={styles.container}
+        data={recipes}
+        renderItem={renderRecipeItem}
+        showsVerticalScrollIndicator={false}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: true }
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        onEndReached={onEndRefresh}
+        onEndReachedThreshold={0.1}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+      />
+    </View>
   );
 };
 
@@ -99,6 +112,5 @@ const styles = StyleSheet.create({
     height: '100%',
   },
 });
-
 
 export default Recipes;
