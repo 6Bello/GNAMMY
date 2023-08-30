@@ -30,7 +30,7 @@ const SelectCategory = ({ user, userFavouriteRecipes, isLoggedIn, setCategory })
 
   return (
     <ScrollView style={styles.container}>
-      {isLoggedIn && <AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible} />}
+      {!isLoggedIn && <AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible} />}
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View style={{ width: 300, alignItems: 'center' }}>
           <Text style={{ fontSize: 25, fontWeight: 'bold', marginTop: 50 }}>
