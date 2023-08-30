@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import axios from "axios";
 import MyTextInput from "./TextInput.js";
 import MyPasswordInput from "./PasswordInput.js";
 
 import hashPassword from '../passwordUtils.js';
+import { set } from "react-native-reanimated";
 
 const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [username, setUsername] = useState('');
@@ -18,6 +19,8 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [passwordProblem, setPasswordProblem] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordProblem, setConfirmPasswordProblem] = useState('');
+  const [emailVerify, setEmailVerify] = useState(false);
+  const [temporanyAccount, setTemporanyAccount] = useState('');
 
   const thereArePasswordProblems = (text) => {
     setPassword(text);
@@ -95,102 +98,150 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
         surname,
       });
       console.log(response.data);
-      updateUserData(response.data, true);
-      OnRegistrationComplete(); // Call the callback to set isLoggedIn to true
-      console.log('Account creato con successo!');
+      // 
+      setTemporanyAccount(response.data);
+      console.log('Account creato con successo!Verifica l email per confermare la registrazione');
+      setEmailVerify(true);
+    } catch (error) {
+      if (error.response.status === 409) { // 409 Conflict
+        console.log('Email già registrata!');
+        setEmailProblem('Email già registrata!');
+      } else if (error.response.status === 410) { // 410 Gone
+        console.log('Username già registrato!');
+        setUsernameProblem('Username già registrato!');
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const EmailVerified = async () => {
+    try {
+      console.log(email)
+      const response = await axios.get('http://gnammy.mywire.org:80/checkEmailVerification', {
+        params: {
+          email: email,
+        }
+      });
+      console.log(response.data);
+      if (response.data == true) {
+        updateUserData(temporanyAccount, true);
+        OnRegistrationComplete();
+        console.log('Email verificata con successo!');
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    console.log('emailVerify: ', emailVerify);
+    if (emailVerify) {
+      const intervalId = setInterval(EmailVerified, 5000);
+      console.log('Intervallo avviato');
+
+      // Cleanup: ferma l'intervallo quando l'effetto viene pulito
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [emailVerify]);
 
 
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.Register}>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, width: 300 }}>
-          <Image style={styles.image} source={require('../assets/bibimbap.png')} />
-          <View style={{ marginLeft: 20, flex: 1, justifyContent: "center" }}>
-            <Text style={styles.title}>Sign up</Text>
-            <Text style={styles.subtitle}>Sign up to enjoy your food</Text>
+  if (emailVerify === false) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.Register}>
+          <View style={{ display: "flex", flexDirection: "row", marginTop: 30, width: 300 }}>
+            <Image style={styles.image} source={require('../assets/bibimbap.png')} />
+            <View style={{ marginLeft: 20, flex: 1, justifyContent: "center" }}>
+              <Text style={styles.title}>Sign up</Text>
+              <Text style={styles.subtitle}>Sign up to enjoy your food</Text>
+            </View>
           </View>
-        </View>
 
-        <View style={{ marginTop: 20 }}>
-          <MyTextInput
-            value={username}
-            onChangeText={setUsername}
-            placeholder="Username"
-          />
-
-          <Text style={[styles.error, {
-            display: usernameProblem ? 'flex' : 'none',
-          }]}>{usernameProblem}</Text>
-        </View>
-
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-          <View style={{ width: '48%' }}>
+          <View style={{ marginTop: 20 }}>
             <MyTextInput
-              value={name}
-              onChangeText={setName}
-              placeholder="Name"
+              value={username}
+              onChangeText={setUsername}
+              placeholder="Username"
             />
+
+            <Text style={[styles.error, {
+              display: usernameProblem ? 'flex' : 'none',
+            }]}>{usernameProblem}</Text>
           </View>
-          <View style={{ width: '48%' }}>
-            <MyTextInput
-              value={surname}
-              onChangeText={setSurname}
-              placeholder="Cognome"
+
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+            <View style={{ width: '48%' }}>
+              <MyTextInput
+                value={name}
+                onChangeText={setName}
+                placeholder="Name"
+              />
+            </View>
+            <View style={{ width: '48%' }}>
+              <MyTextInput
+                value={surname}
+                onChangeText={setSurname}
+                placeholder="Cognome"
+              />
+            </View>
+          </View>
+
+          <Text style={[styles.error, {
+            display: nameProblem ? 'flex' : 'none',
+          }]}>{nameProblem}</Text>
+          <View style={{ marginTop: 20 }}>
+
+            <View>
+              <MyTextInput
+                value={email} onChangeText={setEmail}
+                placeholder="Email"
+                keyboardType={'email-address'}
+                autoComplete={'email'} />
+            </View>
+
+            <Text style={[styles.error, {
+              display: emailProblem ? 'flex' : 'none',
+            }]}>{emailProblem}</Text>
+          </View>
+
+          <View style={{ marginTop: 20 }}>
+            <MyPasswordInput
+              style={styles.MyTextInput}
+              value={password}
+              onChangeText={thereArePasswordProblems}
+              placeholder="Password"
+              autoComplete={'password'}
             />
+
+            <Text style={[styles.error, {
+              display: passwordProblem ? 'flex' : 'none',
+            }]}>{passwordProblem}</Text>
           </View>
-        </View>
-
-        <Text style={[styles.error, {
-          display: nameProblem ? 'flex' : 'none',
-        }]}>{nameProblem}</Text>
-        <View style={{ marginTop: 20 }}>
-
-          <View>
-            <MyTextInput
-              value={email} onChangeText={setEmail}
-              placeholder="Email" 
-              keyboardType={'email-address'}
-              autoComplete={'email'} />
+          <View style={{ marginTop: 20 }}>
+            <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" />
+            <Text style={[styles.error, {
+              display: confirmPasswordProblem ? 'flex' : 'none',
+            }]}>{confirmPasswordProblem}</Text>
           </View>
-
-          <Text style={[styles.error, {
-            display: emailProblem ? 'flex' : 'none',
-          }]}>{emailProblem}</Text>
+          <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
+            <Text style={{ lineHeight: 29, color: 'white', fontSize: 17, fontWeight: 'bold' }}>
+              Sign up
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <View style={{ marginTop: 20 }}>
-          <MyPasswordInput
-            style={styles.MyTextInput}
-            value={password}
-            onChangeText={thereArePasswordProblems}
-            placeholder="Password"
-            autoComplete={'password'}
-          />
-
-          <Text style={[styles.error, {
-            display: passwordProblem ? 'flex' : 'none',
-          }]}>{passwordProblem}</Text>
-        </View>
-        <View style={{ marginTop: 20 }}>
-          <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" />
-          <Text style={[styles.error, {
-            display: confirmPasswordProblem ? 'flex' : 'none',
-          }]}>{confirmPasswordProblem}</Text>
-        </View>
-        <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
-          <Text style={{ lineHeight: 29, color: 'white', fontSize: 17, fontWeight: 'bold' }}>
-            Sign up
-          </Text>
-        </TouchableOpacity>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text>Conferma l'email</Text>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
@@ -272,7 +323,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
   },
-  
+
 });
 
 export default Register;
