@@ -5,10 +5,12 @@ import axios from "axios";
 import hashPassword from "../passwordUtils";
 import MyTextInput from "./TextInput";
 import MyPasswordInput from "./PasswordInput";
+import { set } from "react-native-reanimated";
 
 const Login = ({ updateUserData }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   const handleLogin = async () => {
     try {
@@ -55,7 +57,13 @@ const Login = ({ updateUserData }) => {
           }
         })
         .catch((error) => {
-          alert("Errore durante il login: " + error);
+          if(error.response.status === 401){
+            setErrorText("Credenziali errate!");
+          }else if(error.response.status === 403){
+            setErrorText("verifica l'email!");
+          }else if(error.response.status === 500){
+            setErrorText("Errore del server!");
+          }
         });
     } catch (error) {
       console.error("Error hashing password:", error);
@@ -85,6 +93,7 @@ const Login = ({ updateUserData }) => {
             secureTextEntry={!showPassword}
           />
         </View>
+        <Text style={{ color: "red", marginTop: 10 }}>{errorText}</Text>
         <View style={{ marginTop: 20 }}>
           <Text style={styles.fg}>Forget Password?</Text>
         </View>
