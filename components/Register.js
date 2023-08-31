@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
 import axios from "axios";
 import MyTextInput from "./TextInput.js";
 import MyPasswordInput from "./PasswordInput.js";
@@ -163,8 +163,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
 
           <View style={{ marginTop: 20 }}>
             <MyTextInput
-              value={username}
-              onChangeText={setUsername}
+              value={username} onChangeText={setUsername} problem={usernameProblem}
               placeholder="Username"
             />
 
@@ -183,8 +182,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
             </View>
             <View style={{ width: '48%' }}>
               <MyTextInput
-                value={surname}
-                onChangeText={setSurname}
+                value={surname} onChangeText={setSurname}
                 placeholder="Cognome"
               />
             </View>
@@ -197,7 +195,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
 
             <View>
               <MyTextInput
-                value={email} onChangeText={setEmail}
+                value={email} onChangeText={setEmail} problem={emailProblem}
                 placeholder="Email"
                 keyboardType={'email-address'}
                 autoComplete={'email'} />
@@ -215,6 +213,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
               onChangeText={thereArePasswordProblems}
               placeholder="Password"
               autoComplete={'password'}
+              problem={passwordProblem}
             />
 
             <Text style={[styles.error, {
@@ -222,7 +221,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
             }]}>{passwordProblem}</Text>
           </View>
           <View style={{ marginTop: 20 }}>
-            <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" />
+            <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" problem={confirmPasswordProblem} />
             <Text style={[styles.error, {
               display: confirmPasswordProblem ? 'flex' : 'none',
             }]}>{confirmPasswordProblem}</Text>
@@ -237,8 +236,18 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     );
   } else {
     return (
-      <View style={styles.container}>
-        <Text>Conferma l'email</Text>
+      <View style={[{ height: 500, color: 'orange', backgroundColor: 'white' }]}>
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ width: '20%', marginRight: 50 }}>
+            <Image style={{ width: 118, height: 150, marginTop: 20 }} src={('http://gnammy.mywire.org/img/logo.png')} />
+          </View>
+          <View style={{ width: '50%', marginTop: 50, }}>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: "orange",}}>MANCA L'ULTIMO PASSAGGIO</Text>
+            <Text style={[{color: 'orange'}]}>Conferma l'email</Text>
+          </View>
+        </View>
+        <Text style={[styles.text3, {color: 'orange', marginTop: '25%'}]}>Controlla la tua casella di posta elettronica e clicca sul link di conferma</Text>
+        <ActivityIndicator style={{marginTop: '20%'}} size={"large"} color="#0000ff" />
       </View>
     )
   }
@@ -324,6 +333,26 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
   },
 
+  // title: {
+  //   fontSize: 25,
+  //   fontWeight: 'bold',
+  //   marginTop: 20,
+  //   color: "orange",
+  // },
+  text2: {
+    color: "orange",
+    fontSize: 15,
+    textAlign: "center",
+    marginTop: 20,
+    display: "flex",
+    alignItems: "center",
+  },
+  text3: {
+    color: "orange",
+    display: "flex",
+    fontSize: 15,
+    textAlign: "center",
+  }
 });
 
 export default Register;
