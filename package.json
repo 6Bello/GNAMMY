@@ -36,7 +36,6 @@
     "react": "18.2.0",
     "react-animate": "^3.0.0",
     "react-native": "^0.71.8",
-    "react-native-autocomplete-input": "^5.3.2",
     "react-native-crypto-js": "^1.0.0",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-image-cache-hoc": "^2.0.0",
