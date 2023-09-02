@@ -6,7 +6,8 @@ const MyPasswordInput = ({
     value,
     onChangeText,
     keyboardType,
-    autoComplete
+    autoComplete,
+    problem,
   }) => {
     const [isFocused, setIsFocused] = useState(false);
   
@@ -18,7 +19,7 @@ const MyPasswordInput = ({
       setIsFocused(false);
     };
   
-    const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
+    const borderColor = isFocused ? 'blue' : problem!='' ? 'red' : 'gray'; // Colore del contorno durante lo stato di focus
   
     let [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {

@@ -9,7 +9,8 @@ const MyTextInput = ({
     onChangeText,
     secureTextEntry,
     keyboardType,
-    autoComplete
+    autoComplete,
+    problem = '',
   }) => {
     const [isFocused, setIsFocused] = useState(false);
   
@@ -21,7 +22,7 @@ const MyTextInput = ({
       setIsFocused(false);
     };
   
-    const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
+    const borderColor = isFocused ? 'blue' : problem!='' ? 'red' : 'gray'; // Colore del contorno durante lo stato di focus
   
     return (
       <View>
