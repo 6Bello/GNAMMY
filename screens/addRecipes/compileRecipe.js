@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import ListCategories from '../../components/ListCategories';
-import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
-import Autocomplete from 'react-native-autocomplete-input';
+import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, Modal } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
+import Autocomplete from '../../components/Autocomplete';
 
 
 const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe, got }) => {
@@ -68,19 +68,10 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
       }
     }
     const newRecipe = { ...recipe };
-    console.log(newRecipe);
     newRecipe[campo] = value;
-    console.log(newRecipe);
     setRecipe(newRecipe)
   };
 
-  const data = [
-    { id: 1, name: 'Apple' },
-    { id: 2, name: 'Banana' },
-    { id: 3, name: 'Cherry' },
-    { id: 4, name: 'Grapes' },
-    { id: 5, name: 'Orange' },
-  ];
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
@@ -110,9 +101,9 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
             </Modal>
           </View>
           :
-          <TouchableOpacity onPress={handleShowCategories} style={{ position: 'absolute', right: 5, top: 5 }}>
+          <Pressable onPress={handleShowCategories} style={{ position: 'absolute', right: 5, top: 5 }}>
             <Text>seleziona le categorie</Text>
-          </TouchableOpacity>
+          </Pressable>
         }
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 150, height: 50, alignItems: 'center' }}>
           <Text>Per</Text>
@@ -129,21 +120,11 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
           onChangeText={(value) => handleInputChange('description', value)}
           placeholder="Descrizione"
         />
-        <View style={{width: 200, height:200}}>
           <Autocomplete
-            containerStyle={styles.autocompleteContainerStyle}
-            listContainerStyle={styles.listStyle}
-            listStyle={styles.listStyle}
+            myStyle={{ width: 300, marginTop: 20 }}
             defaultValue='ciao'
-            data={data.length === 1 && comp(query, data[0].name) ? [] : data}
-            onChangeText={text => this.setState({ query: text })}
-            renderItem={item => (
-              <TouchableOpacity onPress={() => this.setState({ query: item.name })}>
-                <Text>{item.name}</Text>
-              </TouchableOpacity>
-            )}
+            onChangeText={(value) => handleInputChange('ingredients', value)}
           />
-        </View>
         <MyTextInput
           myStyle={{ width: 300, marginTop: 20 }}
           value={recipe.preparation}
@@ -157,7 +138,7 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
           onChangeText={(value) => handleInputChange('time', value)}
           placeholder="Tempo"
         />
-        <TouchableOpacity
+        <Pressable
           style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
           onPress={() => handleInputChange('gluten', !recipe.gluten)}
         >
@@ -165,28 +146,28 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
             <Text style={{ marginRight: 10 }} >gluten free</Text>
             {recipe.gluten ? (<AntDesign name="closecircleo" size={20} color="red" />) : (<AntDesign name="checkcircleo" size={20} color="green" />)}
           </View>
-        </TouchableOpacity>
+        </Pressable>
         <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => starsSelected !== 1 && setStarsSelected(1)}>
+          <Pressable onPress={() => starsSelected !== 1 && setStarsSelected(1)}>
             <MaterialCommunityIcons name={starsSelected >= 1 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 2 && setStarsSelected(2)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 2 && setStarsSelected(2)}>
             <MaterialCommunityIcons name={starsSelected >= 2 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 3 && setStarsSelected(3)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 3 && setStarsSelected(3)}>
             <MaterialCommunityIcons name={starsSelected >= 3 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 4 && setStarsSelected(4)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 4 && setStarsSelected(4)}>
             <MaterialCommunityIcons name={starsSelected >= 4 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 5 && setStarsSelected(5)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 5 && setStarsSelected(5)}>
             <MaterialCommunityIcons name={starsSelected >= 5 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
-        <TouchableOpacity onPress={createRecipe}>
+        <Pressable onPress={createRecipe}>
           <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold" }}>Crea</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );
