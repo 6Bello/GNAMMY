@@ -10,63 +10,6 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
   const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
 
   const handleInputChange = (campo, value) => {
-    if (campo === 'title') {
-      if (value === 'carne') {
-        setImageRecipe(require('../../assets/img_categories/carne.png'));
-      } else if (value === 'pasta') {
-        setImageRecipe(require('../../assets/img_categories/pasta.png'));
-      } else if (value === 'pesce') {
-        setImageRecipe(require('../../assets/img_categories/pesce.png'));
-        // }else if(value === 'verdura'){
-        //   setImageRecipe(require('../assets/img_categories/verdura.png'));
-        // }else if(value === 'frutta'){
-        //   setImageRecipe(require('../assets/img_categories/frutta.png'));
-        // }else if(value === 'dolce'){
-        //   setImageRecipe(require('../assets/img_categories/dolce.png'));
-        // }else if(value === 'antipasto'){
-        //   setImageRecipe(require('../assets/img_categories/antipasto.png'));
-        // }else if(value === 'contorno'){
-        //   setImageRecipe(require('../assets/img_categories/contorno.png'));
-        // }else if(value === 'insalata'){
-        //   setImageRecipe(require('../assets/img_categories/insalata.png'));
-        // }else if(value === 'zuppa'){
-        //   setImageRecipe(require('../assets/img_categories/zuppa.png'));
-        // }else if(value === 'pizza'){
-        //   setImageRecipe(require('../assets/img_categories/pizza.png'));
-        // }else if(value === 'fritto'){
-        //   setImageRecipe(require('../assets/img_categories/fritto.png'));
-        // }else if(value === 'salsa'){
-        //   setImageRecipe(require('../assets/img_categories/salsa.png'));
-        // }else if(value === 'sugo'){
-        //   setImageRecipe(require('../assets/img_categories/sugo.png'));
-        // }else if(value === 'soufflé'){
-        //   setImageRecipe(require('../assets/img_categories/soufflé.png'));
-        // }else if(value === 'sformato'){
-        //   setImageRecipe(require('../assets/img_categories/sformato.png'));
-        // }else if(value === 'torta'){
-        //   setImageRecipe(require('../assets/img_categories/torta.png'));
-        // }else if(value === 'biscotto'){
-        //   setImageRecipe(require('../assets/img_categories/biscotto.png'));
-        // }else if(value === 'budino'){
-        //   setImageRecipe(require('../assets/img_categories/budino.png'));
-        // }else if(value === 'gelato'){
-        //   setImageRecipe(require('../assets/img_categories/gelato.png'));
-        // }else if(value === 'bevanda'){
-        //   setImageRecipe(require('../assets/img_categories/bevanda.png'));
-        // }else if(value === 'cocktail'){
-        //   setImageRecipe(require('../assets/img_categories/cocktail.png'));
-        // }else if(value === 'aperitivo'){
-        //   setImageRecipe(require('../assets/img_categories/aperitivo.png'));
-        // }else if(value === 'digestivo'){
-        //   setImageRecipe(require('../assets/img_categories/digestivo.png'));
-        // }else if(value === 'primo'){
-        //   setImageRecipe(require('../assets/img_categories/primo.png'));
-        // }else if(value === 'secondo'){
-        //   setImageRecipe(require('../assets/img_categories/secondo.png'));
-      } else {
-        setImageRecipe('../../assets/user.png');
-      }
-    }
     const newRecipe = { ...recipe };
     newRecipe[campo] = value;
     setRecipe(newRecipe)
@@ -79,12 +22,11 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
           <Text style={styles.title}>Descrivi la tua ricetta...</Text>
         </View>
 
-        <View style={[{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: 300 },]}>
-          <Image source={imageRecipe} style={{ width: 25, height: 25 }} />
-          <MyTextInput myStyle={{ flex: 1 }}
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          <MyTextInput myStyle={{ width: 150, height: 40, marginTop: 20 }}
             value={recipe.title}
             onChangeText={(value) => handleInputChange('title', value)}
-            placeholder="Nome"
+            placeholder="Nome della ricetta"
           />
         </View>
 
@@ -105,14 +47,13 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
             <Text>seleziona le categorie</Text>
           </Pressable>
         }
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 150, height: 50, alignItems: 'center' }}>
-          <Text>Per</Text>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 190, height: 50, alignItems: 'center' }}>
+          <Text>Per quante persone?</Text>
           <MyTextInput
-            style={{ width: 50, height: 40, borderWidth: 1, borderRadius: 10, textAlign: 'center' }}
+            myStyle={{ width: 30, height: 27, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0 }}
             value={recipe.portions}
             onChangeText={(value) => handleInputChange('portions', value)}
           />
-          <Text>persone</Text>
         </View>
         <MyTextInput
           myStyle={{ width: 300, marginTop: 20 }}
