@@ -97,7 +97,7 @@ const Login = ({ updateUserData }) => {
         <View style={{ marginTop: 20 }}>
           <Text style={styles.fg}>Forget Password?</Text>
         </View>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 20, alignItems: 'center' }}>
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={{ lineHeight: 30, color: "white", fontSize: 18, fontWeight: "bold" }}>Sign in</Text>
           </TouchableOpacity>
@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   },
 
   loginButton: {
+
     fontWeight: "bold",
     textAlign: "center",
     alignItems: "center",
