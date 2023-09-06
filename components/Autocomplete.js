@@ -171,7 +171,7 @@ const SquareUnit = ({ isFocused, onFocus }) => {
         }}
       /> */}
       <RNSingleSelect width={50} height={40} menuBarContainerWidth={60} menuBarContainerBackgroundColor={'#f8f4fc'}
-        buttonContainerStyle={{ borderRadius: 0, borderTopLeftRadius: 0, borderTopRightRadius: 0, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey'}}
+        buttonContainerStyle={{ borderRadius: 0, borderTopLeftRadius: 0,  backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey'}}
         placeholderTextStyle={{ fontSize: 12, color: 'black', padding: 0, margin: 0, width: 25, right: 10, textAlign: 'center'}}
         menuItemTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         menuBarContainerHeight={100}
