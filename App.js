@@ -12,8 +12,6 @@ import Account from './screens/Account';
 import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
 import AddRecipes from './screens/addRecipes/AddRecipes';
-import ProfilePage from './screens/ProfilePage';
-import SplashScreen from './screens/SplashScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -70,14 +68,14 @@ function MainScreen() {
         tabBarStyle: {
           display: tabBarVisible ? 'flex' : 'none',  
       }}}>
-        <Tab.Screen
+        {/* <Tab.Screen
         name=" "
         component={SplashScreen}
         initialParams={{ setTabBarVisible: handleTabBarVisible }} // Pass the prop tabBarVisible to SplashScreen
         options={{
           tabBarItemStyle: { display: 'none' },
         }}
-      />
+      /> */}
         <Tab.Screen
           name="Search"
           options={{

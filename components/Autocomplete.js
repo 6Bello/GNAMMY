@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, Pressable, StyleSheet, StatusBar } from 'react-native';
-import { Dropdown } from 'react-native-element-dropdown'
 import axios from 'axios';
 import { Ionicons } from '@expo/vector-icons';
 
-import RNSingleSelect, {
-  ISingleSelectDataType,
-} from "@freakycoder/react-native-single-select";
+import RNSingleSelect from "@freakycoder/react-native-single-select";
+import { set } from 'react-native-reanimated';
 
 export default function Autocomplete({ myStyle, listStyle, defaultValue, onChangeText }) {
   const [inputText, setInputText] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const [ingredients, setIngredients] = useState([]);
-  const [ingredientStates, setIngredientStates] = useState({}); // Stato di focus per gli ingredienti
+  const [ingredient, setIngredient] = useState({});
+  const [ingredientChoosen, setIngredientChosen] = useState(false); // Stato di focus per gli ingredienti
+  const [buttonPressed, setButtonPressed] = useState(false); // Stato di focus per gli ingredienti
 
 
   const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
@@ -25,12 +25,10 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
       setFilteredSuggestions('');
       return;
     } if (inputText[inputText.length - 1] == ',' || inputText[inputText.length - 1] == ' ') {
-      setIngredients(inputText.split(',').slice(0, -1));
       setFilteredSuggestions('');
       console.log(ingredients);
       return;
     }
-    setIngredients(inputText.split(','));
     console.log(inputText.split(',').pop().trim());
     const lastIngredient = inputText.split(',').pop().trim(); // Prende l'ultimo ingrediente inserito
     // Filtra le parole suggerite in base a ciò che l'utente ha digitato
@@ -49,102 +47,114 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
   const pressSuggestion = (suggestion) => {
     setFilteredSuggestions('');
+    setIngredientChosen(true);
+    setInputText(suggestion);
+    setIngredient({ name: suggestion, amount: '', unit: '' });
     console.log(filteredSuggestions)
-    const ingredients = inputText.split(','); // Prende tutti gli ingredienti inseriti
-    ingredients.pop(); // Rimuove l'ultimo ingrediente inserito
-    ingredients.push(suggestion + ','); // Aggiunge l'ingrediente selezionato
-    const newIngredients = ingredients.join(', '); // Ricrea la stringa degli ingredienti
-    console.log(newIngredients);
-    setInputText(newIngredients); // Aggiorna il testo dell'input
+    setIngredient
   };
 
-  const [squareAmountIsFocused, setSquareAmountIsFocused] = useState(false); // Stato di focus del pulsante per la quantità
-  const [squareUnitIsFocused, setSquareUnitIsFocused] = useState(false); // Stato di focus del pulsante per l'unità di misura
+  useEffect(() => {
+    setButtonPressed(false);
+    if (inputText == '') { console.log('ingredient.name == ""'); return; }
+    if (ingredient.amount == '') { console.log('ingredient.amount == ""'); return; }
+    if (ingredient.unit == '') { console.log('ingredient.unit == ""'); return; }
+
+    // Crea un nuovo oggetto con le modifiche
+    const newIngredient = {
+      name: inputText,
+      amount: ingredient.amount,
+      unit: ingredient.unit,
+    };
+
+    // Aggiungi il nuovo ingrediente all'array ingredients
+    setIngredients([...ingredients, newIngredient]);
+    
+    // Resetta gli stati
+    setIngredient({ name: '', amount: '', unit: '' });
+    setInputText('');
+    console.log(ingredients);
+  }, [buttonPressed]);
+  
+  
   return (
-    <View style={[myStyle, { display: 'flex', flexDirection: 'row', zIndex: 1000 }]}>
-      <View style={{ display: 'flex', justifyContent: 'center' }}>
-        <FlatList
-          style={[styles.listContainerStyle, { borderColor: borderColor, borderWidth: isFocused && filteredSuggestions.length > 0 ? 1 : 0, display: isFocused ? 'flex' : 'none' }]}
-          data={filteredSuggestions}
-          inverted={true}
-          keyboardShouldPersistTaps="always"
-          renderItem={({ item }) =>
-            <Pressable key={item} style={{ height: 25, width: 300, padding: 2, borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }}
-              onPress={() => {
-                pressSuggestion(item.title);
-                setIsFocused(true)
-              }}>
-              <Text>{item.title}</Text>
-            </Pressable>}
-          keyExtractor={(item) => item.title}
-        />
+    <View style={[myStyle, { zIndex: 1000 }]}>
+      <IndexTable />
+      <View style={{ display: 'flex', flexDirection: 'row', zIndex: 1000 }}>
+        <View style={{ display: 'flex', justifyContent: 'center' }}>
+          <FlatList
+            style={[styles.listContainerStyle, { borderColor: borderColor, borderWidth: isFocused && filteredSuggestions.length > 0 ? 1 : 0, display: isFocused ? 'flex' : 'none' }]}
+            data={filteredSuggestions}
+            inverted={true}
+            keyboardShouldPersistTaps="always"
+            renderItem={({ item }) =>
+              <Pressable key={item} style={{ height: 25, width: 150, padding: 2, borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }}
+                onPress={() => {
+                  pressSuggestion(item.title);
+                }}>
+                <Text>{item.title}</Text>
+              </Pressable>}
+            keyExtractor={(item) => item.title}
+          />
 
-        <TextInput
-          style={[styles.button, { borderColor: borderColor, borderWidth: 1, height: 40, width: 150, padding: 10, borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }]}
-          placeholder="Inizia a digitare..."
-          value={inputText}
-          onFocus={() => setIsFocused(true)}
-          onChangeText={handleInputChange}
-        />
+          <TextInput
+            style={[styles.button, { borderColor: borderColor, borderWidth: 1, height: 40, width: 150, padding: 10, borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }]}
+            placeholder="Inizia a digitare..."
+            editable={ingredientChoosen ? false : true}
+            value={inputText}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            onChangeText={handleInputChange}
+          />
+        </View>
+        <View style={{ width: '50%', height: 23, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <SquareAmount ingredient={ingredient} setIngredient={setIngredient} />
+          <SquareUnit ingredient={ingredient} setIngredient={setIngredient} />
+        </View>
+        <Pressable style={{ width: '10%', height: 30, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          onPress={() => {
+            setButtonPressed(true);
+            setIngredientChosen(false);
+          }}>
+          <Ionicons name="add-circle-outline" size={30} />
+        </Pressable>
       </View>
-      <View style={{ width: '50%', height: 23, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <SquareAmount isFocused={squareAmountIsFocused} onFocus={setSquareAmountIsFocused} />
-        <SquareUnit isFocused={squareUnitIsFocused} onFocus={setSquareUnitIsFocused} />
-      </View>
-      <Ionicons name="add-circle-outline" size={30} />
-      <View style={{ width: '100%', position: 'relative', display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-around', width: '100%', marginTop: 5 }}>
-        {ingredients.map((ingredient, index) => {
-          const squareAmountIsFocused = ingredientStates[`squareAmount${index}`] || false; // Stato di focus del pulsante per la quantità
-          const squareUnitIsFocused = ingredientStates[`squareUnit${index}`] || false; // Stato di focus del pulsante per l'unità di misura
+      <View style={{ width: '100%' }}>
+        <View style={{ width: '100%' }}>
+          {ingredients.map((ingredient, index) => {
+            return (
+              <IngredientTable key={index} ingredient={ingredient} />
+            );
+          }
+          )}
+        </View>
 
-          const handleSquareAmountFocus = () => {
-            setIngredientStates({
-              ...ingredientStates,
-              [`squareAmount${index}`]: !squareAmountIsFocused,
-            });
-          };
-
-          const handleSquareUnitFocus = () => {
-            setIngredientStates({
-              ...ingredientStates,
-              [`squareUnit${index}`]: !squareUnitIsFocused,
-            });
-          };
-
-          return (
-            <View style={{ width: '35%' }} key={ingredient}>
-              <Text>{ingredient}</Text>
-              <View style={{ width: '100%', height: 23, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <SquareAmount isFocused={squareAmountIsFocused} onFocus={handleSquareAmountFocus} />
-                <SquareUnit isFocused={squareUnitIsFocused} onFocus={handleSquareUnitFocus} />
-              </View>
-            </View>
-          );
-        })}
       </View>
     </View>
-
   );
 }
 
-const SquareAmount = ({ isFocused, onFocus }) => {
-  const handleFocus = () => {
-    onFocus(!isFocused);
-  };
+const SquareAmount = ({ ingredient, setIngredient }) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const [textInput, setTextInput] = useState('');
 
   return (
-    <Pressable style={[styles.squareAmount, { borderColor: isFocused ? 'blue' : 'grey' }]} onPress={handleFocus}
-      onBlur={handleFocus} />
+    <TextInput style={[styles.squareAmount, { borderColor: isFocused ? 'blue' : 'grey' }]}
+      value={ingredient.amount}
+      keyboardType='numeric'
+      onFocus={() => setIsFocused(true)}
+      onBlur={() => setIsFocused(false)}
+      onChangeText={(value) => {
+        setTextInput(value);
+        const newIngredient = { ...ingredient, amount: value };
+        setIngredient(newIngredient);
+      }}
+    />
   );
 }
 
-const SquareUnit = ({ isFocused, onFocus }) => {
-  const [value, setValue] = useState('');
-  console.log(value);
-  // const data = [
-  //   { label: 'grams', value: 'gr' },
-  //   { label: 'portions', value: 'ps' },
-  // ];
+const SquareUnit = ({ ingredient, setIngredient }) => {
+  const [value, setValue] = useState();
 
   const staticData = [
     { id: 0, value: "gr" },
@@ -152,46 +162,50 @@ const SquareUnit = ({ isFocused, onFocus }) => {
   ];
 
   return (
-    <View style={{ width: '20%', flex: 1}}>
-      {/* <Dropdown
-        style={[styles.dropdown, isFocused && { borderColor: 'blue' }]}
-        placeholderStyle={styles.placeholderStyle}
-        containerStyle={{width: '100%', backgroundColor: 'blue'}}
-        itemTextStyle={{ fontSize: 12}}
-        selectedTextStyle={styles.selectedTextStyle}
-        listStyle={{ padding: 0, margin: 0 }}
-        data={data} 
-        maxHeight={300} 
-        labelField="label" 
-        valueField="value" 
-        placeholder='Unit'
-        value={value} 
-        onChange={item => { 
-          setValue(item.value); 
-        }}
-      /> */}
-      <RNSingleSelect width={50} height={40} menuBarContainerWidth={60} menuBarContainerBackgroundColor={'#f8f4fc'}
-        buttonContainerStyle={{ borderRadius: 0, borderTopLeftRadius: 0,  backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey'}}
-        placeholderTextStyle={{ fontSize: 12, color: 'black', padding: 0, margin: 0, width: 25, right: 10, textAlign: 'center'}}
+    <View style={{ width: '40%', flex: 1 }}>
+      <RNSingleSelect width={'100%'} height={40} menuBarContainerWidth={60} menuBarContainerBackgroundColor={'#f8f4fc'}
+        buttonContainerStyle={{ borderRadius: 0, borderTopLeftRadius: 0, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey' }}
+        placeholderTextStyle={{ fontSize: 12, color: 'black', padding: 0, margin: 0, width: 25, right: 10, textAlign: 'center', width: '100%' }}
         menuItemTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         menuBarContainerHeight={100}
+        placeholder={ingredient.unit ? ingredient.unit : 'Unit'}
         menuBarContainerStyle={{ width: 50, height: 100, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
-        menuItem
         arrowImageStyle={styles.iconStyle}
-        placeholder='Unit'
         menuBarTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         searchEnabled={false}
-        darkMode={true}
+        darkMode
         data={staticData}
-        onSelect={(selectedItem) =>
-          console.log("SelectedItem: ", selectedItem)
+        onSelect={(selectedItem) => {
+          setValue(selectedItem.value);
+          console.log(selectedItem);
+          const newIngredient = { ...ingredient, unit: selectedItem.value };
+          setIngredient(newIngredient);
+        }
         }
       />
-
     </View>
   );
 }
 
+const IndexTable = ({ }) => {
+  return (
+    <View style={{ width: 300, height: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ width: '50%', textAlign: 'center' }}>Ingredienti</Text>
+      <Text style={{ width: '25%', textAlign: 'center' }}>Quantità</Text>
+      <Text style={{ width: '25%', textAlign: 'center' }}>Unità</Text>
+    </View>
+  )
+}
+
+const IngredientTable = ({ ingredient }) => {
+  return (
+    <View style={{ width: 300, height: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+      <Text style={{ width: '50%', textAlign: 'center' }}>{ingredient.name}</Text>
+      <Text style={{ width: '25%', textAlign: 'center' }}>{ingredient.amount}</Text>
+      <Text style={{ width: '25%', textAlign: 'center' }}>{ingredient.unit}</Text>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
