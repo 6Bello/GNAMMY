@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import UserRecipes from './UserRecipes';    
+import UserRecipes from './UserRecipes';
 
 const LoggedInPage = ({ user, userFavouriteRecipes, setUserFavouriteRecipes }) => {
     const [userRecipesLiked, setUseRecipesLiked] = useState(userFavouriteRecipes.length);
@@ -9,27 +9,9 @@ const LoggedInPage = ({ user, userFavouriteRecipes, setUserFavouriteRecipes }) =
         setUseRecipesLiked(userFavouriteRecipes.length);
     }, [userFavouriteRecipes]);
     return (
-        <View style={{height: '100%'}}>
+        <View style={{ height: '100%' }}>
             <View style={styles.profileInfo}>
-                {/* Immagine del profilo */}
-                <Image source={require("../assets/user.png")} style={styles.profileImage} />
-
-                {/* Nome utente */}
-                <Text style={styles.username}>{user.name}</Text>
-                <Text style={styles.handle}>@{user.username}</Text>
-
-                {/* Informazioni aggiuntive */}
-                <View style={styles.statsContainer}>
-                    <View style={styles.stat}>
-                        <Text style={styles.statNumber}>{userRecipesLiked}</Text>
-                        <Text style={styles.statName}>Like messi</Text>
-                    </View>
-                    <View style={styles.stat}>
-                        <Text style={styles.statNumber}>3</Text>
-                        <Text style={styles.statName}>Media Like</Text>
-                    </View>
-                    <UserRecipes user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
-                </View>
+            <UserRecipes user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
             </View>
         </View>
     );
@@ -60,6 +42,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '80%',
         marginBottom: 20,
+        alignItems: 'center',
     },
     stat: {
         alignItems: 'center',
