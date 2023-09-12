@@ -47,19 +47,19 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
     setFilteredSuggestions('');
     setIngredientChosen(true);
     setInputText(suggestion);
-    setIngredient({ name: suggestion, amount: '', unit: '' });
+    setIngredient({ title: suggestion, amount: '', unit: '' });
     setIngredient
   };
 
   useEffect(() => {
     setButtonPressed(false);
-    if (inputText == '') { console.log('ingredient.name == ""'); return; }
+    if (inputText == '') { console.log('ingredient.title == ""'); return; }
     if (ingredient.amount == '') { console.log('ingredient.amount == ""'); return; }
     if (ingredient.unit == '') { console.log('ingredient.unit == ""'); return; }
 
     // Crea un nuovo oggetto con le modifiche
     const newIngredient = {
-      name: inputText,
+      title: inputText,
       amount: ingredient.amount,
       unit: ingredient.unit,
     };
@@ -69,7 +69,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
     if(buttonPressed) onChangeText([...ingredients, newIngredient]);
 
     // Resetta gli stati
-    setIngredient({ name: '', amount: '', unit: '' });
+    setIngredient({ title: '', amount: '', unit: '' });
     setInputText('');
   }, [buttonPressed]);
 
@@ -81,6 +81,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
         <View style={{ display: 'flex', justifyContent: 'center' }}>
           <FlatList
             style={[styles.listContainerStyle, { borderColor: borderColor, borderWidth: isFocused && filteredSuggestions.length > 0 ? 1 : 0, display: isFocused ? 'flex' : 'none' }]}
+            scrollEnabled={false}
             data={filteredSuggestions}
             inverted={true}
             keyboardShouldPersistTaps="always"
@@ -117,13 +118,15 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
         </Pressable>
       </View>
       <View style={{ width: '100%' }}>
-          {ingredients.map((ingredient, index) => {
-            const recipeNumber = index;
-            return (
-              <IngredientTable key={index} ingredient={ingredient} recipeNumber={recipeNumber} lastIngredient={ingredients.length - 1} />
-            );
-          }
+        <FlatList
+          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden'}}
+          data={ingredients}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item, index }) => (
+            <IngredientTable ingredient={item} recipeNumber={index} lastIngredient={ingredients.length - 1} />
           )}
+          keyExtractor={(item) => item.title}
+        />
       </View>
     </View>
   );
@@ -195,7 +198,7 @@ const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
   return (
     <View style={{ width: 300, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
       <View style={{ width: '50%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1, borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }}>
-        <Text style={{ textAlign: 'center', }}>{ingredient.name}</Text>
+        <Text style={{ textAlign: 'center', }}>{ingredient.title}</Text>
       </View>
       <View style={{ width: '25%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1}}>
         <Text style={{ textAlign: 'center', }}>{ingredient.amount}</Text>
