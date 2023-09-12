@@ -20,16 +20,13 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
 
   useEffect(() => {
-    onChangeText(inputText);
     if (inputText.length == 0) {
       setFilteredSuggestions('');
       return;
     } if (inputText[inputText.length - 1] == ',' || inputText[inputText.length - 1] == ' ') {
       setFilteredSuggestions('');
-      console.log(ingredients);
       return;
     }
-    console.log(inputText.split(',').pop().trim());
     const lastIngredient = inputText.split(',').pop().trim(); // Prende l'ultimo ingrediente inserito
     // Filtra le parole suggerite in base a ciò che l'utente ha digitato
     axios.get(`http://gnammy.mywire.org/getIngredientsByName/${lastIngredient}`)
@@ -46,11 +43,11 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
   };
 
   const pressSuggestion = (suggestion) => {
+    console.log('suggestion: ', suggestion);
     setFilteredSuggestions('');
     setIngredientChosen(true);
     setInputText(suggestion);
     setIngredient({ name: suggestion, amount: '', unit: '' });
-    console.log(filteredSuggestions)
     setIngredient
   };
 
@@ -69,14 +66,14 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
     // Aggiungi il nuovo ingrediente all'array ingredients
     setIngredients([...ingredients, newIngredient]);
-    
+    if(buttonPressed) onChangeText([...ingredients, newIngredient]);
+
     // Resetta gli stati
     setIngredient({ name: '', amount: '', unit: '' });
     setInputText('');
-    console.log(ingredients);
   }, [buttonPressed]);
-  
-  
+
+
   return (
     <View style={[myStyle, { zIndex: 1000 }]}>
       <IndexTable />
@@ -98,7 +95,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           />
 
           <TextInput
-            style={[styles.button, { borderColor: borderColor, borderWidth: 1, height: 40, width: 150, padding: 10, borderTopWidth: 1, justifyContent: 'center', alignItems: 'center' }]}
+            style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1 }]}
             placeholder="Inizia a digitare..."
             editable={ingredientChoosen ? false : true}
             value={inputText}
@@ -111,7 +108,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           <SquareAmount ingredient={ingredient} setIngredient={setIngredient} />
           <SquareUnit ingredient={ingredient} setIngredient={setIngredient} />
         </View>
-        <Pressable style={{ width: '10%', height: 30, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+        <Pressable style={{ width: '10%', height: 45, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           onPress={() => {
             setButtonPressed(true);
             setIngredientChosen(false);
@@ -120,15 +117,13 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
         </Pressable>
       </View>
       <View style={{ width: '100%' }}>
-        <View style={{ width: '100%' }}>
           {ingredients.map((ingredient, index) => {
+            const recipeNumber = index;
             return (
-              <IngredientTable key={index} ingredient={ingredient} />
+              <IngredientTable key={index} ingredient={ingredient} recipeNumber={recipeNumber} lastIngredient={ingredients.length - 1} />
             );
           }
           )}
-        </View>
-
       </View>
     </View>
   );
@@ -163,13 +158,13 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
 
   return (
     <View style={{ width: '40%', flex: 1 }}>
-      <RNSingleSelect width={'100%'} height={40} menuBarContainerWidth={60} menuBarContainerBackgroundColor={'#f8f4fc'}
+      <RNSingleSelect width={'100%'} height={45} menuBarContainerWidth={60} menuBarContainerBackgroundColor={'#f8f4fc'}
         buttonContainerStyle={{ borderRadius: 0, borderTopLeftRadius: 0, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey' }}
         placeholderTextStyle={{ fontSize: 12, color: 'black', padding: 0, margin: 0, width: 25, right: 10, textAlign: 'center', width: '100%' }}
         menuItemTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         menuBarContainerHeight={100}
         placeholder={ingredient.unit ? ingredient.unit : 'Unit'}
-        menuBarContainerStyle={{ width: 50, height: 100, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
+        menuBarContainerStyle={{ width: '100%', height: 100, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
         arrowImageStyle={styles.iconStyle}
         menuBarTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         searchEnabled={false}
@@ -177,7 +172,6 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
         data={staticData}
         onSelect={(selectedItem) => {
           setValue(selectedItem.value);
-          console.log(selectedItem);
           const newIngredient = { ...ingredient, unit: selectedItem.value };
           setIngredient(newIngredient);
         }
@@ -197,12 +191,18 @@ const IndexTable = ({ }) => {
   )
 }
 
-const IngredientTable = ({ ingredient }) => {
+const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
   return (
-    <View style={{ width: 300, height: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ width: '50%', textAlign: 'center' }}>{ingredient.name}</Text>
-      <Text style={{ width: '25%', textAlign: 'center' }}>{ingredient.amount}</Text>
-      <Text style={{ width: '25%', textAlign: 'center' }}>{ingredient.unit}</Text>
+    <View style={{ width: 300, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{ width: '50%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1, borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }}>
+        <Text style={{ textAlign: 'center', }}>{ingredient.name}</Text>
+      </View>
+      <View style={{ width: '25%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1}}>
+        <Text style={{ textAlign: 'center', }}>{ingredient.amount}</Text>
+      </View>
+      <View style={{ width: '25%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: recipeNumber == lastIngredient ? 5 : 0 }}>
+        <Text style={{ textAlign: 'center', }}>{ingredient.unit}</Text>
+      </View>
     </View>
   )
 }
@@ -215,10 +215,10 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     padding: 10,
-    borderRadius: 5,
+    borderTopLeftRadius: 5,
     backgroundColor: "#f8f4fc",
     display: 'flex',
-    width: '100%',
+    width: 150,
     height: 45,
     zIndex: 2,
   },
@@ -234,11 +234,18 @@ const styles = StyleSheet.create({
   },
   squareAmount: {
     width: '50%',
-    height: '100%',
-    borderWidth: 1,
+    height: 45,
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+    borderTopWidth: 1,
+    alignItems: "center",
+    padding: 10,
+    backgroundColor: "#f8f4fc",
+    display: 'flex',
+    zIndex: 2,
   },
   dropdown: {
-    height: 25,
+    height: 40,
     borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
