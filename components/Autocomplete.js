@@ -155,7 +155,7 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
 
   const staticData = [
     { id: 0, value: "gr" },
-    { id: 1, value: "pz" },
+    { id: 1, value: "pc" },
   ];
 
   return (
