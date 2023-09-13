@@ -6,7 +6,7 @@ import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
 
 
-const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe, got }) => {
+const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
   const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
 
   const handleInputChange = (campo, value) => {

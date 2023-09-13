@@ -43,7 +43,6 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
   };
 
   const pressSuggestion = (suggestion) => {
-    console.log('suggestion: ', suggestion);
     setFilteredSuggestions('');
     setIngredientChosen(true);
     setInputText(suggestion);
