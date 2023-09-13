@@ -21,9 +21,6 @@ export default function AddRecipes ({isLoggedIn, user}) {
       setRecipe({...recipe, difficulty: starsSelected});
     }, [starsSelected]);
   
-    
-    const [category, setCategory] = useState("");
-  
     const [showCategories, setShowCategories] = useState(false);
     const handleShowCategories = () => {
       setShowCategories(!showCategories);
@@ -77,7 +74,6 @@ export default function AddRecipes ({isLoggedIn, user}) {
             user.createdRecipes.push(response.data[1]);
             console.log(response.data);
             setRecipe(recipeInitialState)
-            setCategory("")
           })
           .catch((error) => {
             console.log(error);

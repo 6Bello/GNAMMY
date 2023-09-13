@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import ListCategories from '../../components/ListCategories';
-import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
-import { Touchable } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
@@ -20,7 +18,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around ', paddingLeft: '25%'}}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%'}}>
           <View style={{ alignItems: 'center', }}>
             <Text style={styles.title}>Descrivi la tua ricetta...</Text>
           </View>
