@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import ListCategories from '../../components/ListCategories';
-import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, Modal } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
+import { Touchable } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
+const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
   const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
 
   const handleInputChange = (campo, value) => {
@@ -18,35 +20,24 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={styles.title}>Descrivi la tua ricetta...</Text>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around ', paddingLeft: '25%'}}>
+          <View style={{ alignItems: 'center', }}>
+            <Text style={styles.title}>Descrivi la tua ricetta...</Text>
+          </View>
+          <View style={{width: '25%', justifyContent: 'flex-end', alignItems: 'center'}} >
+            <TouchableOpacity onPress={() => setRecipe(recipeInitialState)}>
+              <MaterialCommunityIcons name="trash-can-outline" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <MyTextInput myStyle={{ width: 150, height: 40, marginTop: 20 }}
             value={recipe.title}
             onChangeText={(value) => handleInputChange('title', value)}
             placeholder="Nome della ricetta"
           />
         </View>
-
-        {showCategories ?
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-              }}
-            >
-              <ListCategories initialCategories={categories} onCategories={handleCategories} handleShow={handleShowCategories} />
-            </Modal>
-          </View>
-          :
-          <Pressable onPress={handleShowCategories} style={{ position: 'absolute', right: 5, top: 5 }}>
-            <Text>seleziona le categorie</Text>
-          </Pressable>
-        }
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 190, height: 50, alignItems: 'center' }}>
           <Text>Per quante persone?</Text>
           <MyTextInput
@@ -61,11 +52,11 @@ const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, ha
           onChangeText={(value) => handleInputChange('description', value)}
           placeholder="Descrizione"
         />
-          <Autocomplete
-            myStyle={{ width: 300, marginTop: 20 }}
-            defaultValue='ciao'
-            onChangeText={(value) => handleInputChange('ingredients', value)}
-          />
+        <Autocomplete
+          myStyle={{ width: 300, marginTop: 20 }}
+          defaultValue='ciao'
+          onChangeText={(value) => handleInputChange('ingredients', value)}
+        />
         <MyTextInput
           myStyle={{ width: 300, marginTop: 20 }}
           value={recipe.preparation}

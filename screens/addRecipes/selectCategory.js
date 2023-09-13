@@ -4,7 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AlertSignUp from '../../components/alertSignUp';
 import { useNavigation } from '@react-navigation/native';
 
-const SelectCategory = ({ isLoggedIn, setCategory }) => {
+const SelectCategory = ({ isLoggedIn, recipe, setRecipe }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -24,7 +24,8 @@ const SelectCategory = ({ isLoggedIn, setCategory }) => {
     if (isLoggedIn === false) {
       return;
     }
-    setCategory(category);
+    setRecipe({ ...recipe, category: category });
+    console.log(category);
   };
 
   return (

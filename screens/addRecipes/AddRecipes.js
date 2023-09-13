@@ -3,6 +3,7 @@ import CompileRecipe from './compileRecipe';
 import SelectCategory from './selectCategory';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
+import { set } from 'react-native-reanimated';
 
 export default function AddRecipes ({isLoggedIn, user}) {
     const navigation = useNavigation();
@@ -17,7 +18,7 @@ export default function AddRecipes ({isLoggedIn, user}) {
   
     const [starsSelected, setStarsSelected] = useState(0);
     useEffect(() => {
-      recipe.difficulty = starsSelected;
+      setRecipe({...recipe, difficulty: starsSelected});
     }, [starsSelected]);
   
     
@@ -43,10 +44,10 @@ export default function AddRecipes ({isLoggedIn, user}) {
     };
     const [recipe, setRecipe] = useState(recipeInitialState);
 
+
     const createRecipe = () => {
         recipe.creator = user.username;
         recipe.creatorId = user.id;
-        recipe.category = category;
         if (recipe.title === '') {
           alert('Inserisci il titolo');
           return;
@@ -84,13 +85,13 @@ export default function AddRecipes ({isLoggedIn, user}) {
         setRecipe(recipeInitialState);
       };
     
-    if (category == "") {
+    if (recipe.category == "") {
         return (
-            <SelectCategory isLoggedIn={isLoggedIn} category={category} setCategory={setCategory}/>
+            <SelectCategory isLoggedIn={isLoggedIn} recipe={recipe} setRecipe={setRecipe}/>
         );
     } else {
         return (
-            <CompileRecipe user={user} isLoggedIn={isLoggedIn} recipe={recipe} setRecipe={setRecipe} showCategories={showCategories} handleShowCategories={handleShowCategories} createRecipe={createRecipe} starsSelected={starsSelected} setStarsSelected={setStarsSelected}  />
+            <CompileRecipe recipeInitialState={recipeInitialState} user={user} isLoggedIn={isLoggedIn} recipe={recipe} setRecipe={setRecipe} showCategories={showCategories} handleShowCategories={handleShowCategories} createRecipe={createRecipe} starsSelected={starsSelected} setStarsSelected={setStarsSelected}  />
         );
     }
 }
