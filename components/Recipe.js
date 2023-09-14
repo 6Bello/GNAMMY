@@ -53,7 +53,7 @@ const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRe
               {
                 translateY: scrollY.interpolate({
                   inputRange,
-                  outputRange: [-height * 0.2, 0, height * 0.2],
+                  outputRange: [-height * 0.1, 0, height * 0.1],
                 })
               }
             ],

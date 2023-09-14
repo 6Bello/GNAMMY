@@ -4,6 +4,7 @@ import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressab
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 
 const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
@@ -61,8 +62,15 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           onChangeText={(value) => handleInputChange('preparation', value)}
           placeholder="Preparazione"
         />
+        <RNDateTimePicker
+          style={{ width: 300, marginTop: 20 }}
+          value={new Date(0)}
+          mode="time"
+          display="default"
+          onChange={(event, selectedDate) => handleInputChange('time', selectedDate)}
+        />
         <MyTextInput
-          myStyle={{ width: 300, marginTop: 20 }}
+          myStyle={{ width: 300, marginTop: 20 }} themeVariant="light"
           value={recipe.time}
           keyboardType="numeric"
           onChangeText={(value) => handleInputChange('time', value)}
