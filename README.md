@@ -6,6 +6,7 @@ tanto o poco cibo🍅 e una grande passione.❤️
 La community di gnammy 🌍👥 deciderà le migliori ricette e la possibilità che la tua diventi virale, un social dove cuochi e non, si possono trasmettere cultura, tradizioni ed invenzioni culinarie! 🌟🌍💡
 
 ## tecnologie
+* nginx
 * react-native
 * expo
 * mysql
