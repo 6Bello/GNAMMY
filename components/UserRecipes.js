@@ -5,7 +5,7 @@ import { initRecipes } from './initRecipes';
 import Recipe from './Recipe';
 import axios from "axios";
 
-const UserRecipes = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, endRefreshing, onEndRefresh, user }) => {
+const UserPage = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, endRefreshing, onEndRefresh, user }) => {
     const [recipes, setRecipes] = useState([0]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
     const updateRecipes = (newRecipes) => {
         setRecipes(newRecipes);
@@ -67,48 +67,31 @@ const UserRecipes = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], s
     const renderRecipeItem = ({ item, index }) => {
         if (index === 0) {
             return (
-                <View style={{ alignItems: 'center' }}>
-                    {/* Immagine del profilo */}
-
-                    <View>
-                        <Image source={require("../assets/user.png")} style={styles.profileImage} />
-
-                        {/* Nome utente */}
-                        <Text style={styles.username}>{user.name}</Text>
-                        <Text style={styles.handle}>@{user.username}</Text>
+                <View>
+                    <ProfileInformationPage user={user} userFavouriteRecipes={userFavouriteRecipes} />
+                    <View style={{ alignItems: 'center' }}>
+                        <Recipe
+                            key={index}
+                            idUser={idUser}
+                            isLoggedIn={isLoggedIn}
+                            item={item}
+                            index={index}
+                            updateRecipes={updateRecipes}
+                            recipes={recipes}
+                            userFavouriteRecipes={userFavouriteRecipes}
+                            addFavouriteRecipe={addFavouriteRecipe}
+                            removeFavouriteRecipe={removeFavouriteRecipe}
+                            ITEM_HEIGHT={ITEM_HEIGHT}
+                            ITEM_WIDTH={ITEM_WIDTH}
+                            scrollY={scrollY}
+                            height={height}
+                            inputRange={[
+                                (index - 1) * ITEM_HEIGHT,
+                                index * ITEM_HEIGHT,
+                                (index + 1) * ITEM_HEIGHT,
+                            ]}
+                        />
                     </View>
-                    {/* Informazioni aggiuntive */}
-                    <View style={styles.statsContainer}>
-                        <View style={styles.stat}>
-                            <Text style={styles.statNumber}>{userFavouriteRecipes.length}</Text>
-                            <Text style={styles.statName}>Like messi</Text>
-                        </View>
-                        <View style={styles.stat}>
-                            <Text style={styles.statNumber}>#</Text>
-                            <Text style={styles.statName}>Media Like</Text>
-                        </View>
-                    </View>
-                    <Recipe
-                        key={index}
-                        idUser={idUser}
-                        isLoggedIn={isLoggedIn}
-                        item={item}
-                        index={index}
-                        updateRecipes={updateRecipes}
-                        recipes={recipes}
-                        userFavouriteRecipes={userFavouriteRecipes}
-                        addFavouriteRecipe={addFavouriteRecipe}
-                        removeFavouriteRecipe={removeFavouriteRecipe}
-                        ITEM_HEIGHT={ITEM_HEIGHT}
-                        ITEM_WIDTH={ITEM_WIDTH}
-                        scrollY={scrollY}
-                        height={height}
-                        inputRange={[
-                            (index - 1) * ITEM_HEIGHT,
-                            index * ITEM_HEIGHT,
-                            (index + 1) * ITEM_HEIGHT,
-                        ]}
-                    />
                 </View>
             )
         }
@@ -169,27 +152,61 @@ const UserRecipes = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], s
         );
     };
 
+    if (recipes.length === 0) {
+        return (
+            <View>
+                <ProfileInformationPage user={user} userFavouriteRecipes={userFavouriteRecipes} />
+            </View>
+        )
+    } else {
+        return (
+            <View style={{ justifyContent: 'center', height: '100%' }} >
+                <Animated.FlatList
+                    style={styles.container}
+                    data={recipes}
+                    renderItem={renderRecipeItem}
+                    showsVerticalScrollIndicator={false}
+                    onScroll={Animated.event(
+                        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+                        { useNativeDriver: true }
+                    )}
+                    keyExtractor={(item, index) => index.toString()}
+                    onEndReached={onEndRefresh}
+                    onEndReachedThreshold={0.1}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
+                />
+            </View>
+        );
+    }
+};
+
+const ProfileInformationPage = ({ user, userFavouriteRecipes }) => {
     return (
-        <View style={{ justifyContent: 'center', height: '100%' }} >
-            <Animated.FlatList
-                style={styles.container}
-                data={recipes}
-                renderItem={renderRecipeItem}
-                showsVerticalScrollIndicator={false}
-                onScroll={Animated.event(
-                    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-                    { useNativeDriver: true }
-                )}
-                keyExtractor={(item, index) => index.toString()}
-                onEndReached={onEndRefresh}
-                onEndReachedThreshold={0.1}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />
-                }
-            />
+        <View style={{ alignItems: 'center' }}>
+            {/* Immagine del profilo */}
+            <View>
+                <Image source={require("../assets/user.png")} style={styles.profileImage} />
+
+                {/* Nome utente */}
+                <Text style={styles.username}>{user.name}</Text>
+                <Text style={styles.handle}>@{user.username}</Text>
+            </View>
+            {/* Informazioni aggiuntive */}
+            <View style={styles.statsContainer}>
+                <View style={styles.stat}>
+                    <Text style={styles.statNumber}>{userFavouriteRecipes.length}</Text>
+                    <Text style={styles.statName}>Like messi</Text>
+                </View>
+                <View style={styles.stat}>
+                    <Text style={styles.statNumber}>#</Text>
+                    <Text style={styles.statName}>Media Like</Text>
+                </View>
+            </View>
         </View>
     );
 };
@@ -265,4 +282,4 @@ const styles = StyleSheet.create({
 //     },
 // });
 
-export default UserRecipes;
+export default UserPage;

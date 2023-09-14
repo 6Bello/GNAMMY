@@ -12,9 +12,7 @@ import Account from './screens/Account';
 import Search from './screens/Search';
 import HeaderRightButton from './components/HeaderRightButton';
 import AddRecipes from './screens/addRecipes/AddRecipes';
-import ProfilePage from './screens/ProfilePage';
 import SplashScreen from './screens/SplashScreen';
-import LoggedInPage from './components/LoggedInPage';
 
 const Tab = createBottomTabNavigator();
 

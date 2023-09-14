@@ -10,9 +10,7 @@ const LoggedInPage = ({ user, userFavouriteRecipes, setUserFavouriteRecipes }) =
     }, [userFavouriteRecipes]);
     return (
         <View style={{ height: '100%' }}>
-            <View style={styles.profileInfo}>
             <UserRecipes user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
-            </View>
         </View>
     );
 }
