@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import Login from '../components/Login';
 import Register from '../components/Register';
-import LoggedInPage from '../components/LoggedInPage';
+import UserPage from '../components/UserRecipes';
 export default function App({user, isLoggedIn, updateUserData, userFavouriteRecipes, setUserFavouriteRecipes}) {
 
   return (
     <View>
       {isLoggedIn ? (
-        <LoggedInPage user={user} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
+        <UserPage user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
       ) : (
         <NotLoggedInPage updateUserData={updateUserData} />
       )}

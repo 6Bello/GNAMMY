@@ -128,7 +128,7 @@ function MainScreen() {
         <Tab.Screen
           name="Account"
           options={{
-            headerTitle: "",
+            headerTitle: user ? user.username : '',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name='account' size={size} color={color} />
             ),
