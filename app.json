@@ -6,11 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/animation/lottie.json",
-      "resizeMode": "contain",
-      "backgroundColor": "black"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
