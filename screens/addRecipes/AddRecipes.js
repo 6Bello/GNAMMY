@@ -31,7 +31,7 @@ export default function AddRecipes ({isLoggedIn, user}) {
       creatorId: '',
       title: '',
       category: '',
-      time: '',
+      time: '0:0:0',
       portions: '',
       preparation: '',
       description: '',
