@@ -81,11 +81,23 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           {(osName!=='ios') ? (<Pressable onPress={showTimePicker}>
             <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold" }}>Tempo {recipe.time.split(':').join(':')}</Text>
           </Pressable>) :
-            (<Text>time: {recipe.time}</Text>)
+            (<Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>)
           }
-          {(show || osName==='ios') && (
+          <View style={{ alignItems: 'center', justifyContent: 'center', padding: 5, display: 'flex', flexDirection: 'row',}}>
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 35}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) + 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
+          </Pressable>{(show || osName==='ios') && (
+            
               <RNDateTimePicker
-                style={{ width: 200 }}
                 value={new Date(0, 0, 0, hours, minutes, 0, 0)}
                 mode="time"
                 is24Hour={true}
@@ -102,26 +114,19 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
                 }}
               />
             )}
-          <Pressable onPress={() => {
-            const date = recipe.time.split(':');
-            const day = parseInt(date[0]) + 1;
-            const hours = parseInt(date[1]);
-            const minutes = parseInt(date[2]);
-            handleInputChange('time', day + ':' + hours + ':' + minutes)
-          }
-          }>
-            <Text>aggiungi un giorno</Text>
-          </Pressable>
+            </View>
+          
         <Pressable
-          style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
+          style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%", }}
           onPress={() => handleInputChange('gluten', !recipe.gluten)}
         >
-          <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", marginTop: 5 }}>
-            <Text style={{ marginRight: 10 }} >gluten free</Text>
+          <View style={{ display: "flex", flexDirection: "row", justifyContent:'center', marginTop: 5, alignItems: 'center', marginLeft: 20 }}>
+            <Text style={{ marginRight: 10,}} >Gluten free</Text>
             {recipe.gluten ? (<AntDesign name="closecircleo" size={20} color="red" />) : (<AntDesign name="checkcircleo" size={20} color="green" />)}
           </View>
         </Pressable>
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <View style={{ display: 'flex', flexDirection: 'row', padding: 5, alignItems: 'center',  }}>
+          <Text>Difficoltà  </Text>
           <Pressable onPress={() => starsSelected !== 1 && setStarsSelected(1)}>
             <MaterialCommunityIcons name={starsSelected >= 1 ? "star" : "star-outline"} size={24} color="black" />
           </Pressable>
@@ -139,8 +144,8 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           </Pressable>
         </View>
 
-        <Pressable onPress={createRecipe}>
-          <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold" }}>Crea</Text>
+        <Pressable onPress={createRecipe} style={{backgroundColor: 'rgb(235, 235, 235)', padding: 5, width: 80, borderRadius: 7, }}>
+          <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold", textAlign: 'center'}}>Crea</Text>
         </Pressable>
       </View>
     </View>
