@@ -1,29 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListCategories from '../../components/ListCategories';
 import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
 
 
 const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
   const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
+  const osName = Platform.OS;
+  const [show, setShow] = useState(osName === 'ios' ? true : false);
 
   const handleInputChange = (campo, value) => {
     const newRecipe = { ...recipe };
     newRecipe[campo] = value;
+    console.log(newRecipe);
     setRecipe(newRecipe)
   };
+
+  const showTimePicker = () => {
+    setShow(true);
+  };
+
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+
+  useEffect(() => {
+    setHours(parseInt(recipe.time.split(':')[1], 10));
+    setMinutes(parseInt(recipe.time.split(':')[2], 10));
+  }, [recipe.time]);
 
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%'}}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%' }}>
           <View style={{ alignItems: 'center', }}>
             <Text style={styles.title}>Descrivi la tua ricetta...</Text>
           </View>
-          <View style={{width: '25%', justifyContent: 'flex-end', alignItems: 'center'}} >
+          <View style={{ width: '25%', justifyContent: 'flex-end', alignItems: 'center' }} >
             <TouchableOpacity onPress={() => setRecipe(recipeInitialState)}>
               <MaterialCommunityIcons name="trash-can-outline" size={24} color="black" />
             </TouchableOpacity>
@@ -62,20 +78,40 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           onChangeText={(value) => handleInputChange('preparation', value)}
           placeholder="Preparazione"
         />
-        <RNDateTimePicker
-          style={{ width: 300, marginTop: 20 }}
-          value={new Date(0)}
-          mode="time"
-          display="default"
-          onChange={(event, selectedDate) => handleInputChange('time', selectedDate)}
-        />
-        <MyTextInput
-          myStyle={{ width: 300, marginTop: 20 }} themeVariant="light"
-          value={recipe.time}
-          keyboardType="numeric"
-          onChangeText={(value) => handleInputChange('time', value)}
-          placeholder="Tempo"
-        />
+          {(osName!=='ios') ? (<Pressable onPress={showTimePicker}>
+            <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold" }}>Tempo {recipe.time.split(':').join(':')}</Text>
+          </Pressable>) :
+            (<Text>time: {recipe.time}</Text>)
+          }
+          {(show || osName==='ios') && (
+              <RNDateTimePicker
+                style={{ width: 200 }}
+                value={new Date(0, 0, 0, hours, minutes, 0, 0)}
+                mode="time"
+                is24Hour={true}
+                display= {osName === 'ios' ? 'default' : 'spinner'}
+                onChange={(event, selectedDate) => {
+                  const day = recipe.time.split(':')[0];
+                  const hours = selectedDate.getHours();
+                  const minutes = selectedDate.getMinutes();
+                  setShow(false);
+                  handleInputChange('time', day + ':' + hours + ':' + minutes)
+                  console.log(recipe.time)
+                  console.log(day + ':' + hours + ':' + minutes)
+                  console.log(new Date(0, 0, 0, parseInt(recipe.time.split(':')[1], 10), parseInt(recipe.time.split(':')[2], 10), 0, 0))
+                }}
+              />
+            )}
+          <Pressable onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) + 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text>aggiungi un giorno</Text>
+          </Pressable>
         <Pressable
           style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
           onPress={() => handleInputChange('gluten', !recipe.gluten)}
