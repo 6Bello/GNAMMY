@@ -13,6 +13,7 @@ import {
 import { initRecipes } from './initRecipes';
 import Recipe from './Recipe';
 import axios from 'axios';
+import { domain } from '../dns';
 
 const UserRecipes = ({
   idUser,
@@ -36,7 +37,7 @@ const UserRecipes = ({
 
   useEffect(() => {
     axios
-      .get('http://gnammy.mywire.org:80/getRecipesById', {
+      .get(`${domain}/getRecipesById`, {
         params: {
           recipeIds: user.createdRecipes,
         },

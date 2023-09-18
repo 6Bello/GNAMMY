@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { domain } from "./components/dns";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -69,7 +70,7 @@ function MainScreen() {
       const userData = JSON.parse(userDataSaved);
       console.log("userData", userData);
       axios
-        .get("http://gnammy.mywire.org:80/login", {
+        .get(`${domain}/login`, {
           params: {
             email: userData.email,
             password: userData.password,
