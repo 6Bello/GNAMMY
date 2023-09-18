@@ -6,7 +6,7 @@ import UserPage from '../components/UserRecipes';
 export default function App({user, isLoggedIn, updateUserData, userFavouriteRecipes, setUserFavouriteRecipes}) {
 
   return (
-    <View>
+    <View style={{backgroundColor: '#FFEFAF'}}>
       {isLoggedIn ? (
         <UserPage user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
       ) : (

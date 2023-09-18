@@ -244,6 +244,9 @@ function MainScreen() {
           name="Account"
           options={{
             headerTitle: user ? user.username : "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="account"
