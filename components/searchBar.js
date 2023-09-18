@@ -10,7 +10,7 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
     updateUsersSearched([]);
     loadingTrue();
     axios
-      .get(`http://gnammy.mywire.org:80/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
+      .get(`http://gnammy.mywire.org:9710/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
       .then((response) => {
         const data = response.data; // Ottiene i dati di risposta dall'API
         console.log(data); // Stampa i dati di risposta nella console
@@ -28,7 +28,7 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
     updateRecipes([]);
     loadingTrue();
     axios
-    .get(`http://gnammy.mywire.org:80/getUsers/${searchText}`)
+    .get(`http://gnammy.mywire.org:9710/getUsers/${searchText}`)
     .then((response) => {
       console.log(response.data);
       response.data.forEach(item => {

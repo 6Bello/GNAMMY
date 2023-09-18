@@ -78,14 +78,14 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           onChangeText={(value) => handleInputChange('preparation', value)}
           placeholder="Preparazione"
         />
-          {(osName!=='ios') ? (<Pressable onPress={showTimePicker}>
-            <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold" }}>Tempo {recipe.time.split(':').join(':')}</Text>
-          </Pressable>) :
+          {(osName!=='ios') ? (
+            <Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>
+          ) :
             (<Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>)
           }
           <View style={{ alignItems: 'center', justifyContent: 'center', padding: 5, display: 'flex', flexDirection: 'row',}}>
           <Pressable 
-            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 35}}
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
             onPress={() => {
             const date = recipe.time.split(':');
             const day = parseInt(date[0]) + 1;
@@ -95,7 +95,22 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           }
           }>
             <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
-          </Pressable>{(show || osName==='ios') && (
+          </Pressable>
+         {(recipe.time.split(':')[0] != 0) && (
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) - 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>-24 h</Text>
+          </Pressable> )}
+
+          {(show || osName==='ios') && (
             
               <RNDateTimePicker
                 value={new Date(0, 0, 0, hours, minutes, 0, 0)}
@@ -114,6 +129,10 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
                 }}
               />
             )}
+            {(osName!== 'ios' ) && (
+              <Pressable onPress={showTimePicker} style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40, width: 70, justifyContent: 'center',}}>
+                <Text style={{fontSize: 16, textAlign: 'center', justifyContent: 'center',}}>{recipe.time.split(':')[1]} : {recipe.time.split(':')[2]}</Text>
+              </Pressable>)}
             </View>
           
         <Pressable
@@ -144,7 +163,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           </Pressable>
         </View>
 
-        <Pressable onPress={createRecipe} style={{backgroundColor: 'rgb(235, 235, 235)', padding: 5, width: 80, borderRadius: 7, }}>
+        <Pressable onPress={createRecipe} style={{backgroundColor: 'rgb(235, 235, 235)', padding: 5, width: 90, borderRadius: 7, height: 50, justifyContent: 'center' }}>
           <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold", textAlign: 'center'}}>Crea</Text>
         </Pressable>
       </View>

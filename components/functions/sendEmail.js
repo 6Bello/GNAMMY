@@ -1,7 +1,7 @@
   import axios from 'axios';
   const sendEmail = (email) => {
     axios
-      .post('http://gnammy.mywire.org:80/sendEmail', {
+      .post('http://gnammy.mywire.org:9710/sendEmail', {
         params: {
           email
         }

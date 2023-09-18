@@ -90,7 +90,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     try {
       const hashedPassword = await hashPassword(password);
 
-      const response = await axios.post('http://gnammy.mywire.org:80/register', {
+      const response = await axios.post('http://gnammy.mywire.org:9710/register', {
         email,
         password: hashedPassword,
         username,
@@ -118,7 +118,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const EmailVerified = async () => {
     try {
       console.log(email)
-      const response = await axios.get('http://gnammy.mywire.org:80/checkEmailVerification', {
+      const response = await axios.get('http://gnammy.mywire.org:9710/checkEmailVerification', {
         params: {
           email: email,
         }
@@ -239,7 +239,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
       <View style={[{ height: 500, color: 'orange', backgroundColor: 'white' }]}>
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ width: '20%', marginRight: 50 }}>
-            <Image style={{ width: 118, height: 150, marginTop: 20 }} src={('http://gnammy.mywire.org/img/logo.png')} />
+            <Image style={{ width: 118, height: 150, marginTop: 20 }} src={('http://gnammy.mywire.org:9710/img/logo.png')} />
           </View>
           <View style={{ width: '50%', marginTop: 50, }}>
             <Text style={{ fontSize: 25, fontWeight: 'bold', color: "orange",}}>MANCA L'ULTIMO PASSAGGIO</Text>

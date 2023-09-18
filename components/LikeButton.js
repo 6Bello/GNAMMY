@@ -24,7 +24,7 @@ const LikeButton = ({ idUser, item, key, userFavouriteRecipes, addFavouriteRecip
           if (userFavouriteRecipes.includes(idRecipe)) {
             setIsLiked(false);
             console.log("itemId: ", idRecipe)
-            axios.post(`http://gnammy.mywire.org:80/removeFavouriteRecipe/${idUser}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
+            axios.post(`http://gnammy.mywire.org:9710/removeFavouriteRecipe/${idUser}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('rimosso!');
               removeFavouriteRecipe(idRecipe, key);
@@ -35,7 +35,7 @@ const LikeButton = ({ idUser, item, key, userFavouriteRecipes, addFavouriteRecip
           } else {
             setIsLiked(true);
             console.log("itemId: ", idRecipe)
-            axios.post(`http://gnammy.mywire.org:80/addFavouriteRecipe/${idUser}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
+            axios.post(`http://gnammy.mywire.org:9710/addFavouriteRecipe/${idUser}`, {idRecipe}) // Effettua una richiesta POST all'endpoint specificato utilizzando Axios
             .then(res => {
               console.log('aggiunto!');
               addFavouriteRecipe(idRecipe, key);

@@ -29,7 +29,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
     }
     const lastIngredient = inputText.split(',').pop().trim(); // Prende l'ultimo ingrediente inserito
     // Filtra le parole suggerite in base a ciò che l'utente ha digitato
-    axios.get(`http://gnammy.mywire.org/getIngredientsByName/${lastIngredient}`)
+    axios.get(`http://gnammy.mywire.org:9710/getIngredientsByName/${lastIngredient}`)
       .then((response) => {
         setFilteredSuggestions(response.data);
       })

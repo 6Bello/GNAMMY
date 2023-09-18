@@ -69,7 +69,7 @@ export default function AddRecipes ({isLoggedIn, user}) {
         }
         console.log(recipe);
         axios
-          .post('http://gnammy.mywire.org:80/addRecipes', recipe)    
+          .post('http://gnammy.mywire.org:9710/addRecipes', recipe)    
           .then((response) => {
             user.createdRecipes.push(response.data[1]);
             console.log(response.data);

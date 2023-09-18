@@ -21,7 +21,7 @@ const UserPage = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], setU
     useEffect(() => {
         console.log("user.createdRecipes: ", user.createdRecipes);
         axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-            .get('http://gnammy.mywire.org:80/getRecipesById', {
+            .get('http://gnammy.mywire.org:9710/getRecipesById', {
                 params: {
                     recipeIds: user.createdRecipes
                 }
