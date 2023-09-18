@@ -1,5 +1,5 @@
   import axios from 'axios';
-  import { domain } from '../dns';
+  import { domain } from '../../dns';
   const sendEmail = (email) => {
     axios
       .post(`${domain}/sendEmail`, {
