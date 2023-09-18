@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Animated, Dimensions, FlatList, RefreshControl, ActivityIndicator, Image, Text } from 'react-native';
 import { initRecipes } from './initRecipes';
 
-import Recipe from './Recipe';
 import axios from "axios";
+import { domain } from '../../dns';
+import Recipe from './Recipe';
 
 const UserPage = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, endRefreshing, onEndRefresh, user }) => {
     const [recipes, setRecipes] = useState([0]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
@@ -21,7 +22,7 @@ const UserPage = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], setU
     useEffect(() => {
         console.log("user.createdRecipes: ", user.createdRecipes);
         axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-            .get('http://gnammy.mywire.org:80/getRecipesById', {
+            .get(`${domain}/getRecipesById`, {
                 params: {
                     recipeIds: user.createdRecipes
                 }
