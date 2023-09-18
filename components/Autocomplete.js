@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, Pressable, StyleSheet, StatusBar } from 'react-native';
 import axios from 'axios';
-import { domain } from '../../dns';
+import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 
 import RNSingleSelect from "@freakycoder/react-native-single-select";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, ImageBackground, Text, TouchableOpacity, StyleSheet, } from 'react-native'; // Aggiunta dell'importazione mancante
 import axios from 'axios';
-import { domain } from '../../dns';
+import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearched }) => {
   const [searchText, setSearchText] = useState('prova'); // Stato per memorizzare il testo di ricerca

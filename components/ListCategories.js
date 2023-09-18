@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, ActivityIndicator, ImageBackground, Modal } from "react-native";
 import axios from "axios";
-import { domain } from "../../dns";
+import { domain } from "../dns";
 import { FlatList } from "react-native-gesture-handler";
 
 const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRecipes, filter = 0, onCategories, handleShow }) => {
