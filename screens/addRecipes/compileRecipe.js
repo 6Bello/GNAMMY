@@ -106,12 +106,12 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFEFAF',
   },
   square: {
     width: 20,
     height: 20,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: 'black',
     marginTop: 8,
   },
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 300,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
   },
   title: {

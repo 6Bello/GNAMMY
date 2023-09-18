@@ -24,6 +24,7 @@ import {
 import Home from "./screens/Home";
 import Account from "./screens/Account";
 import Search from "./screens/Search";
+import RecipePage from "./components/recipePage";
 import HeaderRightButton from "./components/HeaderRightButton";
 import AddRecipes from "./screens/addRecipes/AddRecipes";
 import { set } from "react-native-reanimated";
@@ -173,6 +174,10 @@ function MainScreen() {
           name="Home"
           options={{
             headerTitle: "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
+  
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-home" color={color} size={size} />
             ),
@@ -193,6 +198,9 @@ function MainScreen() {
           name="AddRecipes"
           options={{
             tabBarLabel: "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
             tabBarIcon: ({ focused }) => (
               <TouchableOpacity
                 style={{
@@ -263,6 +271,23 @@ function MainScreen() {
             tabBarItemStyle: { display: 'none' },
           }}
         /> */}
+        <Tab.Screen
+          name="recipePage"
+          options={{
+            tabBarItemStyle: { display: "none" },
+              headerTitle: "",
+              headerStyle: {
+                backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+              },
+          }}
+        >
+          {() => (
+            <RecipePage
+            user={user}
+            idUser={idUser}
+            />
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

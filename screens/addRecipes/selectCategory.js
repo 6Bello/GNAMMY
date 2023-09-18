@@ -77,15 +77,17 @@ const SelectCategory = ({ isLoggedIn, recipe, setRecipe }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFEFAF',
   },
   category: {
     width: 300,
     height: 150,
     borderRadius: 20,
-    backgroundColor: 'lightblue',
+    backgroundColor: 'white',
     marginTop: 30,
     justifyContent: 'center',
+    borderColor: 'black',
+    borderWidth: 2,
   },
   text: {
     fontSize: 30,
