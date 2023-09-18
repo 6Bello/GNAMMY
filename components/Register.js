@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
 import axios from "axios"; 
-import {domain} from '../dns.js';
+import {domain} from '../dns';
 import MyTextInput from "./TextInput.js";
 import MyPasswordInput from "./PasswordInput.js";
 
