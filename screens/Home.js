@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView } from 'react-native';
 import Recipes from '../components/Recipes';
 import axios from 'axios';
-import { domain } from '../dns';
+import { domain } from '../../dns';
 import { ActivityIndicator } from 'react-native';
 
 export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes }) {
