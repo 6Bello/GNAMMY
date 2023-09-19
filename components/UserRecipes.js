@@ -3,7 +3,7 @@ import { View, StyleSheet, Animated, Dimensions, FlatList, RefreshControl, Activ
 import { initRecipes } from './initRecipes';
 
 import axios from "axios";
-import { domain } from '../../dns';
+import { domain } from '../dns';
 import Recipe from './Recipe';
 
 const UserPage = ({ idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, endRefreshing, onEndRefresh, user }) => {

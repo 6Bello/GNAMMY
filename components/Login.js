@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
-import { domain } from "../../dns";
+import { domain } from "../dns";
 import hashPassword from "../passwordUtils";
 import MyTextInput from "./TextInput";
 import MyPasswordInput from "./PasswordInput";
@@ -111,7 +111,7 @@ const Login = ({ updateUserData }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: "#FFEFAF",
     alignItems: "center",
   },
 
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     width: 327,
-    backgroundColor: "white",
+    backgroundColor: "#FFEFAF",
     color: "#d8945c",
     textAlign: "center"
   },

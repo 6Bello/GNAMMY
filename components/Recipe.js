@@ -34,7 +34,7 @@ const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRe
         borderWidth: 5,
         borderColor: 'white',
       }}
-      onPress={() => navigation.navigate('recipePage')}
+      onPress={() => navigation.navigate('recipePage', {item})}
     >
       {/* <ImageBackground
           source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Secondo' ? require('../assets/img_categories/secondo.jpg') : item.category === 'Dolce' ? null : require('../assets/img_categories/antipasto.jpg')}

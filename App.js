@@ -5,6 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import LogOutButton from "./components/logOutButton";
 import {
   Image,
   Button,
@@ -254,6 +255,7 @@ function MainScreen() {
                 color={color}
               />
             ),
+            headerRight: () => <LogOutButton onPress={removeData("userSavedData")}/>,
           }}
         >
           {() => (

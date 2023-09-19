@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
-import { domain } from '../../dns';
+import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 
 const LikeButton = ({ idUser, item, key, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe }) => {

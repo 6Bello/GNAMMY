@@ -67,7 +67,7 @@ function NotLoggedInPage({ updateUserData }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
+    backgroundColor: "#FFEFAF",
     height: "100%",
     width: "100%",
   },

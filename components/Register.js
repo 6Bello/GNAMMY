@@ -256,7 +256,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f7f7f8',
+    backgroundColor: '#FFEFAF',
     width: '100%',
     alignItems: 'center',
   },
