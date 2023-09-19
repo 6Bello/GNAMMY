@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, ImageBackground, Text, TouchableOpacity, StyleSheet, } from 'react-native'; // Aggiunta dell'importazione mancante
 import axios from 'axios';
+import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearched }) => {
   const [searchText, setSearchText] = useState('prova'); // Stato per memorizzare il testo di ricerca
@@ -10,7 +11,7 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
     updateUsersSearched([]);
     loadingTrue();
     axios
-      .get(`http://gnammy.mywire.org:9710/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
+      .get(`${domain}/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
       .then((response) => {
         const data = response.data; // Ottiene i dati di risposta dall'API
         console.log(data); // Stampa i dati di risposta nella console
@@ -28,7 +29,7 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
     updateRecipes([]);
     loadingTrue();
     axios
-    .get(`http://gnammy.mywire.org:9710/getUsers/${searchText}`)
+    .get(`${domain}/getUsers/${searchText}`)
     .then((response) => {
       console.log(response.data);
       response.data.forEach(item => {

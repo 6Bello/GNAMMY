@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
+import { domain } from "../dns";
 import hashPassword from "../passwordUtils";
 import MyTextInput from "./TextInput";
 import MyPasswordInput from "./PasswordInput";
@@ -17,7 +18,7 @@ const Login = ({ updateUserData }) => {
       const hashedPassword = await hashPassword(password);
 
       axios
-        .get("http://gnammy.mywire.org:9710/login", {
+        .get(`${domain}/login`, {
           params: {
             email,
             password: hashedPassword,

@@ -1,7 +1,8 @@
   import axios from 'axios';
+  import { domain } from '../../dns';
   const sendEmail = (email) => {
     axios
-      .post('http://gnammy.mywire.org:9710/sendEmail', {
+      .post(`${domain}/sendEmail`, {
         params: {
           email
         }

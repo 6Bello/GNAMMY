@@ -2,11 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Image, ImageBackground, ScrollView } from 'react-native';
 import Recipes from '../components/Recipes';
 import axios from 'axios';
-import HeaderRightButton from '../components/HeaderRightButton';
-import { set } from 'react-native-reanimated';
+import { domain } from '../dns';
 import { ActivityIndicator } from 'react-native';
-
-import sendEmail from '../components/functions/sendEmail';
 
 export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, setUserFavouriteRecipes }) {
   //refreshing
@@ -31,7 +28,7 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
       // sendEmail(user.email);
     }
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://gnammy.mywire.org:9710/getRecipes', {
+      .get(`${domain}/getRecipes`, {
         params: {
           preferences: isLoggedIn ? { antipasto: user.userPreferences.antipasto, primo: user.userPreferences.primo, secondo: user.userPreferences.secondo } : null
         }
@@ -55,7 +52,7 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
 
   useEffect(() => {
     axios // Effettua una richiesta GET all'endpoint specificato utilizzando Axios
-      .get('http://gnammy.mywire.org:9710/getRecipes', {
+      .get(`${domain}/getRecipes`, {
         params: {
           preferences: isLoggedIn ? { antipasto: user.userPreferences.antipasto, primo: user.userPreferences.primo, secondo: user.userPreferences.secondo } : null,
           lastRecipe: Array.isArray(recipes) && recipes.length > 0 ? recipes[recipes.length - 1].id : null

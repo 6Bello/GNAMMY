@@ -1,8 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, Input } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Animate from "react-animate";
-import { TextInput } from "react-native-gesture-handler";
 import Search from "../screens/Search";
 
 export default function Home2 () {
