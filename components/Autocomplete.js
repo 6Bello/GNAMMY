@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, FlatList, Pressable, StyleSheet, StatusBar } from 'react-native';
 import axios from 'axios';
+import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 
 import RNSingleSelect from "@freakycoder/react-native-single-select";
@@ -29,7 +30,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
     }
     const lastIngredient = inputText.split(',').pop().trim(); // Prende l'ultimo ingrediente inserito
     // Filtra le parole suggerite in base a ciò che l'utente ha digitato
-    axios.get(`http://gnammy.mywire.org/getIngredientsByName/${lastIngredient}`)
+    axios.get(`${domain}/getIngredientsByName/${lastIngredient}`)
       .then((response) => {
         setFilteredSuggestions(response.data);
       })

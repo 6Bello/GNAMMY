@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, ActivityIndicator, ImageBackground, Modal } from "react-native";
 import axios from "axios";
+import { domain } from "../dns";
 import { FlatList } from "react-native-gesture-handler";
 
 const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRecipes, filter = 0, onCategories, handleShow }) => {
@@ -23,7 +24,7 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
     loadingTrue();
 
     axios
-      .get(`http://gnammy.mywire.org:80/getRecipesByCategories/${selectedCategoriesNames}`)
+      .get(`${domain}/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
         updateRecipes(data);

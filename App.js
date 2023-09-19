@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { domain } from "./dns";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
@@ -58,7 +59,6 @@ function MainScreen() {
 
     console.log(user);
   };
-
   
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
