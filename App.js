@@ -7,10 +7,6 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import {
-  Image,
-  Button,
-  IconButton,
-  Text,
   View,
   StyleSheet,
   Animated,
@@ -20,6 +16,7 @@ import {
   storeData,
   getData,
   removeData,
+  loginUserSavedData
 } from "./components/functions/AsyncStorage";
 
 import Home from "./screens/Home";
@@ -27,7 +24,6 @@ import Account from "./screens/Account";
 import Search from "./screens/Search";
 import HeaderRightButton from "./components/HeaderRightButton";
 import AddRecipes from "./screens/addRecipes/AddRecipes";
-import { set } from "react-native-reanimated";
 
 const Tab = createBottomTabNavigator();
 
@@ -63,52 +59,13 @@ function MainScreen() {
 
     console.log(user);
   };
-
-  const loginUserSavedData = async () => {
-    const userDataSaved = await getData("userSavedData");
-    if (userDataSaved !== undefined) {
-      const userData = JSON.parse(userDataSaved);
-      console.log("userData", userData);
-      axios
-        .get(`${domain}/login`, {
-          params: {
-            email: userData.email,
-            password: userData.password,
-          },
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            response.data.favouriteRecipes = response.data.favouriteRecipes
-              .slice(1, -1) // Rimuovi le virgole iniziali e finali
-              .split(",") // Dividi la stringa utilizzando la virgola come delimitatore
-              .map((str) => parseInt(str)) // Converti le sottostringhe in numeri interi
-              .filter((num) => !isNaN(num)); // Rimuovi gli elementi vuoti (isNaN restituisce true per elementi non numerici)
-
-            response.data.createdRecipes = response.data.createdRecipes
-              .slice(1, -1) // Rimuovi le virgole iniziali e finali
-              .split(",") // Dividi la stringa utilizzando la virgola come delimitatore
-              .map((str) => parseInt(str)) // Converti le sottostringhe in numeri interi
-              .filter((num) => !isNaN(num)); // Rimuovi gli elementi vuoti (isNaN restituisce true per elementi non numerici)
-
-            const userData = response.data;
-            setUser(userData);
-            setIdUser(userData.id);
-            setIsLoggedIn(true);
-          } else {
-            alert("sessione Terminata");
-          }
-        });
-    } else {
-      console.log("userDataSaved is undefined");
-    }
-  };
-
+  
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
     // Verifica se è la prima volta che l'effetto viene eseguito
     if (isFirstRender.current) {
       isFirstRender.current = false;
-      loginUserSavedData();
+      loginUserSavedData(setUser, setIdUser, setIsLoggedIn);
       return;
     }
     setUserFavouriteRecipes(user.favouriteRecipes); //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
