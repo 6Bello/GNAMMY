@@ -62,7 +62,7 @@ export default function RecipePage() {
                         <Image style={{ width: 70, height: 70, }} source={require("../assets/hamburger.png")}></Image>
                     </View>
                     <View style={{ backgroundColor: '#FFFFFF', borderRadius: 10, width: '85%', marginTop: 20, alignItems: 'center' }}>
-                        <View style={{width: '80%', marginTop: 10, justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'right'}}>
+                        <View style={{width: '80%', marginTop: 10, justifyContent: 'flex-end', flexDirection: 'row', alignItems: 'flex-end'}}>
                             <Text style={{textAlign: 'right'}}>Contiene Glutine:</Text>
                             {item.gluten==0 ? (<AntDesign name="closecircleo" size={20} color="red" />) : (<AntDesign name="checkcircleo" size={20} color="green" />)}
                         </View>
