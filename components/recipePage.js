@@ -78,7 +78,7 @@ export default function RecipePage() {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, padding: 20 }}>
                             <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Persone</Text>
+                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{}</Text>
                                 <Text style={{ fontSize: 15 }}>{item.portions}</Text>
                             </View>
                             <View style={{ width: '50%', alignItems: 'center', justifyContent: 'center' }}>

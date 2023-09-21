@@ -5,16 +5,18 @@ import {
     getData,
     removeData,
 } from "./functions/AsyncStorage";
+import { Ionicons } from '@expo/vector-icons';
 
-const LogOutButton = () => {
-
+const LogOutButton = ({setIsLoggedIn, setIdUser}) => {
     const logOut = () => {
+        setIsLoggedIn(false);
+        setIdUser(null);
         removeData("userSavedData");
     }
 
     return (
         <TouchableOpacity style={{ width: 25, height: 25 }} onPress={logOut}>
-            <Image style={{ width: 25, height: 25 }} source={require("../assets/search.png")} />
+            <Ionicons name="log-out-outline" size={25} color="black" />
         </TouchableOpacity>
     )
 };
