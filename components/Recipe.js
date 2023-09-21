@@ -4,9 +4,9 @@ import LikeButton from './LikeButton';
 import ParallaxImage from '../parallaxeffect';
 import { useNavigation } from '@react-navigation/native';
 
-const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe, ITEM_HEIGHT, ITEM_WIDTH, scrollY, inputRange, height }) => {
+const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe, ITEM_HEIGHT, ITEM_WIDTH, scrollY, inputRange, height }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
-
+  const Vheight = height/(index < 10 || parseInt(index/10));
   const toggleDescriptionVisible = () => {
     const updatedRecipes = [...recipes];
     updatedRecipes[index] = {
@@ -56,7 +56,7 @@ const Recipe = ({ scrollCount, idUser, isLoggedIn = false, item, index, updateRe
               {
                 translateY: scrollY.interpolate({
                   inputRange,
-                  outputRange: [-height * 0.2, 0, height * 0.2],
+                  outputRange: [-Vheight * 0.1, 0, Vheight * 0.1],
                 })
               }
             ],

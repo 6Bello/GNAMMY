@@ -1,30 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListCategories from '../../components/ListCategories';
 import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
 
 
 const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
   const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
+  const osName = Platform.OS;
+  const [show, setShow] = useState(osName === 'ios' ? true : false);
 
   const handleInputChange = (campo, value) => {
     const newRecipe = { ...recipe };
     newRecipe[campo] = value;
+    console.log(newRecipe);
     setRecipe(newRecipe)
   };
+
+  const showTimePicker = () => {
+    setShow(true);
+  };
+
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+
+  useEffect(() => {
+    setHours(parseInt(recipe.time.split(':')[1], 10));
+    setMinutes(parseInt(recipe.time.split(':')[2], 10));
+  }, [recipe.time]);
 
   return (
     <View style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%'}}>
+        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%' }}>
           <View style={{ alignItems: 'center', }}>
             <Text style={styles.title}>Descrivi la tua ricetta...</Text>
             <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 10}}>{recipe.category}</Text>
           </View>
-          
-          <View style={{width: '25%', justifyContent: 'flex-end', alignItems: 'center'}} >
+          <View style={{ width: '25%', justifyContent: 'flex-end', alignItems: 'center' }} >
             <TouchableOpacity onPress={() => setRecipe(recipeInitialState)}>
               <MaterialCommunityIcons name="trash-can-outline" size={24} color="black" />
             </TouchableOpacity>
@@ -63,23 +79,74 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           onChangeText={(value) => handleInputChange('preparation', value)}
           placeholder="Preparazione"
         />
-        <MyTextInput
-          myStyle={{ width: 300, marginTop: 20 }}
-          value={recipe.time}
-          keyboardType="numeric"
-          onChangeText={(value) => handleInputChange('time', value)}
-          placeholder="Tempo"
-        />
+          {(osName!=='ios') ? (
+            <Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>
+          ) :
+            (<Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>)
+          }
+          <View style={{ alignItems: 'center', justifyContent: 'center', padding: 5, display: 'flex', flexDirection: 'row',}}>
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) + 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
+          </Pressable>
+         {(recipe.time.split(':')[0] != 0) && (
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) - 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>-24 h</Text>
+          </Pressable> )}
+
+          {(show || osName==='ios') && (
+            
+              <RNDateTimePicker
+                value={new Date(0, 0, 0, hours, minutes, 0, 0)}
+                mode="time"
+                is24Hour={true}
+                display= {osName === 'ios' ? 'default' : 'spinner'}
+                onChange={(event, selectedDate) => {
+                  const day = recipe.time.split(':')[0];
+                  const hours = selectedDate.getHours();
+                  const minutes = selectedDate.getMinutes();
+                  setShow(false);
+                  handleInputChange('time', day + ':' + hours + ':' + minutes)
+                  console.log(recipe.time)
+                  console.log(day + ':' + hours + ':' + minutes)
+                  console.log(new Date(0, 0, 0, parseInt(recipe.time.split(':')[1], 10), parseInt(recipe.time.split(':')[2], 10), 0, 0))
+                }}
+              />
+            )}
+            {(osName!== 'ios' ) && (
+              <Pressable onPress={showTimePicker} style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40, width: 70, justifyContent: 'center',}}>
+                <Text style={{fontSize: 16, textAlign: 'center', justifyContent: 'center',}}>{recipe.time.split(':')[1]} : {recipe.time.split(':')[2]}</Text>
+              </Pressable>)}
+            </View>
+          
         <Pressable
-          style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
+          style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%", }}
           onPress={() => handleInputChange('gluten', !recipe.gluten)}
         >
-          <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", marginTop: 5 }}>
-            <Text style={{ marginRight: 10 }} >gluten free</Text>
+          <View style={{ display: "flex", flexDirection: "row", justifyContent:'center', marginTop: 5, alignItems: 'center', marginLeft: 20 }}>
+            <Text style={{ marginRight: 10,}} >Gluten free</Text>
             {recipe.gluten ? (<AntDesign name="closecircleo" size={20} color="red" />) : (<AntDesign name="checkcircleo" size={20} color="green" />)}
           </View>
         </Pressable>
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
+        <View style={{ display: 'flex', flexDirection: 'row', padding: 5, alignItems: 'center',  }}>
+          <Text>Difficoltà  </Text>
           <Pressable onPress={() => starsSelected !== 1 && setStarsSelected(1)}>
             <MaterialCommunityIcons name={starsSelected >= 1 ? "star" : "star-outline"} size={24} color="black" />
           </Pressable>
@@ -97,8 +164,8 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           </Pressable>
         </View>
 
-        <Pressable onPress={createRecipe}>
-          <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold" }}>Crea</Text>
+        <Pressable onPress={createRecipe} style={{backgroundColor: 'rgb(235, 235, 235)', padding: 5, width: 90, borderRadius: 7, height: 50, justifyContent: 'center' }}>
+          <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold", textAlign: 'center'}}>Crea</Text>
         </Pressable>
       </View>
     </View>
