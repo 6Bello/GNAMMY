@@ -168,34 +168,15 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
     return (
       <View>
         <View style={{ height: '100%' }}>
-          <View style={{ display: "flex", flexDirection: "row" }}>
-            <Image source={require("../assets/user.png")} style={styles.imgUser} />
-            <View style={{ marginTop: 10 }}>
-              <Text style={styles.title}>{profile.name}</Text>
-              <Text style={styles.subtitle}>@{profile.username}</Text>
-            </View>
+          
+            
+          <View style={{width: '100%', height: 30, justifyContent: 'flex-end', flexDirection: 'row'}}>
             <TouchableOpacity onPress={() => {
               setProfileViewer(false);
               setProfile({});
-            }} style={{ position: 'absolute', right: 5, top: 5 }}>
-              <Ionicons name="ios-close" color={"black"} size={30} />
+            }}>
+              <Ionicons name="ios-close" color={"black"} size={30} style={{marginRight: 10}} />
             </TouchableOpacity>
-          </View>
-          <View style={styles.container}>
-            <View style={{ alignItems: 'center' }}>
-              <Text style={{ fontSize: 14 }}>Ricette</Text>
-              <View style={{ alignItems: 'center', flexDirection: "row" }}>
-                <Text style={styles.infoNumber}>3</Text>
-              </View>
-            </View>
-            <View style={{ marginLeft: 25 }}>
-              <Text style={styles.infoName2}>Like{'\n'}messi</Text>
-              <Text style={styles.infoNumber}>{profile.favouriteRecipes.length}</Text>
-            </View>
-            <View style={{ marginLeft: 25 }}>
-              <Text style={styles.infoName2}>Media{'\n'}Like</Text>
-              <Text style={styles.infoNumber}>3</Text>
-            </View>
           </View>
           <UserRecipes user={profile} idUser={idUser} isLoggedIn={userFavouriteRecipes != ''} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
         </View>
