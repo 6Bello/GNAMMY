@@ -81,7 +81,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
 
   const [rand, setRand] = useState(1);
   useEffect(() => {
-      setRand(Math.floor(Math.random() * 12) + 1);
+    setRand(Math.floor(Math.random() * 12) + 1);
   }, [profileView]);
 
 
@@ -139,7 +139,9 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
                 endRefreshing={isLoading}
               />
             ) : (
-              <ScrollView >
+              <ScrollView
+                style={{ width: '100%', height: '100%', marginTop: 10 }}
+              >
                 {usersSearched.map((user, key) => (
                   <TouchableOpacity
                     onPress={() => {
@@ -150,7 +152,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
                     key={key}
                     style={styles.previewProfile}
                   >
-                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={imageMap[key]} />
+                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={imageMap[key * (Math.floor((Math.random() * 11)+1)/key)]} />
                     <View style={{ width: '100%', }}>
                       <Text style={{ marginLeft: 10 }}>{user.username}</Text>
                       <Text style={{ marginLeft: 10, color: '#5A5A5A' }}>ricette create: {user.createdRecipes.length}</Text>
@@ -168,14 +170,14 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
     return (
       <View>
         <View style={{ height: '100%' }}>
-          
-            
-          <View style={{width: '100%', height: 30, justifyContent: 'flex-end', flexDirection: 'row'}}>
+
+
+          <View style={{ width: '100%', height: 30, justifyContent: 'flex-end', flexDirection: 'row' }}>
             <TouchableOpacity onPress={() => {
               setProfileViewer(false);
               setProfile({});
             }}>
-              <Ionicons name="ios-close" color={"black"} size={30} style={{marginRight: 10}} />
+              <Ionicons name="ios-close" color={"black"} size={30} style={{ marginRight: 10 }} />
             </TouchableOpacity>
           </View>
           <UserRecipes user={profile} idUser={idUser} isLoggedIn={userFavouriteRecipes != ''} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />

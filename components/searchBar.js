@@ -4,10 +4,14 @@ import axios from 'axios';
 import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearched }) => {
-  const [searchText, setSearchText] = useState('prova'); // Stato per memorizzare il testo di ricerca
+  const [searchText, setSearchText] = useState(''); // Stato per memorizzare il testo di ricerca
   const [buttonSelected, setButtonSelected] = useState('recipe')
   
-  const searchRecipeByName = () => {    
+  const searchRecipeByName = () => {   
+    if (searchText === '') {
+      updateRecipes([]);
+      return;
+    }
     updateUsersSearched([]);
     loadingTrue();
     axios
@@ -26,8 +30,13 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
   };
 
   const searchUsersByName = () => {
+    if (searchText === ''){
+      updateUsersSearched([]);
+      return;
+    }
     updateRecipes([]);
     loadingTrue();
+    console.log(searchText);
     axios
     .get(`${domain}/getUsers/${searchText}`)
     .then((response) => {
