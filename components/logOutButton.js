@@ -7,9 +7,10 @@ import {
 } from "./functions/AsyncStorage";
 import { Ionicons } from '@expo/vector-icons';
 
-const LogOutButton = ({setIsLoggedIn, setIdUser}) => {
+const LogOutButton = ({setUser, setIsLoggedIn, setIdUser}) => {
     const logOut = () => {
         setIsLoggedIn(false);
+        setUser(null)
         setIdUser(null);
         removeData("userSavedData");
     }

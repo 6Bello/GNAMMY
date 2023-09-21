@@ -213,7 +213,7 @@ function MainScreen() {
                 color={color}
               />
             ),            
-            headerRight: () => isLoggedIn ? <LogOutButton setIsLoggedIn={setIsLoggedIn} setIdUser={setIdUser} /> : null,
+            headerRight: () => isLoggedIn ? <LogOutButton setUser={setUser} setIsLoggedIn={setIsLoggedIn} setIdUser={setIdUser} /> : null,
           }}
         >
           {() => (
