@@ -6,6 +6,19 @@ import Recipes from '../components/Recipes';
 import UserRecipes from '../components/UserRecipes';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import icona1 from '../assets/profileIcons/icona1.png';
+import icona2 from '../assets/profileIcons/icona2.png';
+import icona3 from '../assets/profileIcons/icona3.png';
+import icona4 from '../assets/profileIcons/icona4.png';
+import icona5 from '../assets/profileIcons/icona5.png';
+import icona6 from '../assets/profileIcons/icona6.png';
+import icona7 from '../assets/profileIcons/icona7.png';
+import icona8 from '../assets/profileIcons/icona8.png';
+import icona9 from '../assets/profileIcons/icona9.png';
+import icona10 from '../assets/profileIcons/icona10.png';
+import icona11 from '../assets/profileIcons/icona11.png';
+import icona12 from '../assets/profileIcons/icona12.png';
+
 
 export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUserFavouriteRecipes }) {
   const navigation = useNavigation();
@@ -66,10 +79,32 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
 
   const [profile, setProfile] = useState({});
 
+  const [rand, setRand] = useState(1);
+  useEffect(() => {
+      setRand(Math.floor(Math.random() * 12) + 1);
+  }, [profileView]);
+
+
+  const imageMap = {
+    1: icona1,
+    2: icona2,
+    3: icona3,
+    4: icona4,
+    5: icona5,
+    6: icona6,
+    7: icona7,
+    8: icona8,
+    9: icona9,
+    10: icona10,
+    11: icona11,
+    12: icona12,
+  };
+
+  const imagePath = imageMap[rand];
 
   if (profileView == false) {
     return (
-      <View style={{alignItems: 'center', paddingBottom: 150}}>
+      <View style={{ alignItems: 'center', paddingBottom: 110 }}>
         <SearchBar loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
         {/* {showFilter ?
           <View style={styles.centeredView}>
@@ -95,16 +130,16 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
             <Text style={{ textAlign: 'center' }}>Nessun risultato</Text>
           ) : (
             recipes.length > 0 ? (
-              <Recipes            
-              recipes={recipes}
-              updateRecipes={updateRecipes}
-              isLoggedIn={isLoggedIn} idUser={idUser}
-              userFavouriteRecipes={userFavouriteRecipes}
-              setUserFavouriteRecipes={setUserFavouriteRecipes}
-              endRefreshing={isLoading}
+              <Recipes
+                recipes={recipes}
+                updateRecipes={updateRecipes}
+                isLoggedIn={isLoggedIn} idUser={idUser}
+                userFavouriteRecipes={userFavouriteRecipes}
+                setUserFavouriteRecipes={setUserFavouriteRecipes}
+                endRefreshing={isLoading}
               />
             ) : (
-              <ScrollView>
+              <ScrollView >
                 {usersSearched.map((user, key) => (
                   <TouchableOpacity
                     onPress={() => {
@@ -115,8 +150,8 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
                     key={key}
                     style={styles.previewProfile}
                   >
-                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={require("../assets/user.png")} />
-                    <View>
+                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={imageMap[key]} />
+                    <View style={{ width: '100%', }}>
                       <Text style={{ marginLeft: 10 }}>{user.username}</Text>
                       <Text style={{ marginLeft: 10, color: '#5A5A5A' }}>ricette create: {user.createdRecipes.length}</Text>
                     </View>

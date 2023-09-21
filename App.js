@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import LogOutButton from "./components/logOutButton";
 import {
   View,
   StyleSheet,
@@ -22,6 +23,7 @@ import {
 import Home from "./screens/Home";
 import Account from "./screens/Account";
 import Search from "./screens/Search";
+import RecipePage from "./components/recipePage";
 import HeaderRightButton from "./components/HeaderRightButton";
 import AddRecipes from "./screens/addRecipes/AddRecipes";
 
@@ -131,6 +133,10 @@ function MainScreen() {
           name="Home"
           options={{
             headerTitle: "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
+  
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-home" color={color} size={size} />
             ),
@@ -151,6 +157,9 @@ function MainScreen() {
           name="AddRecipes"
           options={{
             tabBarLabel: "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
             tabBarIcon: ({ focused }) => (
               <TouchableOpacity
                 style={{
@@ -194,13 +203,17 @@ function MainScreen() {
           name="Account"
           options={{
             headerTitle: user ? user.username : "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="account"
                 size={size}
                 color={color}
               />
-            ),
+            ),            
+            headerRight: () => isLoggedIn ? <LogOutButton setIsLoggedIn={setIsLoggedIn} setIdUser={setIdUser} /> : null,
           }}
         >
           {() => (
@@ -221,6 +234,23 @@ function MainScreen() {
             tabBarItemStyle: { display: 'none' },
           }}
         /> */}
+        <Tab.Screen
+          name="recipePage"
+          options={{
+            tabBarItemStyle: { display: "none" },
+              headerTitle: "",
+              headerStyle: {
+                backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+              },
+          }}
+        >
+          {() => (
+            <RecipePage
+            user={user}
+            idUser={idUser}
+            />
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

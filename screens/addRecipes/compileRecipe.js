@@ -38,6 +38,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
         <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%' }}>
           <View style={{ alignItems: 'center', }}>
             <Text style={styles.title}>Descrivi la tua ricetta...</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 10}}>{recipe.category}</Text>
           </View>
           <View style={{ width: '25%', justifyContent: 'flex-end', alignItems: 'center' }} >
             <TouchableOpacity onPress={() => setRecipe(recipeInitialState)}>
@@ -54,9 +55,9 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
           />
         </View>
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 190, height: 50, alignItems: 'center' }}>
-          <Text>Per quante persone?</Text>
+          <Text style={{fontSize: 17, fontWeight: 'bold'}}>Per quante persone?</Text>
           <MyTextInput
-            myStyle={{ width: 30, height: 27, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0 }}
+            myStyle={{ width: 30, height: 27, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0, marginLeft: 5 }}
             value={recipe.portions}
             onChangeText={(value) => handleInputChange('portions', value)}
           />
@@ -174,12 +175,13 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: '#FFEFAF',
+    alignItems: 'center',
   },
   square: {
     width: 20,
     height: 20,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: 'black',
     marginTop: 8,
   },
@@ -187,7 +189,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 300,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
   },
   title: {

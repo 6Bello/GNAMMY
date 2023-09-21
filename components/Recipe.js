@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image, Animated } from 'react-native';
 import LikeButton from './LikeButton';
 import ParallaxImage from '../parallaxeffect';
+import { useNavigation } from '@react-navigation/native';
 
 const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe, ITEM_HEIGHT, ITEM_WIDTH, scrollY, inputRange, height }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
@@ -16,6 +17,8 @@ const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, r
     setIsDescriptionVisible(!isDescriptionVisible);
   };
 
+  const navigation = useNavigation();
+
   return (
     <TouchableOpacity
       style={{
@@ -29,9 +32,9 @@ const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, r
         alignItems: 'center',
         borderRadius: 10,
         borderWidth: 5,
-        borderColor: 'grey',
+        borderColor: 'white',
       }}
-      onPress={toggleDescriptionVisible}
+      onPress={() => navigation.navigate('recipePage', {item})}
     >
       {/* <ImageBackground
           source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Secondo' ? require('../assets/img_categories/secondo.jpg') : item.category === 'Dolce' ? null : require('../assets/img_categories/antipasto.jpg')}
