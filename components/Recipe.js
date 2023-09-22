@@ -61,8 +61,8 @@ const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, r
       {/* Contenitore per il testo e i pulsanti */}
       <View style={styles.textContainer}>
         {/* Box come sfondo di item.category */}
-        <View style={styles.categoryBackground}></View>
-        <View style={styles.UnderText}></View>
+        <View style={styles.categoryBackground}/>
+        <View style={styles.UnderText}/>
 
         <Text style={{ color: 'white', textAlign: 'center', fontSize: 40, fontWeight: 'bold' }}>{item.category}</Text>
         <Text style={{ color: 'black', textAlign: 'center' }}>{item.description}</Text>
@@ -87,10 +87,8 @@ const styles = StyleSheet.create({
   },
   categoryBackground: {
     backgroundColor: '#FF8D38',
-    marginTop : -0,
-    marginLeft: -32,
     alignItems: 'center',
-    borderRadius : 10,
+    borderRadius: 10,
     position: 'absolute',
     width: '85%',
     height: '50%',
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
     marginTop : 6,
     marginLeft: -12,
     alignItems: 'center',
-    borderRadius : 10,
+    borderRadius: 10,
     position: 'absolute',
     width: '70%',
     height: '20%',
@@ -118,8 +116,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 }
   },
   textContainer: {
+    width: '100%',
     position: 'relative',
     zIndex: 1,
+    display: 'flex',
+    alignItems: 'center',
   },
 });
 
