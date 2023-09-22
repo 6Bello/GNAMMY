@@ -1,10 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image, Animated } from 'react-native';
 import LikeButton from './LikeButton';
-import ParallaxImage from '../parallaxeffect';
 import { useNavigation } from '@react-navigation/native';
 
-const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe, ITEM_HEIGHT, ITEM_WIDTH, scrollY, inputRange, height }) => {
+const Recipe = ({ idUser, isLoggedIn = false, item, index, updateRecipes, recipes, userFavouriteRecipes, addFavouriteRecipe, removeFavouriteRecipe, ITEM_HEIGHT, ITEM_WIDTH, scrollY, inputRange, height }) => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
   const Vheight = height/(index < 10 || parseInt(index/10));
   const toggleDescriptionVisible = () => {
@@ -82,7 +81,6 @@ const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, r
 const styles = StyleSheet.create({
   imageBackground: {
     height: 200, // Imposta un'altezza fissa per l'immagine di sfondo
-    width: '100%',
     backgroundColor: 'black',
     position: 'relative',
   },

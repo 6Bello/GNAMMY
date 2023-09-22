@@ -67,7 +67,7 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
                 </Text>
                 <Image
                   source={item.selected ? require("../assets/check-2.png") : null}
-                  style={[styles.square, { width: 20, height: 20, marginTop: 8 }]}
+                  style={styles.square}
                 />
               </View>
             </TouchableOpacity>
