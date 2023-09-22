@@ -13,7 +13,6 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
   const [isFocused, setIsFocused] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [ingredient, setIngredient] = useState({title: '', amount: '', unit: ''});
-  const [ingredientChoosen, setIngredientChosen] = useState(false); // Stato di focus per gli ingredienti
   const [buttonPressed, setButtonPressed] = useState(false); // Stato di focus per gli ingredienti
 
 
@@ -45,10 +44,9 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
   const pressSuggestion = (suggestion) => {
     setFilteredSuggestions('');
-    setIngredientChosen(true);
     setInputText(suggestion);
     setIngredient({ title: suggestion, amount: '', unit: '' });
-    setIngredient
+    console.log(suggestion);
   };
 
   useEffect(() => {
@@ -98,7 +96,6 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           <TextInput
             style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1 }]}
             placeholder="Inizia a digitare..."
-            editable={ingredientChoosen ? false : true}
             value={inputText}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -112,7 +109,6 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
         <Pressable style={{ width: '10%', height: 45, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           onPress={() => {
             setButtonPressed(true);
-            setIngredientChosen(false);
           }}>
           <Ionicons name="add-circle-outline" size={30} />
         </Pressable>

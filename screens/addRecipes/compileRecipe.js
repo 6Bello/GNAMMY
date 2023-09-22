@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ListCategories from '../../components/ListCategories';
-import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
@@ -62,7 +62,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
           />
         </View>
         <MyTextInput
-          myStyle={{ width: 300, marginTop: 20 }}
+          myStyle={{ width: 300, marginTop: 10 }}
           value={recipe.description}
           onChangeText={(value) => handleInputChange('description', value)}
           placeholder="Descrizione"
@@ -84,18 +84,6 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
             (<Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>)
           }
           <View style={{ alignItems: 'center', justifyContent: 'center', padding: 5, display: 'flex', flexDirection: 'row',}}>
-          <Pressable 
-            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
-            onPress={() => {
-            const date = recipe.time.split(':');
-            const day = parseInt(date[0]) + 1;
-            const hours = parseInt(date[1]);
-            const minutes = parseInt(date[2]);
-            handleInputChange('time', day + ':' + hours + ':' + minutes)
-          }
-          }>
-            <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
-          </Pressable>
          {(recipe.time.split(':')[0] != 0) && (
           <Pressable 
             style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
@@ -109,6 +97,18 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
           }>
             <Text style={{textDecorationLine: 'underline',}}>-24 h</Text>
           </Pressable> )}
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) + 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
+          </Pressable>
 
           {(show || osName==='ios') && (
             
