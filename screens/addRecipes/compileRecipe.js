@@ -8,8 +8,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
 
 
-const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe }) => {
-  const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
+const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, setStarsSelected, createRecipe }) => {
   const osName = Platform.OS;
   const [show, setShow] = useState(osName === 'ios' ? true : false);
 

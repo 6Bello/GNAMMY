@@ -12,7 +12,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const [ingredients, setIngredients] = useState([]);
-  const [ingredient, setIngredient] = useState({});
+  const [ingredient, setIngredient] = useState({title: '', amount: '', unit: ''});
   const [ingredientChoosen, setIngredientChosen] = useState(false); // Stato di focus per gli ingredienti
   const [buttonPressed, setButtonPressed] = useState(false); // Stato di focus per gli ingredienti
 
