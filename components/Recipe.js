@@ -64,7 +64,7 @@ const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, r
         <View style={styles.categoryBackground}></View>
         <View style={styles.UnderText}></View>
 
-        <Text style={{ color: 'black', textAlign: 'center', fontSize: 40, fontWeight: 'bold' }}>{item.category}</Text>
+        <Text style={{ color: 'white', textAlign: 'center', fontSize: 40, fontWeight: 'bold' }}>{item.category}</Text>
         <Text style={{ color: 'black', textAlign: 'center' }}>{item.description}</Text>
         <Text style={{ color: 'black', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
         <Text style={{ color: 'black', textAlign: 'center' }}>{item.creator_username}</Text>
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   categoryBackground: {
-    backgroundColor: '#FFC90E',
+    backgroundColor: '#FF8D38',
     marginTop : -0,
     marginLeft: -32,
     alignItems: 'center',
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 }
   },
   UnderText: {
-    backgroundColor: 'white',
+    backgroundColor: '#36190F',
     marginTop : 6,
     marginLeft: -12,
     alignItems: 'center',
