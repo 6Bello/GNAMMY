@@ -77,11 +77,11 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
         />
         {filter ? (
           <TouchableOpacity style={{ marginTop: 20 }} onPress={searchByCategories}>
-            <Text style={{ fontSize: 20, textAlign: "center", marginTop: 10, marginBottom: 10 }}>Applica filtri</Text>
+            <Text style={styles.applyFilter}>Applica filtri</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={{ marginTop: 20 }} onPress={handleShow}>
-            <Text style={{ fontSize: 20, textAlign: "center", marginTop: 10, marginBottom: 10 }}>X</Text>
+            <Text style={styles.applyFilter}>X</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -116,6 +116,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+
+  applyFilter: {
+    fontSize: 20, 
+    textAlign: "center", 
+    marginTop: 10, 
+    marginBottom: 10,
   },
 
 });

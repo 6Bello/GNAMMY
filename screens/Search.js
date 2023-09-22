@@ -71,23 +71,6 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
     return (
       <View style={{ alignItems: 'center', paddingBottom: 110 }}>
         <SearchBar loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} updateUsersSearched={updateUsersSearched} />
-        {/* {showFilter ?
-          <View style={styles.centeredView}>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-              }}
-            >
-              <ListCategories initialCategories={categories} onCategories={handleCategories} handleShow={handleShowFilter} loadingTrue={loadingTrue} loadingFalse={loadingFalse} updateRecipes={updateRecipes} filter={true} />
-            </Modal>
-          </View>
-          :
-          <TouchableOpacity onPress={handleShowFilter} style={{ position: 'absolute', right: 5, top: 5 }}>
-            <Image style={{ width: 20, height: 20 }} source={require("../assets/filter.png")} />
-          </TouchableOpacity>
-        } */}
         {isLoading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (
@@ -105,7 +88,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
               />
             ) : (
               <ScrollView
-                style={{ width: '100%', height: '100%', marginTop: 10 }}
+                style={styles.ScrollViewSearch}
               >
                 {usersSearched.map((user, key) => (
                   <TouchableOpacity
@@ -117,7 +100,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
                     key={key}
                     style={styles.previewProfile}
                   >
-                    <Image style={{ width: 50, height: 50, borderRadius: 50 }} source={imageMap[key * (Math.floor((Math.random() * 11)+1)/key)]} />
+                    <Image style={styles.ImgProfile} source={imageMap[key * (Math.floor((Math.random() * 11)+1)/key)]} />
                     <View style={{ width: '100%', }}>
                       <Text style={{ marginLeft: 10 }}>{user.username}</Text>
                       <Text style={{ marginLeft: 10, color: '#5A5A5A' }}>ricette create: {user.createdRecipes.length}</Text>
@@ -135,9 +118,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
     return (
       <View>
         <View style={{ height: '100%' }}>
-
-
-          <View style={{ width: '100%', height: 30, justifyContent: 'flex-end', flexDirection: 'row' }}>
+          <View style={styles.ViewX}>
             <TouchableOpacity onPress={() => {
               setProfileViewer(false);
               setProfile({});
@@ -170,5 +151,20 @@ const styles = StyleSheet.create({
     height: 50,
     marginTop: 5
   },
-
+  ViewX: {
+    width: '100%',
+    height: 30, 
+    justifyContent: 'flex-end',
+    flexDirection: 'row'
+  },
+  ScrollViewSearch: {
+    width: '100%',
+    height: '100%',
+    marginTop: 10
+  },
+  ImgProfile: {
+    width: 50,
+    height: 50,
+    borderRadius: 50
+  }
 });

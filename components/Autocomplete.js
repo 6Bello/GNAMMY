@@ -196,15 +196,15 @@ const IndexTable = ({ }) => {
 
 const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
   return (
-    <View style={{ width: 300, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
-      <View style={{ width: '50%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1, borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }}>
-        <Text style={{ textAlign: 'center', }}>{ingredient.title}</Text>
+    <View style={styles.tableContainer}>
+      <View style={[styles.borderView, { width: '50%', borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }]}>
+        <Text style={styles.tableText}>{ingredient.title}</Text>
       </View>
-      <View style={{ width: '25%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1}}>
-        <Text style={{ textAlign: 'center', }}>{ingredient.amount}</Text>
+      <View style={[styles.borderView, { width: '25%' }]}>
+        <Text style={styles.tableText}>{ingredient.amount}</Text>
       </View>
-      <View style={{ width: '25%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1, borderRightWidth: 1, borderBottomRightRadius: recipeNumber == lastIngredient ? 5 : 0 }}>
-        <Text style={{ textAlign: 'center', }}>{ingredient.unit}</Text>
+      <View style={[styles.borderView, { width: '25%', borderRightWidth: 1, borderBottomRightRadius: recipeNumber == lastIngredient ? 5 : 0 }]}>
+        <Text style={styles.tableText}>{ingredient.unit}</Text>
       </View>
     </View>
   )
@@ -267,6 +267,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     fontSize: 14,
   },
+ IngTable: {
+    width: '25%',
+    borderColor: 'gray',
+    borderBottomWidth: 1,
+    borderLeftWidth: 1,
+  },
   placeholderStyle: {
     fontSize: 12,
   },
@@ -283,4 +289,18 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize: 16,
   },
+  tableContainer: {
+    width: 300,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  tableText: {
+    textAlign: 'center'
+  },
+  borderView: {
+    borderColor: 'gray',
+    borderBottomWidth: 1,
+    borderLeftWidth: 1
+  }
 });

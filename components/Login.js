@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
   },
 
   loginButton: {
-
     fontWeight: "bold",
     textAlign: "center",
     alignItems: "center",

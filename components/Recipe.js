@@ -65,10 +65,15 @@ const Recipe = ({ idUser, isLoggedIn = false, item, index, updateRecipes, recipe
       </View>
       <View style={{ height: '100%', width: '100%', backgroundColor: 'rgba(0,0,0,0.5)', position: 'absolute' }}></View>
       <View>
-        <Text style={{ color: 'white', textAlign: 'center', fontSize: 50 }}>{item.category}</Text>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{item.description}</Text>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
-        <Text style={{ color: 'white', textAlign: 'center' }}>{item.creator_username}</Text>
+        <Text style={styles.recipeCategory}>{item.category}</Text>
+        <Text style={styles.recipeAttributes}>{item.description}</Text>
+        <Text style={styles.recipeAttributes}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
+        <Text style={styles.recipeAttributes}>{item.creator_username}</Text>
+        <Text style={styles.recipeAttributes}>{item.title}</Text>
+        <Text style={styles.recipeAttributes}>{item.time}</Text>
+        <Text style={styles.recipeAttributes}>{item.portions}</Text>
+        <Text style={styles.recipeAttributes}>{item.difficulty}</Text>
+        <Text style={styles.recipeAttributes}>{item.ingredients}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
           {isLoggedIn ? <LikeButton idUser={idUser} item={item} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} /> : null /* se l'utente è loggato mostra il bottone like */}
         </View>
@@ -98,6 +103,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  recipeAttributes: {
+    color: 'white', 
+    textAlign: 'center',
+  },
+  recipeCategory: {
+    color: 'white', 
+    textAlign: 'center', 
+    fontSize: 50,
   }
 }); // Aggiungi questa parentesi graffa di chiusura
 

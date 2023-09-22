@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const HeaderRightButton = () => {
@@ -10,10 +10,17 @@ const HeaderRightButton = () => {
   };
 
   return (
-    <TouchableOpacity onPress={showSearch} style={{ width: 25, height: 25 }}>
-      <Image style={{ width: 25, height: 25 }} source={require("../assets/search.png")} />
+    <TouchableOpacity onPress={showSearch} style={styles.SearchAndImg}>
+      <Image style={styles.SearchAndImg} source={require("../assets/search.png")} />
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  SearchAndImg: {
+    width: 25,
+    height: 25 
+  }
+})
 
 export default HeaderRightButton;
