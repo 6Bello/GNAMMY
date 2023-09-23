@@ -26,8 +26,12 @@ import Search from "./screens/Search";
 import RecipePage from "./components/recipePage";
 import HeaderRightButton from "./components/HeaderRightButton";
 import AddRecipes from "./screens/addRecipes/AddRecipes";
+import ForgotPassword from "./components/ForgotPassword";
+import Login from "./components/Login";
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createStackNavigator();
 
 function MainScreen() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -61,7 +65,7 @@ function MainScreen() {
 
     console.log(user);
   };
-  
+
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
     // Verifica se è la prima volta che l'effetto viene eseguito
@@ -70,7 +74,7 @@ function MainScreen() {
       loginUserSavedData(setUser, setIdUser, setIsLoggedIn);
       return;
     }
-    user!=null ? setUserFavouriteRecipes(user.favouriteRecipes) : null; //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
+    user != null ? setUserFavouriteRecipes(user.favouriteRecipes) : null; //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
   }, [user]);
 
   const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
@@ -136,7 +140,7 @@ function MainScreen() {
             headerStyle: {
               backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
             },
-  
+
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-home" color={color} size={size} />
             ),
@@ -212,7 +216,7 @@ function MainScreen() {
                 size={size}
                 color={color}
               />
-            ),            
+            ),
             headerRight: () => isLoggedIn ? <LogOutButton setUser={setUser} setIsLoggedIn={setIsLoggedIn} setIdUser={setIdUser} /> : null,
           }}
         >
@@ -238,21 +242,39 @@ function MainScreen() {
           name="recipePage"
           options={{
             tabBarItemStyle: { display: "none" },
-              headerTitle: "",
-              headerStyle: {
-                backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
-              },
+            headerTitle: "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
           }}
         >
           {() => (
             <RecipePage
-            user={user}
-            idUser={idUser}
+              user={user}
+              idUser={idUser}
             />
           )}
         </Tab.Screen>
+      
+      
+        <Tab.Screen
+          name="ForgotPassword"
+          options={{
+            tabBarLabel: "Forgot Password",
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="lock-reset"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+          component={ForgotPassword}
+        />
+
       </Tab.Navigator>
     </NavigationContainer>
+
   );
 }
 

@@ -7,6 +7,8 @@ import hashPassword from "../passwordUtils";
 import MyTextInput from "./TextInput";
 import MyPasswordInput from "./PasswordInput";
 import { set } from "react-native-reanimated";
+import { Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Login = ({ updateUserData }) => {
   const [email, setEmail] = useState("");
@@ -58,11 +60,11 @@ const Login = ({ updateUserData }) => {
           }
         })
         .catch((error) => {
-          if(error.response.status === 401){
+          if (error.response.status === 401) {
             setErrorText("Credenziali errate!");
-          }else if(error.response.status === 403){
+          } else if (error.response.status === 403) {
             setErrorText("verifica l'email!");
-          }else if(error.response.status === 500){
+          } else if (error.response.status === 500) {
             setErrorText("Errore del server!");
           }
         });
@@ -70,6 +72,12 @@ const Login = ({ updateUserData }) => {
       console.error("Error hashing password:", error);
     }
   };
+
+  const handleForgotPassword = () => {
+    // Naviga alla schermata "ForgotPassword" quando si fa clic su "Forget Password?"
+    navigation.navigate("ForgotPassword");
+  };
+  
 
   let [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -96,8 +104,11 @@ const Login = ({ updateUserData }) => {
         </View>
         <Text style={{ color: "red", marginTop: 10 }}>{errorText}</Text>
         <View style={{ marginTop: 20 }}>
-          <Text style={styles.fg}>Forget Password?</Text>
+          <Text style={styles.fg} onPress={handleForgotPassword}>
+            Forget Password?
+          </Text>
         </View>
+
         <View style={{ marginTop: 20, alignItems: 'center' }}>
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={{ lineHeight: 30, color: "white", fontSize: 18, fontWeight: "bold" }}>Sign in</Text>
