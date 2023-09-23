@@ -115,7 +115,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
       </View>
       <View style={{ width: '100%' }}>
         <FlatList
-          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden'}}
+          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white'}}
           data={ingredients}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
@@ -152,7 +152,8 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
 
   const staticData = [
     { id: 0, value: "gr" },
-    { id: 1, value: "pc" },
+    { id: 1, value: "pz" },
+    { id: 2, value: "qb" },
   ];
 
   return (
@@ -163,7 +164,7 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
         menuItemTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         menuBarContainerHeight={100}
         placeholder={ingredient.unit ? ingredient.unit : 'Unit'}
-        menuBarContainerStyle={{ width: '100%', height: 100, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
+        menuBarContainerStyle={{ width: '100%', height: 150, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
         arrowImageStyle={styles.iconStyle}
         menuBarTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         searchEnabled={false}
@@ -192,7 +193,7 @@ const IndexTable = ({ }) => {
 
 const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
   return (
-    <View style={{ width: 300, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
+    <View style={{ width: 300, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',}}>
       <View style={{ width: '50%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1, borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }}>
         <Text style={{ textAlign: 'center', }}>{ingredient.title}</Text>
       </View>
