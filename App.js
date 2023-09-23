@@ -3,7 +3,7 @@ import axios from "axios";
 import { domain } from "./dns";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation, DefaultTheme } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LogOutButton from "./components/logOutButton";
@@ -23,7 +23,7 @@ import {
 import Home from "./screens/Home";
 import Account from "./screens/Account";
 import Search from "./screens/Search";
-import RecipePage from "./components/recipePage";
+import RecipePage from "./screens/recipePage";
 import HeaderRightButton from "./components/HeaderRightButton";
 import AddRecipes from "./screens/addRecipes/AddRecipes";
 
@@ -61,7 +61,7 @@ function MainScreen() {
 
     console.log(user);
   };
-  
+
   const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
     // Verifica se è la prima volta che l'effetto viene eseguito
@@ -70,7 +70,7 @@ function MainScreen() {
       loginUserSavedData(setUser, setIdUser, setIsLoggedIn);
       return;
     }
-    user!=null ? setUserFavouriteRecipes(user.favouriteRecipes) : null; //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
+    user != null ? setUserFavouriteRecipes(user.favouriteRecipes) : null; //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
   }, [user]);
 
   const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
@@ -96,15 +96,29 @@ function MainScreen() {
   const handleTabBarVisible = () => {
     setTabBarVisible(true);
   };
+
+  const globalHeaderStyle = {
+    tabBarStyle: {
+      display: tabBarVisible ? "flex" : "none",
+    },
+    headerStyle: {
+      backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+    },
+    contentStyle: {
+      backgroundColor: '#264653'
+    }
+  }
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#FFEFAF',
+      color: 'white'
+    },
+  };
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {
-            display: tabBarVisible ? "flex" : "none",
-          },
-        }}
-      >
+    <NavigationContainer theme={MyTheme}>
+      <Tab.Navigator screenOptions={globalHeaderStyle}>
         {/* <Tab.Screen
         name=" "
         component={SplashScreen}
@@ -113,7 +127,7 @@ function MainScreen() {
           tabBarItemStyle: { display: 'none' },
         }}
       /> */}
-        <Tab.Screen
+        <Tab.Screen screenOptions={globalHeaderStyle}
           name="Search"
           options={{
             tabBarItemStyle: { display: "none" },
@@ -132,11 +146,8 @@ function MainScreen() {
         <Tab.Screen
           name="Home"
           options={{
+            globalHeaderStyle,
             headerTitle: "",
-            headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
-            },
-  
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-home" color={color} size={size} />
             ),
@@ -157,9 +168,6 @@ function MainScreen() {
           name="AddRecipes"
           options={{
             tabBarLabel: "",
-            headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
-            },
             tabBarIcon: ({ focused }) => (
               <TouchableOpacity
                 style={{
@@ -203,16 +211,13 @@ function MainScreen() {
           name="Account"
           options={{
             headerTitle: user ? user.username : "",
-            headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
-            },
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="account"
                 size={size}
                 color={color}
               />
-            ),            
+            ),
             headerRight: () => isLoggedIn ? <LogOutButton setUser={setUser} setIsLoggedIn={setIsLoggedIn} setIdUser={setIdUser} /> : null,
           }}
         >
@@ -238,16 +243,13 @@ function MainScreen() {
           name="recipePage"
           options={{
             tabBarItemStyle: { display: "none" },
-              headerTitle: "",
-              headerStyle: {
-                backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
-              },
+            headerTitle: "",
           }}
         >
           {() => (
             <RecipePage
-            user={user}
-            idUser={idUser}
+              user={user}
+              idUser={idUser}
             />
           )}
         </Tab.Screen>

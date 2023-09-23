@@ -62,12 +62,12 @@ const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, r
       <View style={styles.textContainer}>
         {/* Box come sfondo di item.category */}
         <View style={styles.categoryBackground}/>
-        <View style={styles.UnderText}/>
+        {/* <View style={styles.UnderText}/> */}
 
         <Text style={{ color: 'white', textAlign: 'center', fontSize: 40, fontWeight: 'bold' }}>{item.category}</Text>
-        <Text style={{ color: 'black', textAlign: 'center' }}>{item.description}</Text>
-        <Text style={{ color: 'black', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
-        <Text style={{ color: 'black', textAlign: 'center' }}>{item.creator_username}</Text>
+        <Text style={{ color: 'white', textAlign: 'center' }}>{item.description}</Text>
+        <Text style={{ color: 'white', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
+        <Text style={{ color: 'white', textAlign: 'center' }}>{item.creator_username}</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 100 }}>
           {isLoggedIn ? <LikeButton idUser={idUser} item={item} userFavouriteRecipes={userFavouriteRecipes} addFavouriteRecipe={addFavouriteRecipe} removeFavouriteRecipe={removeFavouriteRecipe} /> : null /* se l'utente è loggato mostra il bottone like */}
         </View>
@@ -78,7 +78,7 @@ const Recipe = ({ key, idUser, isLoggedIn = false, item, index, updateRecipes, r
 
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Soprapposizione nera con opacità
+    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Soprapposizione nera con opacità
     position: 'absolute',
     top: 0,
     left: 0,
@@ -86,7 +86,10 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   categoryBackground: {
-    backgroundColor: '#FF8D38',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    blur: {
+      position: "absolute",
+      top: 0, left: 0, bottom: 0, right: 0},
     alignItems: 'center',
     borderRadius: 10,
     position: 'absolute',
@@ -97,7 +100,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 5,
     elevation: 5,
-    shadowOffset: { width: 0, height: 2 }
+    shadowOffset: { width: 0, height: 2 },
+    blurRadius: 20,
+    zIndex: 0,
   },
   UnderText: {
     backgroundColor: '#36190F',

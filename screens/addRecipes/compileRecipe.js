@@ -174,7 +174,6 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFEFAF',
     alignItems: 'center',
   },
   square: {
@@ -195,6 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 20,
+    color: '#E9C46A'
   },
   containerStyle: {
     position: 'absolute',
