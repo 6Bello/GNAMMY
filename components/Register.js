@@ -176,13 +176,15 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
           <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
             <View style={{ width: '48%' }}>
               <MyTextInput
+                maxLength={20}
                 value={name}
                 onChangeText={setName}
                 placeholder="Name"
-              />
+                />
             </View>
             <View style={{ width: '48%' }}>
               <MyTextInput
+                maxLength={20}
                 value={surname} onChangeText={setSurname}
                 placeholder="Cognome"
               />
