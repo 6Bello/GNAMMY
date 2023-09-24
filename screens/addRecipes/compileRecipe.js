@@ -48,6 +48,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
 
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <MyTextInput myStyle={{ width: 150, height: 40, marginTop: 20 }}
+            maxLength={50}
             value={recipe.title}
             onChangeText={(value) => handleInputChange('title', value)}
             placeholder="Nome della ricetta"
@@ -56,12 +57,14 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 190, height: 50, alignItems: 'center' }}>
           <Text style={{fontSize: 17, fontWeight: 'bold'}}>Per quante persone?</Text>
           <MyTextInput
+            maxLength={2}
             myStyle={{ width: 30, height: 27, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0, marginLeft: 5 }}
             value={recipe.portions}
             onChangeText={(value) => handleInputChange('portions', value)}
           />
         </View>
         <MyTextInput
+          maxLength={400}
           myStyle={{ width: 300, marginTop: 10 }}
           value={recipe.description}
           onChangeText={(value) => handleInputChange('description', value)}
@@ -73,6 +76,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
           onChangeText={(value) => handleInputChange('ingredients', value)}
         />
         <MyTextInput
+          maxLength={10000}
           myStyle={{ width: 300, marginTop: 20 }}
           value={recipe.preparation}
           onChangeText={(value) => handleInputChange('preparation', value)}

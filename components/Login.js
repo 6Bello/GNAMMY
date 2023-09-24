@@ -81,13 +81,14 @@ const Login = ({ updateUserData }) => {
       <View style={styles.Register}>
         <View style={{ marginTop: 20 }}>
           <MyTextInput
+            maxLength={50}
+            myStyle={styles.button}
             style={styles.button}
             value={email} onChangeText={setEmail}
             placeholder="Email" />
         </View>
         <View style={{ marginTop: 20 }}>
           <MyPasswordInput
-            style={styles.textInput}
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
