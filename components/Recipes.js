@@ -5,7 +5,6 @@ import { initRecipes } from './initRecipes';
 import Recipe from './Recipe';
 
 const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing = false, endRefreshing, onRefresh = () => { }, onEndRefresh }) => {
-  console.log(recipes)
   const addFavouriteRecipe = (idRecipe) => {
     const updatedRecipes = [...userFavouriteRecipes, idRecipe];
     setUserFavouriteRecipes(updatedRecipes);
@@ -19,7 +18,6 @@ const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavou
   initRecipes(recipes, updateRecipes);
 
   const { width, height } = Dimensions.get('screen');
-  console.log(width, height);
   const ITEM_WIDTH = width * 0.77;
   const ITEM_HEIGHT = 350;
   const scrollY = React.useRef(new Animated.Value(0)).current;
