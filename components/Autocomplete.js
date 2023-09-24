@@ -13,7 +13,6 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
   const [isFocused, setIsFocused] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [ingredient, setIngredient] = useState({title: '', amount: '', unit: ''});
-  const [ingredientChoosen, setIngredientChosen] = useState(false); // Stato di focus per gli ingredienti
   const [buttonPressed, setButtonPressed] = useState(false); // Stato di focus per gli ingredienti
 
 
@@ -45,10 +44,9 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
   const pressSuggestion = (suggestion) => {
     setFilteredSuggestions('');
-    setIngredientChosen(true);
     setInputText(suggestion);
     setIngredient({ title: suggestion, amount: '', unit: '' });
-    setIngredient
+    console.log(suggestion);
   };
 
   useEffect(() => {
@@ -98,7 +96,6 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           <TextInput
             style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1 }]}
             placeholder="Inizia a digitare..."
-            editable={ingredientChoosen ? false : true}
             value={inputText}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
@@ -112,14 +109,13 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
         <Pressable style={{ width: '10%', height: 45, display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           onPress={() => {
             setButtonPressed(true);
-            setIngredientChosen(false);
           }}>
           <Ionicons name="add-circle-outline" size={30} />
         </Pressable>
       </View>
       <View style={{ width: '100%' }}>
         <FlatList
-          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden'}}
+          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white'}}
           data={ingredients}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
@@ -156,7 +152,8 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
 
   const staticData = [
     { id: 0, value: "gr" },
-    { id: 1, value: "pc" },
+    { id: 1, value: "pz" },
+    { id: 2, value: "qb" },
   ];
 
   return (
@@ -167,7 +164,7 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
         menuItemTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         menuBarContainerHeight={100}
         placeholder={ingredient.unit ? ingredient.unit : 'Unit'}
-        menuBarContainerStyle={{ width: '100%', height: 100, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
+        menuBarContainerStyle={{ width: '100%', height: 150, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
         arrowImageStyle={styles.iconStyle}
         menuBarTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         searchEnabled={false}
