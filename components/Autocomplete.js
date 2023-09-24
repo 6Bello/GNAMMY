@@ -193,7 +193,7 @@ const IndexTable = ({ }) => {
 
 const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
   return (
-    <View style={{ width: 300, flexDirection: 'row', justifyContent: 'center', alignItems: 'center',}}>
+    <View style={{ width: 300, flexDirection: 'row', justifyContent: 'center', alignItems: 'center'}}>
       <View style={{ width: '50%', borderColor: 'gray', borderBottomWidth: 1, borderLeftWidth: 1, borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }}>
         <Text style={{ textAlign: 'center', }}>{ingredient.title}</Text>
       </View>
