@@ -127,16 +127,26 @@ export default function RecipePage() {
             <Text style={styles.title}>Descrizione</Text>
             <Text style={styles.subtitle}>
               {item.description}
-              uidawhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
             </Text>
           </View>
           <View style={styles.centeredView}>
             <Text style={styles.title}>Ingredienti</Text>
-            {ingredients.map((ingredient, index) => (
-              <Text style={styles.subtitle}>
-                {ingredient.title} {ingredient.amount} {ingredient.unit}
-              </Text>
-            ))}
+            <View style={styles.ingredientTable}>
+              {ingredients.map((ingredient, index) => (
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                  <View style={{width: '75%', borderEndWidth: 1, borderBottomWidth: index!=ingredients.length-1 ? 1 : 0}}>
+                    <Text style={styles.subtitle}>
+                      {ingredient.title}
+                    </Text>
+                  </View>
+                  <View style={{width: '25%', borderBottomWidth: index!=ingredients.length-1 ? 1 : 0}}>
+                    <Text style={styles.subtitle}>
+                      {ingredient.amount} {ingredient.unit}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </View>
           </View>
           <View style={styles.centeredView}>
             <Text style={styles.title}>Preparazione</Text>
@@ -190,6 +200,11 @@ styles = StyleSheet.create({
     fontSize: 25,
     textAlign: "center",
     fontWeight: "bold",
+  },
+
+  ingredientTable: {
+    borderColor: 'black',
+    borderWidth: 1,
   },
 
   title: {
