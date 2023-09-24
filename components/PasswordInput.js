@@ -7,7 +7,7 @@ const MyPasswordInput = ({
     onChangeText,
     keyboardType,
     autoComplete,
-    problem,
+    problem ='',
   }) => {
     const [isFocused, setIsFocused] = useState(false);
   

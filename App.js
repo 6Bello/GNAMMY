@@ -70,7 +70,7 @@ function MainScreen() {
       loginUserSavedData(setUser, setIdUser, setIsLoggedIn);
       return;
     }
-    setUserFavouriteRecipes(user.favouriteRecipes); //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
+    user!=null ? setUserFavouriteRecipes(user.favouriteRecipes) : null; //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
   }, [user]);
 
   const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
