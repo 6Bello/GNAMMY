@@ -5,19 +5,17 @@ import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 
 import RNSingleSelect from "@freakycoder/react-native-single-select";
-import { set } from 'react-native-reanimated';
 
 export default function Autocomplete({ myStyle, listStyle, defaultValue, onChangeText }) {
   const [inputText, setInputText] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
   const [ingredients, setIngredients] = useState([]);
-  const [ingredient, setIngredient] = useState({title: '', amount: '', unit: ''});
+  const [ingredient, setIngredient] = useState({ title: '', amount: '', unit: '' });
   const [buttonPressed, setButtonPressed] = useState(false); // Stato di focus per gli ingredienti
 
 
   const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
-
 
   useEffect(() => {
     if (inputText.length == 0) {
@@ -64,7 +62,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
     // Aggiungi il nuovo ingrediente all'array ingredients
     setIngredients([...ingredients, newIngredient]);
-    if(buttonPressed) onChangeText([...ingredients, newIngredient]);
+    if (buttonPressed) onChangeText([...ingredients, newIngredient]);
 
     // Resetta gli stati
     setIngredient({ title: '', amount: '', unit: '' });
@@ -95,6 +93,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
           <TextInput
             style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1 }]}
+            maxLength={20}
             placeholder="Inizia a digitare..."
             value={inputText}
             onFocus={() => setIsFocused(true)}
@@ -115,7 +114,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
       </View>
       <View style={{ width: '100%' }}>
         <FlatList
-          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white'}}
+          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white' }}
           data={ingredients}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
@@ -129,17 +128,24 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 }
 
 const SquareAmount = ({ ingredient, setIngredient }) => {
-  const [isFocused, setIsFocused] = useState(false);
-  const [textInput, setTextInput] = useState('');
+  const [isFocused, setIsFocused] = useState(false)
+
+  var editableAmount = true;
+
+  if (ingredient.unit == 'qb') {
+    ingredient.amount = '*';
+    editableAmount = false;
+  }
 
   return (
     <TextInput style={[styles.squareAmount, { borderColor: isFocused ? 'blue' : 'grey' }]}
+      maxLength={4}
+      editable={editableAmount}
       value={ingredient.amount}
       keyboardType='numeric'
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       onChangeText={(value) => {
-        setTextInput(value);
         const newIngredient = { ...ingredient, amount: value };
         setIngredient(newIngredient);
       }}
@@ -264,7 +270,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     fontSize: 14,
   },
- IngTable: {
+  IngTable: {
     width: '25%',
     borderColor: 'gray',
     borderBottomWidth: 1,
