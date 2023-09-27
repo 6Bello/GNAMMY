@@ -72,12 +72,13 @@ const Login = ({ updateUserData }) => {
       console.error("Error hashing password:", error);
     }
   };
-
+  const navigation = useNavigation();
   const handleForgotPassword = () => {
     // Naviga alla schermata "ForgotPassword" quando si fa clic su "Forget Password?"
+
     navigation.navigate("ForgotPassword");
   };
-  
+
 
   let [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -105,7 +106,7 @@ const Login = ({ updateUserData }) => {
         <Text style={{ color: "red", marginTop: 10 }}>{errorText}</Text>
         <View style={{ marginTop: 20 }}>
           <Text style={styles.fg} onPress={handleForgotPassword}>
-            Forget Password?
+            Forgot Password?
           </Text>
         </View>
 

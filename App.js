@@ -117,23 +117,7 @@ function MainScreen() {
           tabBarItemStyle: { display: 'none' },
         }}
       /> */}
-        <Tab.Screen
-          name="Search"
-          options={{
-            tabBarItemStyle: { display: "none" },
-          }}
-        >
-          {() => (
-            <Search
-              user={user}
-              idUser={idUser}
-              isLoggedIn={isLoggedIn}
-              userFavouriteRecipes={userFavouriteRecipes}
-              setUserFavouriteRecipes={setUserFavouriteRecipes}
-            />
-          )}
-        </Tab.Screen>
-        <Tab.Screen
+      <Tab.Screen
           name="Home"
           options={{
             headerTitle: "",
@@ -149,6 +133,22 @@ function MainScreen() {
         >
           {() => (
             <Home
+              user={user}
+              idUser={idUser}
+              isLoggedIn={isLoggedIn}
+              userFavouriteRecipes={userFavouriteRecipes}
+              setUserFavouriteRecipes={setUserFavouriteRecipes}
+            />
+          )}
+        </Tab.Screen>
+        <Tab.Screen
+          name="Search"
+          options={{
+            tabBarItemStyle: { display: "none" },
+          }}
+        >
+          {() => (
+            <Search
               user={user}
               idUser={idUser}
               isLoggedIn={isLoggedIn}
@@ -260,7 +260,12 @@ function MainScreen() {
         <Tab.Screen
           name="ForgotPassword"
           options={{
+            tabBarItemStyle: { display: "none" },
+            headerTitle: "Hai dimenticato la password?",
             tabBarLabel: "Forgot Password",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="lock-reset"
