@@ -26,8 +26,12 @@ import Search from "./screens/Search";
 import RecipePage from "./screens/recipePage";
 import HeaderRightButton from "./components/HeaderRightButton";
 import AddRecipes from "./screens/addRecipes/AddRecipes";
+import ForgotPassword from "./components/ForgotPassword";
+import Login from "./components/Login";
 
 const Tab = createBottomTabNavigator();
+
+const Stack = createStackNavigator();
 
 function MainScreen() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -127,14 +131,22 @@ function MainScreen() {
           tabBarItemStyle: { display: 'none' },
         }}
       /> */}
-        <Tab.Screen screenOptions={globalHeaderStyle}
-          name="Search"
+      <Tab.Screen
+          name="Home"
           options={{
-            tabBarItemStyle: { display: "none" },
+            headerTitle: "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
+
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="ios-home" color={color} size={size} />
+            ),
+            headerRight: () => <HeaderRightButton />,
           }}
         >
           {() => (
-            <Search
+            <Home
               user={user}
               idUser={idUser}
               isLoggedIn={isLoggedIn}
@@ -144,18 +156,13 @@ function MainScreen() {
           )}
         </Tab.Screen>
         <Tab.Screen
-          name="Home"
+          name="Search"
           options={{
-            globalHeaderStyle,
-            headerTitle: "",
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="ios-home" color={color} size={size} />
-            ),
-            headerRight: () => <HeaderRightButton />,
+            tabBarItemStyle: { display: "none" },
           }}
         >
           {() => (
-            <Home
+            <Search
               user={user}
               idUser={idUser}
               isLoggedIn={isLoggedIn}
@@ -244,6 +251,9 @@ function MainScreen() {
           options={{
             tabBarItemStyle: { display: "none" },
             headerTitle: "",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
           }}
         >
           {() => (
@@ -253,8 +263,31 @@ function MainScreen() {
             />
           )}
         </Tab.Screen>
+      
+      
+        <Tab.Screen
+          name="ForgotPassword"
+          options={{
+            tabBarItemStyle: { display: "none" },
+            headerTitle: "Hai dimenticato la password?",
+            tabBarLabel: "Forgot Password",
+            headerStyle: {
+              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+            },
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="lock-reset"
+                color={color}
+                size={size}
+              />
+            ),
+          }}
+          component={ForgotPassword}
+        />
+
       </Tab.Navigator>
     </NavigationContainer>
+
   );
 }
 
