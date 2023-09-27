@@ -105,6 +105,5 @@ const styleContainer = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 100,
-    backgroundColor: '#FFEFAF'
   },
 });

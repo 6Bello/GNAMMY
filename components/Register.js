@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
-import axios from "axios"; 
-import {domain} from '../dns';
+import axios from "axios";
+import { domain } from '../dns';
 import MyTextInput from "./TextInput.js";
 import MyPasswordInput from "./PasswordInput.js";
 
@@ -78,7 +78,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
               userRegistration(email, username, password, name, surname)
             } else { setPasswordProblem('La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una minuscola, un numero ed un carattere speciale!') }
 
-          } else { setConfirmPassword('Le password non coincidono!') }
+          } else { setConfirmPasswordProblem('Le password non coincidono!') }
 
         } else { setNameProblem('Nome e/o cognome non validi!') }
 
@@ -176,13 +176,15 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
           <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
             <View style={{ width: '48%' }}>
               <MyTextInput
+                maxLength={20}
                 value={name}
                 onChangeText={setName}
                 placeholder="Name"
-              />
+                />
             </View>
             <View style={{ width: '48%' }}>
               <MyTextInput
+                maxLength={20}
                 value={surname} onChangeText={setSurname}
                 placeholder="Cognome"
               />
@@ -237,18 +239,22 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     );
   } else {
     return (
-      <View style={[{ height: 500, color: 'orange', backgroundColor: 'white' }]}>
-        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ width: '20%', marginRight: 50 }}>
-            <Image style={{ width: 118, height: 150, marginTop: 20 }} src={(`${domain}/img/logo.png`)} />
+      <View style={[{ height: 500, color: 'orange', backgroundColor: '#FFEFAF' }]}>
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginLeft: '5%' }}>
+          <View style={{ width: 118, height: 150, }}>
+            <Image style={{ width: 118, height: 150, marginLeft: 1 }} src={(`${domain}/img/logo.png`)} />
           </View>
-          <View style={{ width: '50%', marginTop: 50, }}>
-            <Text style={{ fontSize: 25, fontWeight: 'bold', color: "orange",}}>MANCA L'ULTIMO PASSAGGIO</Text>
-            <Text style={[{color: 'orange'}]}>Conferma l'email</Text>
+          <View style={{ width: '60%', marginTop: 50, }}>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: "black", }}>MANCA L'ULTIMO PASSAGGIO</Text>
+            <Text style={[{ color: 'black' }]}>Conferma la tua email per entrare a far parte del team!</Text>
           </View>
         </View>
-        <Text style={[styles.text3, {color: 'orange', marginTop: '25%'}]}>Controlla la tua casella di posta elettronica e clicca sul link di conferma</Text>
-        <ActivityIndicator style={{marginTop: '20%'}} size={"large"} color="#0000ff" />
+        <View style={{alignItems: 'center'}}>
+          <View style={{ width: '80%', alignItems: 'center', justifyContent: 'center', }}>
+            <Text style={[styles.text3, { color: 'black', marginTop: '25%', textAlign: 'center', fontSize: 20, fontWeight: 'bold' }]}>Controlla la tua casella di posta elettronica e clicca sul link di conferma</Text>
+          </View>
+        </View>
+        <ActivityIndicator style={{ marginTop: '20%' }} size={"large"} color="#0000ff" />
       </View>
     )
   }

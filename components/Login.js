@@ -87,16 +87,17 @@ const Login = ({ updateUserData }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.Register}>
+      <View style={styles.elements}>
         <View style={{ marginTop: 20 }}>
           <MyTextInput
+            maxLength={50}
+            myStyle={styles.button}
             style={styles.button}
             value={email} onChangeText={setEmail}
             placeholder="Email" />
         </View>
         <View style={{ marginTop: 20 }}>
           <MyPasswordInput
-            style={styles.textInput}
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
@@ -147,7 +148,6 @@ const styles = StyleSheet.create({
   },
 
   loginButton: {
-
     fontWeight: "bold",
     textAlign: "center",
     alignItems: "center",
@@ -189,6 +189,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 35,
   },
+
+  elements: {
+    alignItems: "center",
+  }
 });
 
 export default Login;

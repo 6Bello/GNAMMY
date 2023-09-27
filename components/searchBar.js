@@ -85,10 +85,11 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
             styles.searchButton,
             {
               borderColor: buttonSelected === 'recipe' ? 'black' : '#f7f7f8',
+              backgroundColor: '#FFEFAF'
             }
           ]}
         >
-          <Text style={{ color: buttonSelected === 'recipe' ? 'black' : '#5A5A5A' }}>Ricette</Text>
+          <Text style={{ color: buttonSelected === 'recipe' ? 'black' : '#5A5A5A', fontWeight: buttonSelected === 'recipe' ? 'bold' : 'normal', }}>Ricette</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="Cerca users"
@@ -97,11 +98,12 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
             styles.searchButton,
             {
               borderColor: buttonSelected === 'user' ? 'black' : '#f7f7f8',
-              color: buttonSelected === 'user' ? 'black' : '#5A5A5A'
+              color: buttonSelected === 'user' ? 'black' : '#5A5A5A',
+              backgroundColor: '#FFEFAF'
             }
           ]}
         >
-          <Text style={{ color: buttonSelected === 'user' ? 'black' : '#5A5A5A' }}>Users</Text>
+          <Text style={{ color: buttonSelected === 'user' ? 'black' : '#5A5A5A', fontWeight: buttonSelected === 'user' ? 'bold' : 'normal', }}>Users</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -117,12 +119,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginLeft: 10,
+    backgroundColor: 'white',
   },
   containerSearchInput: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 5,
   },
   
   searchButtons: {

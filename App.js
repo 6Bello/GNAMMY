@@ -3,7 +3,7 @@ import axios from "axios";
 import { domain } from "./dns";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation, DefaultTheme } from "@react-navigation/native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LogOutButton from "./components/logOutButton";
@@ -23,7 +23,7 @@ import {
 import Home from "./screens/Home";
 import Account from "./screens/Account";
 import Search from "./screens/Search";
-import RecipePage from "./components/recipePage";
+import RecipePage from "./screens/recipePage";
 import HeaderRightButton from "./components/HeaderRightButton";
 import AddRecipes from "./screens/addRecipes/AddRecipes";
 import ForgotPassword from "./components/ForgotPassword";
@@ -100,15 +100,29 @@ function MainScreen() {
   const handleTabBarVisible = () => {
     setTabBarVisible(true);
   };
+
+  const globalHeaderStyle = {
+    tabBarStyle: {
+      display: tabBarVisible ? "flex" : "none",
+    },
+    headerStyle: {
+      backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+    },
+    contentStyle: {
+      backgroundColor: '#264653'
+    }
+  }
+  const MyTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      background: '#FFEFAF',
+      color: 'white'
+    },
+  };
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {
-            display: tabBarVisible ? "flex" : "none",
-          },
-        }}
-      >
+    <NavigationContainer theme={MyTheme}>
+      <Tab.Navigator screenOptions={globalHeaderStyle}>
         {/* <Tab.Screen
         name=" "
         component={SplashScreen}
@@ -161,9 +175,6 @@ function MainScreen() {
           name="AddRecipes"
           options={{
             tabBarLabel: "",
-            headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
-            },
             tabBarIcon: ({ focused }) => (
               <TouchableOpacity
                 style={{
@@ -207,9 +218,6 @@ function MainScreen() {
           name="Account"
           options={{
             headerTitle: user ? user.username : "",
-            headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
-            },
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="account"

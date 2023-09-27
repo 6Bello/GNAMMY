@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ListCategories from '../../components/ListCategories';
-import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
 import Autocomplete from '../../components/Autocomplete';
@@ -48,6 +48,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
 
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
           <MyTextInput myStyle={{ width: 150, height: 40, marginTop: 20 }}
+            maxLength={50}
             value={recipe.title}
             onChangeText={(value) => handleInputChange('title', value)}
             placeholder="Nome della ricetta"
@@ -56,13 +57,15 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 190, height: 50, alignItems: 'center' }}>
           <Text style={{fontSize: 17, fontWeight: 'bold'}}>Per quante persone?</Text>
           <MyTextInput
+            maxLength={2}
             myStyle={{ width: 30, height: 27, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0, marginLeft: 5 }}
             value={recipe.portions}
             onChangeText={(value) => handleInputChange('portions', value)}
           />
         </View>
         <MyTextInput
-          myStyle={{ width: 300, marginTop: 20 }}
+          maxLength={400}
+          myStyle={{ width: 300, marginTop: 10 }}
           value={recipe.description}
           onChangeText={(value) => handleInputChange('description', value)}
           placeholder="Descrizione"
@@ -73,6 +76,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
           onChangeText={(value) => handleInputChange('ingredients', value)}
         />
         <MyTextInput
+          maxLength={10000}
           myStyle={{ width: 300, marginTop: 20 }}
           value={recipe.preparation}
           onChangeText={(value) => handleInputChange('preparation', value)}
@@ -84,18 +88,6 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
             (<Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>)
           }
           <View style={{ alignItems: 'center', justifyContent: 'center', padding: 5, display: 'flex', flexDirection: 'row',}}>
-          <Pressable 
-            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
-            onPress={() => {
-            const date = recipe.time.split(':');
-            const day = parseInt(date[0]) + 1;
-            const hours = parseInt(date[1]);
-            const minutes = parseInt(date[2]);
-            handleInputChange('time', day + ':' + hours + ':' + minutes)
-          }
-          }>
-            <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
-          </Pressable>
          {(recipe.time.split(':')[0] != 0) && (
           <Pressable 
             style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
@@ -109,6 +101,18 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
           }>
             <Text style={{textDecorationLine: 'underline',}}>-24 h</Text>
           </Pressable> )}
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) + 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
+          </Pressable>
 
           {(show || osName==='ios') && (
             
@@ -174,7 +178,6 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFEFAF',
     alignItems: 'center',
   },
   square: {
@@ -195,6 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 20,
+    color: '#E9C46A'
   },
   containerStyle: {
     position: 'absolute',
