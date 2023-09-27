@@ -78,7 +78,7 @@ const Login = ({ updateUserData }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.Register}>
+      <View style={styles.elements}>
         <View style={{ marginTop: 20 }}>
           <MyTextInput
             maxLength={50}
@@ -177,6 +177,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 35,
   },
+
+  elements: {
+    alignItems: "center",
+  }
 });
 
 export default Login;

@@ -101,7 +101,7 @@ export default function RecipePage() {
           </View>
           <View style={styles.centeredView}>
             <View>
-              <Text style={styles.title}>Tempo di preparazione</Text>
+              <Text style={styles.title}>Tempo di preparazione{'\n'}(d/m/h)</Text>
               <Text style={styles.subtitle}>{item.time}</Text>
             </View>
           </View>
@@ -205,6 +205,7 @@ styles = StyleSheet.create({
   ingredientTable: {
     borderColor: 'black',
     borderWidth: 1,
+    marginTop: 10,
   },
 
   title: {
