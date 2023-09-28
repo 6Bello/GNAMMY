@@ -64,7 +64,7 @@ const MyPasswordInput = ({
       borderRadius: 5,
       backgroundColor: "#f8f4fc",
       display: "flex",
-      width: 300,
+      width: '100%',
     },
   
     MyTextInput: {
