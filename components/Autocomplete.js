@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, Pressable, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TextInput, FlatList, Pressable, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 
+
 import RNSingleSelect from "@freakycoder/react-native-single-select";
 
-export default function Autocomplete({ myStyle, listStyle, defaultValue, onChangeText }) {
+export default function Autocomplete({ myStyle, listStyle, defaultValue, onChangeText, onRemove }) {
   const [inputText, setInputText] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
@@ -92,7 +93,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           />
 
           <TextInput
-            style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1,  }]}
+            style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1, }]}
             maxLength={20}
             placeholder="Inizia a digitare..."
             value={inputText}
@@ -112,13 +113,13 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           <Ionicons name="add-circle-outline" size={30} />
         </Pressable>
       </View>
-      <View style={{ width: '100%', height: 70 }}>
+      <View style={{ width: '100%' }}>
         <FlatList
-          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white', }}
+          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 40 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white', }}
           data={ingredients}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <IngredientTable ingredient={item} recipeNumber={index} lastIngredient={ingredients.length - 1} />
+            <IngredientTable ingredient={item} recipeNumber={index} lastIngredient={ingredients.length - 1} onRemove={handleRemoveIngredient} ingredients={ingredients} />
           )}
           keyExtractor={(item) => item.title}
         />
@@ -197,7 +198,16 @@ const IndexTable = ({ }) => {
   )
 }
 
-const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
+
+//funzione che rimuove ingredienti dalla lista
+const handleRemoveIngredient = (ingredientToRemove) => {
+  setIngredients(ingredients.filter((ingredient) => ingredient !== ingredientToRemove));
+};
+
+
+
+
+const IngredientTable = ({ ingredient, recipeNumber, lastIngredient, onRemove }) => {
   return (
     <View style={styles.tableContainer}>
       <View style={[styles.borderView, { width: '50%', borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }]}>
@@ -209,6 +219,10 @@ const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
       <View style={[styles.borderView, { width: '25%', borderRightWidth: 1, borderBottomRightRadius: recipeNumber == lastIngredient ? 5 : 0 }]}>
         <Text style={styles.tableText}>{ingredient.unit}</Text>
       </View>
+      <Pressable style={{ padding: 5 }} onPress={() => onRemove(ingredient)}>
+        <Ionicons name="trash-outline" size={24} color="red" />
+      </Pressable>
+
     </View>
   )
 }
@@ -269,7 +283,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
-    height : 10,
+    height: 10,
   },
   IngTable: {
     width: '25%',
