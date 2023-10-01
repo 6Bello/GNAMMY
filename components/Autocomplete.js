@@ -21,19 +21,27 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
     if (inputText.length == 0) {
       setFilteredSuggestions('');
       return;
-    } if (inputText[inputText.length - 1] == ',' || inputText[inputText.length - 1] == ' ') {
-      setFilteredSuggestions('');
-      return;
     }
-    const lastIngredient = inputText.split(',').pop().trim(); // Prende l'ultimo ingrediente inserito
-    // Filtra le parole suggerite in base a ciò che l'utente ha digitato
+    console.log(inputText);
+    var lastIngredient = encodeURIComponent(lastIngredient);
+    console.log(lastIngredient);
     axios.get(`${domain}/getIngredientsByName/${lastIngredient}`)
-      .then((response) => {
-        setFilteredSuggestions(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
+    .then((response) => {
+      setFilteredSuggestions(response.data);
+    })
+    .catch((error) => {
+      if (error.response) {
+        // Errore dalla risposta del server (es. errore HTTP)
+        console.error("Errore nella risposta del server:", error.response.data);
+      } else if (error.request) {
+        // Nessuna risposta dal server
+        console.error("Nessuna risposta dal server:", error.request);
+      } else {
+        // Errore durante la richiesta
+        console.error("Errore durante la richiesta:", error.message);
+      }
+    });
+  
   }, [inputText]);
 
   const handleInputChange = (text) => {
