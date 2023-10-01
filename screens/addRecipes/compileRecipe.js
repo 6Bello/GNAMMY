@@ -34,14 +34,14 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
   return (
     <ScrollView style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%' }}>
+        <View style={{ flexDirection: 'row', width: '80%', justifyContent: 'space-around', paddingLeft: '11%', }}>
           <View style={{ alignItems: 'center', }}>
             <Text style={styles.title}>Descrivi la tua ricetta...</Text>
             <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 10}}>{recipe.category}</Text>
           </View>
-          <View style={{ width: '25%', justifyContent: 'flex-end', alignItems: 'center' }} >
+          <View style={{ width: '10%', justifyContent: 'flex-end', alignItems: 'center' }} >
             <TouchableOpacity onPress={() => setRecipe(recipeInitialState)}>
-              <MaterialCommunityIcons name="trash-can-outline" size={24} color="black" />
+              <MaterialCommunityIcons name="trash-can-outline" size={25} color="black" />
             </TouchableOpacity>
           </View>
         </View>
@@ -54,11 +54,11 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
             placeholder="Nome della ricetta"
           />
         </View>
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 190, height: 50, alignItems: 'center' }}>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 190, height: 50, alignItems: 'center' }}>
           <Text style={{fontSize: 17, fontWeight: 'bold'}}>Per quante persone?</Text>
           <MyTextInput
             maxLength={2}
-            myStyle={{ width: 30, height: 27, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0, marginLeft: 5 }}
+            myStyle={{ width: 40, height: 20, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0, marginLeft: 10 }}
             value={recipe.portions}
             onChangeText={(value) => handleInputChange('portions', value)}
           />
@@ -71,7 +71,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
           placeholder="Descrizione"
         />
         <Autocomplete
-          myStyle={{ width: 300, marginTop: 20 }}
+          myStyle={{ width: 300, marginTop: 20, marginBottom: 20 }}
           defaultValue='ciao'
           onChangeText={(value) => handleInputChange('ingredients', value)}
         />

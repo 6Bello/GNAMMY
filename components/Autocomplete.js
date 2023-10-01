@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, FlatList, Pressable, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, TextInput, FlatList, Pressable, StyleSheet, StatusBar, TouchableOpacity } from 'react-native';
 import axios from 'axios';
 import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 
+
 import RNSingleSelect from "@freakycoder/react-native-single-select";
 
-export default function Autocomplete({ myStyle, listStyle, defaultValue, onChangeText }) {
+export default function Autocomplete({ myStyle, listStyle, defaultValue, onChangeText, onRemove }) {
   const [inputText, setInputText] = useState('');
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [isFocused, setIsFocused] = useState(false);
@@ -79,7 +80,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
 
   return (
-    <View style={[myStyle, { zIndex: 1000 }]}>
+    <View style={[myStyle, { zIndex: 1000, marginTop: 20 }]}>
       <IndexTable />
       <View style={{ display: 'flex', flexDirection: 'row', zIndex: 1000 }}>
         <View style={{ display: 'flex', justifyContent: 'center' }}>
@@ -100,8 +101,8 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           />
 
           <TextInput
-            style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1 }]}
-            maxLength={20}
+            style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1, }]}
+            maxLength={40}
             placeholder="Inizia a digitare..."
             value={inputText}
             onFocus={() => setIsFocused(true)}
@@ -127,10 +128,12 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           scrollEnabled={false}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
-            <IngredientTable ingredient={item} recipeNumber={index} lastIngredient={ingredients.length - 1} />
+            <IngredientTable ingredient={item} recipeNumber={index} lastIngredient={ingredients.length - 1} onRemove={handleRemoveIngredient} ingredients={ingredients} />
           )}
           keyExtractor={(item) => item.title}
         />
+        <Text style={{marginTop: 20, fontSize: 12}}>Legenda quantità: </Text>
+        <Text style={{fontSize: 12}}>•g = grammi{'\n'}•pz = pezzi{'\n'}•qb = quanto basta{'\n'}•ml = millilitri{'\n'}•cc = cucchiaini{'\n'}•c = cucchiai</Text>
       </View>
     </View>
   );
@@ -167,9 +170,12 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
   const [value, setValue] = useState();
 
   const staticData = [
-    { id: 0, value: "gr" },
+    { id: 0, value: "g" },
     { id: 1, value: "pz" },
     { id: 2, value: "qb" },
+    { id: 3, value: "ml" },
+    { id: 4, value: "cc" },
+    { id: 5, value: "c" },
   ];
 
   return (
@@ -178,9 +184,9 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
         buttonContainerStyle={{ borderRadius: 0, borderTopLeftRadius: 0, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey' }}
         placeholderTextStyle={{ fontSize: 12, color: 'black', padding: 0, margin: 0, width: 25, right: 10, textAlign: 'center', width: '100%' }}
         menuItemTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
-        menuBarContainerHeight={100}
+        
         placeholder={ingredient.unit ? ingredient.unit : 'Unit'}
-        menuBarContainerStyle={{ width: '100%', height: 150, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
+        menuBarContainerStyle={{ width: '100%', height: 300, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
         arrowImageStyle={styles.iconStyle}
         menuBarTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         searchEnabled={false}
@@ -199,7 +205,7 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
 
 const IndexTable = ({ }) => {
   return (
-    <View style={{ width: 300, height: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+    <View style={{ width: 300, height: 20, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 30 }}>
       <Text style={{ width: '50%', textAlign: 'center' }}>Ingredienti</Text>
       <Text style={{ width: '25%', textAlign: 'center' }}>Quantità</Text>
       <Text style={{ width: '25%', textAlign: 'center' }}>Unità</Text>
@@ -207,7 +213,16 @@ const IndexTable = ({ }) => {
   )
 }
 
-const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
+
+//funzione che rimuove ingredienti dalla lista
+const handleRemoveIngredient = (ingredientToRemove) => {
+  setIngredients(ingredients.filter((ingredient) => ingredient !== ingredientToRemove));
+};
+
+
+
+
+const IngredientTable = ({ ingredient, recipeNumber, lastIngredient, onRemove }) => {
   return (
     <View style={styles.tableContainer}>
       <View style={[styles.borderView, { width: '50%', borderBottomLeftRadius: recipeNumber == lastIngredient ? 5 : 0 }]}>
@@ -219,6 +234,7 @@ const IngredientTable = ({ ingredient, recipeNumber, lastIngredient }) => {
       <View style={[styles.borderView, { width: '25%', borderRightWidth: 1, borderBottomRightRadius: recipeNumber == lastIngredient ? 5 : 0 }]}>
         <Text style={styles.tableText}>{ingredient.unit}</Text>
       </View>
+
     </View>
   )
 }
@@ -279,6 +295,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 14,
+    height: 10,
   },
   IngTable: {
     width: '25%',
@@ -306,7 +323,9 @@ const styles = StyleSheet.create({
     width: 300,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    height: 45,
+    marginVertical: -7,
   },
   tableText: {
     textAlign: 'center'
@@ -314,6 +333,8 @@ const styles = StyleSheet.create({
   borderView: {
     borderColor: 'gray',
     borderBottomWidth: 1,
-    borderLeftWidth: 1
+    borderLeftWidth: 1,
+    height: 30,
+    justifyContent: 'center'
   }
 });
