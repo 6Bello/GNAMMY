@@ -155,6 +155,7 @@ const SquareAmount = ({ ingredient, setIngredient }) => {
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       onChangeText={(value) => {
+        value = value.replace(',', '.');
         const newIngredient = { ...ingredient, amount: value };
         setIngredient(newIngredient);
       }}
