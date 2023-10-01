@@ -4,7 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import AlertSignUp from '../../components/alertSignUp';
 import { useNavigation } from '@react-navigation/native';
 
-const SelectCategory = ({ user, userFavouriteRecipes, isLoggedIn, setCategory }) => {
+const SelectCategory = ({ isLoggedIn, recipe, setRecipe }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -21,16 +21,16 @@ const SelectCategory = ({ user, userFavouriteRecipes, isLoggedIn, setCategory })
   }, [navigation]);
 
   const updateCategory = (category) => {
-    if (!modalVisible) {
+    if (isLoggedIn === false) {
       return;
     }
-    console.log(category)
-    setCategory(category);
+    setRecipe({ ...recipe, category: category });
+    console.log(category);
   };
 
   return (
     <ScrollView style={styles.container}>
-      {isLoggedIn && <AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible} />}
+      {!isLoggedIn && <AlertSignUp goToSignUp={goToSignUp} modalVisible={modalVisible} />}
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View style={{ width: 300, alignItems: 'center' }}>
           <Text style={{ fontSize: 25, fontWeight: 'bold', marginTop: 50 }}>
@@ -77,15 +77,16 @@ const SelectCategory = ({ user, userFavouriteRecipes, isLoggedIn, setCategory })
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   category: {
     width: 300,
     height: 150,
     borderRadius: 20,
-    backgroundColor: 'lightblue',
+    backgroundColor: 'white',
     marginTop: 30,
     justifyContent: 'center',
+    borderColor: 'black',
+    borderWidth: 2,
   },
   text: {
     fontSize: 30,

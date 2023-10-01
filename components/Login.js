@@ -2,20 +2,25 @@ import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import axios from "axios";
+import { domain } from "../dns";
 import hashPassword from "../passwordUtils";
 import MyTextInput from "./TextInput";
 import MyPasswordInput from "./PasswordInput";
+import { set } from "react-native-reanimated";
+import { Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const Login = ({ updateUserData }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   const handleLogin = async () => {
     try {
       const hashedPassword = await hashPassword(password);
 
       axios
-        .get("http://gnammy.mywire.org:80/login", {
+        .get(`${domain}/login`, {
           params: {
             email,
             password: hashedPassword,
@@ -55,12 +60,25 @@ const Login = ({ updateUserData }) => {
           }
         })
         .catch((error) => {
-          alert("Errore durante il login: " + error);
+          if (error.response.status === 401) {
+            setErrorText("Credenziali errate!");
+          } else if (error.response.status === 403) {
+            setErrorText("verifica l'email!");
+          } else if (error.response.status === 500) {
+            setErrorText("Errore del server!");
+          }
         });
     } catch (error) {
       console.error("Error hashing password:", error);
     }
   };
+  const navigation = useNavigation();
+  const handleForgotPassword = () => {
+    // Naviga alla schermata "ForgotPassword" quando si fa clic su "Forget Password?"
+
+    navigation.navigate("ForgotPassword");
+  };
+
 
   let [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -69,26 +87,31 @@ const Login = ({ updateUserData }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.Register}>
+      <View style={styles.elements}>
         <View style={{ marginTop: 20 }}>
           <MyTextInput
+            maxLength={50}
+            myStyle={styles.button}
             style={styles.button}
             value={email} onChangeText={setEmail}
             placeholder="Email" />
         </View>
         <View style={{ marginTop: 20 }}>
           <MyPasswordInput
-            style={styles.textInput}
             value={password}
             onChangeText={setPassword}
             placeholder="Password"
             secureTextEntry={!showPassword}
           />
         </View>
+        <Text style={{ color: "red", marginTop: 10 }}>{errorText}</Text>
         <View style={{ marginTop: 20 }}>
-          <Text style={styles.fg}>Forget Password?</Text>
+          <Text style={styles.fg} onPress={handleForgotPassword}>
+            Forgot Password?
+          </Text>
         </View>
-        <View style={{ marginTop: 20 }}>
+
+        <View style={{ marginTop: 20, alignItems: 'center' }}>
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={{ lineHeight: 30, color: "white", fontSize: 18, fontWeight: "bold" }}>Sign in</Text>
           </TouchableOpacity>
@@ -101,7 +124,7 @@ const Login = ({ updateUserData }) => {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    backgroundColor: "white",
+    backgroundColor: "#FFEFAF",
     alignItems: "center",
   },
 
@@ -119,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     width: 327,
-    backgroundColor: "white",
+    backgroundColor: "#FFEFAF",
     color: "#d8945c",
     textAlign: "center"
   },
@@ -166,6 +189,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 35,
   },
+
+  elements: {
+    alignItems: "center",
+  }
 });
 
 export default Login;

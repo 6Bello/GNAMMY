@@ -1,10 +1,12 @@
-import React, { useState } from "react";
-import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Image, View, Text, TouchableOpacity, TextInput, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
 import axios from "axios";
+import { domain } from '../dns';
 import MyTextInput from "./TextInput.js";
 import MyPasswordInput from "./PasswordInput.js";
 
 import hashPassword from '../passwordUtils.js';
+import { set } from "react-native-reanimated";
 
 const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [username, setUsername] = useState('');
@@ -18,6 +20,8 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
   const [passwordProblem, setPasswordProblem] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [confirmPasswordProblem, setConfirmPasswordProblem] = useState('');
+  const [emailVerify, setEmailVerify] = useState(false);
+  const [temporanyAccount, setTemporanyAccount] = useState('');
 
   const thereArePasswordProblems = (text) => {
     setPassword(text);
@@ -74,7 +78,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
               userRegistration(email, username, password, name, surname)
             } else { setPasswordProblem('La password deve contenere almeno 8 caratteri, di cui almeno una lettera maiuscola, una minuscola, un numero ed un carattere speciale!') }
 
-          } else { setConfirmPassword('Le password non coincidono!') }
+          } else { setConfirmPasswordProblem('Le password non coincidono!') }
 
         } else { setNameProblem('Nome e/o cognome non validi!') }
 
@@ -87,7 +91,7 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
     try {
       const hashedPassword = await hashPassword(password);
 
-      const response = await axios.post('http://gnammy.mywire.org:80/register', {
+      const response = await axios.post(`${domain}/register`, {
         email,
         password: hashedPassword,
         username,
@@ -95,107 +99,170 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
         surname,
       });
       console.log(response.data);
-      updateUserData(response.data, true);
-      OnRegistrationComplete(); // Call the callback to set isLoggedIn to true
-      console.log('Account creato con successo!');
+      // 
+      setTemporanyAccount(response.data);
+      console.log('Account creato con successo!Verifica l email per confermare la registrazione');
+      setEmailVerify(true);
+    } catch (error) {
+      if (error.response.status === 409) { // 409 Conflict
+        console.log('Email già registrata!');
+        setEmailProblem('Email già registrata!');
+      } else if (error.response.status === 410) { // 410 Gone
+        console.log('Username già registrato!');
+        setUsernameProblem('Username già registrato!');
+      } else {
+        console.error(error);
+      }
+    }
+  };
+
+  const EmailVerified = async () => {
+    try {
+      console.log(email)
+      const response = await axios.get(`${domain}/checkEmailVerification`, {
+        params: {
+          email: email,
+        }
+      });
+      console.log(response.data);
+      if (response.data == true) {
+        updateUserData(temporanyAccount, true);
+        OnRegistrationComplete();
+        console.log('Email verificata con successo!');
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    console.log('emailVerify: ', emailVerify);
+    if (emailVerify) {
+      const intervalId = setInterval(EmailVerified, 5000);
+      console.log('Intervallo avviato');
+
+      // Cleanup: ferma l'intervallo quando l'effetto viene pulito
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+  }, [emailVerify]);
 
 
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.Register}>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, width: 300 }}>
-          <Image style={styles.image} source={require('../assets/bibimbap.png')} />
-          <View style={{ marginLeft: 20, flex: 1, justifyContent: "center" }}>
-            <Text style={styles.title}>Sign up</Text>
-            <Text style={styles.subtitle}>Sign up to enjoy your food</Text>
+  if (emailVerify === false) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.Register}>
+          <View style={{ display: "flex", flexDirection: "row", marginTop: 30, width: 300 }}>
+            <Image style={styles.image} source={require('../assets/bibimbap.png')} />
+            <View style={{ marginLeft: 20, flex: 1, justifyContent: "center" }}>
+              <Text style={styles.title}>Sign up</Text>
+              <Text style={styles.subtitle}>Sign up to enjoy your food</Text>
+            </View>
           </View>
-        </View>
 
-        <View style={{ marginTop: 20 }}>
-          <MyTextInput
-            value={username}
-            onChangeText={setUsername}
-            placeholder="Username"
-          />
-
-          <Text style={[styles.error, {
-            display: usernameProblem ? 'flex' : 'none',
-          }]}>{usernameProblem}</Text>
-        </View>
-
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
-          <View style={{ width: '48%' }}>
+          <View style={{ marginTop: 20 }}>
             <MyTextInput
-              value={name}
-              onChangeText={setName}
-              placeholder="Name"
+              value={username} onChangeText={setUsername} problem={usernameProblem}
+              placeholder="Username"
             />
+
+            <Text style={[styles.error, {
+              display: usernameProblem ? 'flex' : 'none',
+            }]}>{usernameProblem}</Text>
           </View>
-          <View style={{ width: '48%' }}>
-            <MyTextInput
-              value={surname}
-              onChangeText={setSurname}
-              placeholder="Cognome"
+
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+            <View style={{ width: '48%' }}>
+              <MyTextInput
+                maxLength={20}
+                value={name}
+                onChangeText={setName}
+                placeholder="Name"
+                />
+            </View>
+            <View style={{ width: '48%' }}>
+              <MyTextInput
+                maxLength={20}
+                value={surname} onChangeText={setSurname}
+                placeholder="Cognome"
+              />
+            </View>
+          </View>
+
+          <Text style={[styles.error, {
+            display: nameProblem ? 'flex' : 'none',
+          }]}>{nameProblem}</Text>
+          <View style={{ marginTop: 20 }}>
+
+            <View>
+              <MyTextInput
+                value={email} onChangeText={setEmail} problem={emailProblem}
+                placeholder="Email"
+                keyboardType={'email-address'}
+                autoComplete={'email'} />
+            </View>
+
+            <Text style={[styles.error, {
+              display: emailProblem ? 'flex' : 'none',
+            }]}>{emailProblem}</Text>
+          </View>
+
+          <View style={{ marginTop: 20, width: '100%' }}>
+            <MyPasswordInput
+              myStyle={styles.passwordInput}
+              value={password}
+              onChangeText={thereArePasswordProblems}
+              placeholder="Password"
+              autoComplete={'password'}
+              problem={passwordProblem}
             />
+
+            <Text style={[styles.error, {
+              display: passwordProblem ? 'flex' : 'none',
+            }]}>{passwordProblem}</Text>
           </View>
-        </View>
-
-        <Text style={[styles.error, {
-          display: nameProblem ? 'flex' : 'none',
-        }]}>{nameProblem}</Text>
-        <View style={{ marginTop: 20 }}>
-
-          <View>
-            <MyTextInput
-              value={email} onChangeText={setEmail}
-              placeholder="Email" 
-              keyboardType={'email-address'}
-              autoComplete={'email'} />
+          <View style={{ marginTop: 20 }}>
+            <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" problem={confirmPasswordProblem} />
+            <Text style={[styles.error, {
+              display: confirmPasswordProblem ? 'flex' : 'none',
+            }]}>{confirmPasswordProblem}</Text>
           </View>
-
-          <Text style={[styles.error, {
-            display: emailProblem ? 'flex' : 'none',
-          }]}>{emailProblem}</Text>
+          <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
+            <Text style={{ lineHeight: 29, color: 'white', fontSize: 17, fontWeight: 'bold' }}>
+              Sign up
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <View style={{ marginTop: 20 }}>
-          <MyPasswordInput
-            style={styles.MyTextInput}
-            value={password}
-            onChangeText={thereArePasswordProblems}
-            placeholder="Password"
-            autoComplete={'password'}
-          />
-
-          <Text style={[styles.error, {
-            display: passwordProblem ? 'flex' : 'none',
-          }]}>{passwordProblem}</Text>
-        </View>
-        <View style={{ marginTop: 20 }}>
-          <MyPasswordInput value={confirmPassword} onChangeText={setConfirmPassword} placeholder="Confirm Password" />
-          <Text style={[styles.error, {
-            display: confirmPasswordProblem ? 'flex' : 'none',
-          }]}>{confirmPasswordProblem}</Text>
-        </View>
-        <TouchableOpacity style={styles.registerButton} onPress={handleRegistration}>
-          <Text style={{ lineHeight: 29, color: 'white', fontSize: 17, fontWeight: 'bold' }}>
-            Sign up
-          </Text>
-        </TouchableOpacity>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={[{ height: 500, color: 'orange', backgroundColor: '#FFEFAF' }]}>
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginLeft: '5%' }}>
+          <View style={{ width: 118, height: 150, }}>
+            <Image style={{ width: 118, height: 150, marginLeft: 1 }} src={(`${domain}/img/logo.png`)} />
+          </View>
+          <View style={{ width: '60%', marginTop: 50, }}>
+            <Text style={{ fontSize: 25, fontWeight: 'bold', color: "black", }}>MANCA L'ULTIMO PASSAGGIO</Text>
+            <Text style={[{ color: 'black' }]}>Conferma la tua email per entrare a far parte del team!</Text>
+          </View>
+        </View>
+        <View style={{alignItems: 'center'}}>
+          <View style={{ width: '80%', alignItems: 'center', justifyContent: 'center', }}>
+            <Text style={[styles.text3, { color: 'black', marginTop: '25%', textAlign: 'center', fontSize: 20, fontWeight: 'bold' }]}>Controlla la tua casella di posta elettronica e clicca sul link di conferma</Text>
+          </View>
+        </View>
+        <ActivityIndicator style={{ marginTop: '20%' }} size={"large"} color="#0000ff" />
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#f7f7f8',
+    backgroundColor: '#FFEFAF',
     width: '100%',
     alignItems: 'center',
   },
@@ -254,12 +321,7 @@ const styles = StyleSheet.create({
   },
 
   passwordInput: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#f8f4fc",
-    display: "flex",
+    width: '100%',
   },
   textInputContainer: {
     alignItems: "center",
@@ -272,7 +334,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
   },
-  
+
+  // title: {
+  //   fontSize: 25,
+  //   fontWeight: 'bold',
+  //   marginTop: 20,
+  //   color: "orange",
+  // },
+  text2: {
+    color: "orange",
+    fontSize: 15,
+    textAlign: "center",
+    marginTop: 20,
+    display: "flex",
+    alignItems: "center",
+  },
+  text3: {
+    color: "orange",
+    display: "flex",
+    fontSize: 15,
+    textAlign: "center",
+  }
 });
 
 export default Register;

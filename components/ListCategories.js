@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Image, View, Text, TouchableOpacity, StyleSheet, ScrollView, Button, ActivityIndicator, ImageBackground, Modal } from "react-native";
 import axios from "axios";
+import { domain } from "../dns";
 import { FlatList } from "react-native-gesture-handler";
 
 const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRecipes, filter = 0, onCategories, handleShow }) => {
@@ -23,7 +24,7 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
     loadingTrue();
 
     axios
-      .get(`http://gnammy.mywire.org:80/getRecipesByCategories/${selectedCategoriesNames}`)
+      .get(`${domain}/getRecipesByCategories/${selectedCategoriesNames}`)
       .then((response) => {
         const data = response.data;
         updateRecipes(data);
@@ -66,7 +67,7 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
                 </Text>
                 <Image
                   source={item.selected ? require("../assets/check-2.png") : null}
-                  style={[styles.square, { width: 20, height: 20, marginTop: 8 }]}
+                  style={styles.square}
                 />
               </View>
             </TouchableOpacity>
@@ -76,11 +77,11 @@ const ListCategories = ({ initialCategories, loadingTrue, loadingFalse, updateRe
         />
         {filter ? (
           <TouchableOpacity style={{ marginTop: 20 }} onPress={searchByCategories}>
-            <Text style={{ fontSize: 20, textAlign: "center", marginTop: 10, marginBottom: 10 }}>Applica filtri</Text>
+            <Text style={styles.applyFilter}>Applica filtri</Text>
           </TouchableOpacity>
         ) : (
           <TouchableOpacity style={{ marginTop: 20 }} onPress={handleShow}>
-            <Text style={{ fontSize: 20, textAlign: "center", marginTop: 10, marginBottom: 10 }}>X</Text>
+            <Text style={styles.applyFilter}>X</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -115,6 +116,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+
+  applyFilter: {
+    fontSize: 20, 
+    textAlign: "center", 
+    marginTop: 10, 
+    marginBottom: 10,
   },
 
 });

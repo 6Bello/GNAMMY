@@ -3,7 +3,7 @@ import CompileRecipe from './compileRecipe';
 import SelectCategory from './selectCategory';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios'
-import { set } from 'react-native-reanimated';
+import { domain } from '../../dns';
 
 export default function AddRecipes ({isLoggedIn, user}) {
     const navigation = useNavigation();
@@ -18,16 +18,8 @@ export default function AddRecipes ({isLoggedIn, user}) {
   
     const [starsSelected, setStarsSelected] = useState(0);
     useEffect(() => {
-      recipe.difficulty = starsSelected;
-      console.log(recipe);
+      setRecipe({...recipe, difficulty: starsSelected});
     }, [starsSelected]);
-  
-    
-    const [category, setCategory] = useState("");
-    
-    useEffect(() =>{
-        console.log(category)
-    },[category])
   
     const [showCategories, setShowCategories] = useState(false);
     const handleShowCategories = () => {
@@ -39,7 +31,7 @@ export default function AddRecipes ({isLoggedIn, user}) {
       creatorId: '',
       title: '',
       category: '',
-      time: '',
+      time: '0:0:0',
       portions: '',
       preparation: '',
       description: '',
@@ -49,11 +41,10 @@ export default function AddRecipes ({isLoggedIn, user}) {
     };
     const [recipe, setRecipe] = useState(recipeInitialState);
 
+
     const createRecipe = () => {
         recipe.creator = user.username;
         recipe.creatorId = user.id;
-        console.log(category)
-        recipe.category = category;
         if (recipe.title === '') {
           alert('Inserisci il titolo');
           return;
@@ -78,25 +69,25 @@ export default function AddRecipes ({isLoggedIn, user}) {
         }
         console.log(recipe);
         axios
-          .post('http://gnammy.mywire.org:80/addRecipes', recipe)    
+          .post(`${domain}/addRecipes`, recipe)    
           .then((response) => {
             user.createdRecipes.push(response.data[1]);
             console.log(response.data);
             setRecipe(recipeInitialState)
-            setCategory("")
           })
           .catch((error) => {
             console.log(error);
           });
+        setRecipe(recipeInitialState);
       };
     
-    if (category == "") {
+    if (recipe.category == "") {
         return (
-            <SelectCategory isLoggedIn={isLoggedIn} category={category} setCategory={setCategory}/>
+            <SelectCategory isLoggedIn={isLoggedIn} recipe={recipe} setRecipe={setRecipe}/>
         );
     } else {
         return (
-            <CompileRecipe user={user} isLoggedIn={isLoggedIn} recipe={recipe} setRecipe={setRecipe} showCategories={showCategories} handleShowCategories={handleShowCategories} createRecipe={createRecipe} starsSelected={starsSelected} setStarsSelected={setStarsSelected}  />
+            <CompileRecipe recipeInitialState={recipeInitialState} user={user} isLoggedIn={isLoggedIn} recipe={recipe} setRecipe={setRecipe} showCategories={showCategories} handleShowCategories={handleShowCategories} createRecipe={createRecipe} starsSelected={starsSelected} setStarsSelected={setStarsSelected}  />
         );
     }
 }

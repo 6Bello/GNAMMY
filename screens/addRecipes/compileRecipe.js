@@ -1,206 +1,189 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListCategories from '../../components/ListCategories';
-import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, TouchableOpacity, Modal } from 'react-native';
-import Autocomplete from 'react-native-autocomplete-input';
+import { View, Text, FlatList, Image, StyleSheet, ScrollView, TextInput, Pressable, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import MyTextInput from '../../components/TextInput';
+import Autocomplete from '../../components/Autocomplete';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { Platform } from 'react-native';
 
 
-const CompileRecipe = ({ user, isLoggedIn, recipe, setRecipe, showCategories, handleShowCategories, starsSelected, setStarsSelected, createRecipe, got }) => {
-  const [imageRecipe, setImageRecipe] = useState(require('../../assets/user.png'));
+const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, setStarsSelected, createRecipe }) => {
+  const osName = Platform.OS;
+  const [show, setShow] = useState(osName === 'ios' ? true : false);
 
   const handleInputChange = (campo, value) => {
-    if (campo === 'title') {
-      if (value === 'carne') {
-        setImageRecipe(require('../../assets/img_categories/carne.png'));
-      } else if (value === 'pasta') {
-        setImageRecipe(require('../../assets/img_categories/pasta.png'));
-      } else if (value === 'pesce') {
-        setImageRecipe(require('../../assets/img_categories/pesce.png'));
-        // }else if(value === 'verdura'){
-        //   setImageRecipe(require('../assets/img_categories/verdura.png'));
-        // }else if(value === 'frutta'){
-        //   setImageRecipe(require('../assets/img_categories/frutta.png'));
-        // }else if(value === 'dolce'){
-        //   setImageRecipe(require('../assets/img_categories/dolce.png'));
-        // }else if(value === 'antipasto'){
-        //   setImageRecipe(require('../assets/img_categories/antipasto.png'));
-        // }else if(value === 'contorno'){
-        //   setImageRecipe(require('../assets/img_categories/contorno.png'));
-        // }else if(value === 'insalata'){
-        //   setImageRecipe(require('../assets/img_categories/insalata.png'));
-        // }else if(value === 'zuppa'){
-        //   setImageRecipe(require('../assets/img_categories/zuppa.png'));
-        // }else if(value === 'pizza'){
-        //   setImageRecipe(require('../assets/img_categories/pizza.png'));
-        // }else if(value === 'fritto'){
-        //   setImageRecipe(require('../assets/img_categories/fritto.png'));
-        // }else if(value === 'salsa'){
-        //   setImageRecipe(require('../assets/img_categories/salsa.png'));
-        // }else if(value === 'sugo'){
-        //   setImageRecipe(require('../assets/img_categories/sugo.png'));
-        // }else if(value === 'soufflé'){
-        //   setImageRecipe(require('../assets/img_categories/soufflé.png'));
-        // }else if(value === 'sformato'){
-        //   setImageRecipe(require('../assets/img_categories/sformato.png'));
-        // }else if(value === 'torta'){
-        //   setImageRecipe(require('../assets/img_categories/torta.png'));
-        // }else if(value === 'biscotto'){
-        //   setImageRecipe(require('../assets/img_categories/biscotto.png'));
-        // }else if(value === 'budino'){
-        //   setImageRecipe(require('../assets/img_categories/budino.png'));
-        // }else if(value === 'gelato'){
-        //   setImageRecipe(require('../assets/img_categories/gelato.png'));
-        // }else if(value === 'bevanda'){
-        //   setImageRecipe(require('../assets/img_categories/bevanda.png'));
-        // }else if(value === 'cocktail'){
-        //   setImageRecipe(require('../assets/img_categories/cocktail.png'));
-        // }else if(value === 'aperitivo'){
-        //   setImageRecipe(require('../assets/img_categories/aperitivo.png'));
-        // }else if(value === 'digestivo'){
-        //   setImageRecipe(require('../assets/img_categories/digestivo.png'));
-        // }else if(value === 'primo'){
-        //   setImageRecipe(require('../assets/img_categories/primo.png'));
-        // }else if(value === 'secondo'){
-        //   setImageRecipe(require('../assets/img_categories/secondo.png'));
-      } else {
-        setImageRecipe('../../assets/user.png');
-      }
-    }
     const newRecipe = { ...recipe };
-    console.log(newRecipe);
     newRecipe[campo] = value;
     console.log(newRecipe);
     setRecipe(newRecipe)
   };
 
-  const data = [
-    { id: 1, name: 'Apple' },
-    { id: 2, name: 'Banana' },
-    { id: 3, name: 'Cherry' },
-    { id: 4, name: 'Grapes' },
-    { id: 5, name: 'Orange' },
-  ];
+  const showTimePicker = () => {
+    setShow(true);
+  };
+
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+
+  useEffect(() => {
+    setHours(parseInt(recipe.time.split(':')[1], 10));
+    setMinutes(parseInt(recipe.time.split(':')[2], 10));
+  }, [recipe.time]);
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <View style={{ alignItems: 'center' }}>
-          <Text style={styles.title}>Descrivi la tua ricetta...</Text>
+        <View style={{ flexDirection: 'row', width: '80%', justifyContent: 'space-around', paddingLeft: '11%', }}>
+          <View style={{ alignItems: 'center', }}>
+            <Text style={styles.title}>Descrivi la tua ricetta...</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 10}}>{recipe.category}</Text>
+          </View>
+          <View style={{ width: '10%', justifyContent: 'flex-end', alignItems: 'center' }} >
+            <TouchableOpacity onPress={() => setRecipe(recipeInitialState)}>
+              <MaterialCommunityIcons name="trash-can-outline" size={25} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
 
-        <View style={[{ display: 'flex', flexDirection: 'row', alignItems: 'center', width: 300 },]}>
-          <Image source={imageRecipe} style={{ width: 25, height: 25 }} />
-          <MyTextInput myStyle={{ flex: 1 }}
+        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+          <MyTextInput myStyle={{ width: 150, height: 40, marginTop: 20 }}
+            maxLength={50}
             value={recipe.title}
             onChangeText={(value) => handleInputChange('title', value)}
-            placeholder="Nome"
+            placeholder="Nome della ricetta"
           />
         </View>
-
-        {showCategories ?
-          <View>
-            <Modal
-              animationType="slide"
-              transparent={true}
-              onRequestClose={() => {
-                Alert.alert("Modal has been closed.");
-              }}
-            >
-              <ListCategories initialCategories={categories} onCategories={handleCategories} handleShow={handleShowCategories} />
-            </Modal>
-          </View>
-          :
-          <TouchableOpacity onPress={handleShowCategories} style={{ position: 'absolute', right: 5, top: 5 }}>
-            <Text>seleziona le categorie</Text>
-          </TouchableOpacity>
-        }
-        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: 150, height: 50, alignItems: 'center' }}>
-          <Text>Per</Text>
+        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: 190, height: 50, alignItems: 'center' }}>
+          <Text style={{fontSize: 17, fontWeight: 'bold'}}>Per quante persone?</Text>
           <MyTextInput
-            style={{ width: 50, height: 40, borderWidth: 1, borderRadius: 10, textAlign: 'center' }}
+            maxLength={2}
+            myStyle={{ width: 40, height: 20, borderWidth: 1, borderRadius: 10, textAlign: 'center', padding: 0, marginLeft: 10 }}
             value={recipe.portions}
             onChangeText={(value) => handleInputChange('portions', value)}
           />
-          <Text>persone</Text>
         </View>
         <MyTextInput
-          myStyle={{ width: 300, marginTop: 20 }}
+          maxLength={400}
+          myStyle={{ width: 300, marginTop: 10 }}
           value={recipe.description}
           onChangeText={(value) => handleInputChange('description', value)}
           placeholder="Descrizione"
         />
-        <View style={{width: 200, height:200}}>
-          <Autocomplete
-            containerStyle={styles.autocompleteContainerStyle}
-            listContainerStyle={styles.listStyle}
-            listStyle={styles.listStyle}
-            defaultValue='ciao'
-            data={data.length === 1 && comp(query, data[0].name) ? [] : data}
-            onChangeText={text => this.setState({ query: text })}
-            renderItem={item => (
-              <TouchableOpacity onPress={() => this.setState({ query: item.name })}>
-                <Text>{item.name}</Text>
-              </TouchableOpacity>
-            )}
-          />
-        </View>
+        <Autocomplete
+          myStyle={{ width: 300, marginTop: 20, marginBottom: 20 }}
+          defaultValue='ciao'
+          onChangeText={(value) => handleInputChange('ingredients', value)}
+        />
         <MyTextInput
+          maxLength={10000}
           myStyle={{ width: 300, marginTop: 20 }}
           value={recipe.preparation}
           onChangeText={(value) => handleInputChange('preparation', value)}
           placeholder="Preparazione"
         />
-        <MyTextInput
-          myStyle={{ width: 300, marginTop: 20 }}
-          value={recipe.time}
-          keyboardType="numeric"
-          onChangeText={(value) => handleInputChange('time', value)}
-          placeholder="Tempo"
-        />
-        <TouchableOpacity
-          style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%" }}
+          {(osName!=='ios') ? (
+            <Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>
+          ) :
+            (<Text style={{fontWeight: 'bold', padding: 5}}>Tempo attuale: {recipe.time}</Text>)
+          }
+          <View style={{ alignItems: 'center', justifyContent: 'center', padding: 5, display: 'flex', flexDirection: 'row',}}>
+         {(recipe.time.split(':')[0] != 0) && (
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) - 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>-24 h</Text>
+          </Pressable> )}
+          <Pressable 
+            style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40}}
+            onPress={() => {
+            const date = recipe.time.split(':');
+            const day = parseInt(date[0]) + 1;
+            const hours = parseInt(date[1]);
+            const minutes = parseInt(date[2]);
+            handleInputChange('time', day + ':' + hours + ':' + minutes)
+          }
+          }>
+            <Text style={{textDecorationLine: 'underline',}}>+24 h</Text>
+          </Pressable>
+
+          {(show || osName==='ios') && (
+            
+              <RNDateTimePicker
+                value={new Date(0, 0, 0, hours, minutes, 0, 0)}
+                mode="time"
+                is24Hour={true}
+                display= {osName === 'ios' ? 'default' : 'spinner'}
+                onChange={(event, selectedDate) => {
+                  const day = recipe.time.split(':')[0];
+                  const hours = selectedDate.getHours();
+                  const minutes = selectedDate.getMinutes();
+                  setShow(false);
+                  handleInputChange('time', day + ':' + hours + ':' + minutes)
+                  console.log(recipe.time)
+                  console.log(day + ':' + hours + ':' + minutes)
+                  console.log(new Date(0, 0, 0, parseInt(recipe.time.split(':')[1], 10), parseInt(recipe.time.split(':')[2], 10), 0, 0))
+                }}
+              />
+            )}
+            {(osName!== 'ios' ) && (
+              <Pressable onPress={showTimePicker} style={{marginLeft: 10, borderRadius: 7, padding: 10, backgroundColor: 'rgb(235, 235, 235)', height: 40, width: 70, justifyContent: 'center',}}>
+                <Text style={{fontSize: 16, textAlign: 'center', justifyContent: 'center',}}>{recipe.time.split(':')[1]} : {recipe.time.split(':')[2]}</Text>
+              </Pressable>)}
+            </View>
+          
+        <Pressable
+          style={{ display: "flex", flexDirection: "row", alignItems: "center", width: "33%", }}
           onPress={() => handleInputChange('gluten', !recipe.gluten)}
         >
-          <View style={{ display: "flex", flexDirection: "row", justifyContent: "flex-end", marginTop: 5 }}>
-            <Text style={{ marginRight: 10 }} >gluten free</Text>
+          <View style={{ display: "flex", flexDirection: "row", justifyContent:'center', marginTop: 5, alignItems: 'center', marginLeft: 20 }}>
+            <Text style={{ marginRight: 10,}} >Gluten free</Text>
             {recipe.gluten ? (<AntDesign name="closecircleo" size={20} color="red" />) : (<AntDesign name="checkcircleo" size={20} color="green" />)}
           </View>
-        </TouchableOpacity>
-        <View style={{ display: 'flex', flexDirection: 'row' }}>
-          <TouchableOpacity onPress={() => starsSelected !== 1 && setStarsSelected(1)}>
+        </Pressable>
+        <View style={{ display: 'flex', flexDirection: 'row', padding: 5, alignItems: 'center',  }}>
+          <Text>Difficoltà  </Text>
+          <Pressable onPress={() => starsSelected !== 1 && setStarsSelected(1)}>
             <MaterialCommunityIcons name={starsSelected >= 1 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 2 && setStarsSelected(2)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 2 && setStarsSelected(2)}>
             <MaterialCommunityIcons name={starsSelected >= 2 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 3 && setStarsSelected(3)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 3 && setStarsSelected(3)}>
             <MaterialCommunityIcons name={starsSelected >= 3 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 4 && setStarsSelected(4)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 4 && setStarsSelected(4)}>
             <MaterialCommunityIcons name={starsSelected >= 4 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => starsSelected !== 5 && setStarsSelected(5)}>
+          </Pressable>
+          <Pressable onPress={() => starsSelected !== 5 && setStarsSelected(5)}>
             <MaterialCommunityIcons name={starsSelected >= 5 ? "star" : "star-outline"} size={24} color="black" />
-          </TouchableOpacity>
+          </Pressable>
         </View>
 
-        <TouchableOpacity onPress={createRecipe}>
-          <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold" }}>Crea</Text>
-        </TouchableOpacity>
+        <Pressable onPress={createRecipe} style={{backgroundColor: 'rgb(235, 235, 235)', padding: 5, width: 90, borderRadius: 7, height: 50, justifyContent: 'center' }}>
+          <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold", textAlign: 'center'}}>Crea</Text>
+        </Pressable>
+        <View style={{ height: 40 }} />
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
   },
   square: {
     width: 20,
     height: 20,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: 'black',
     marginTop: 8,
   },
@@ -208,13 +191,14 @@ const styles = StyleSheet.create({
     height: 40,
     width: 300,
     margin: 12,
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 10,
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
     marginTop: 20,
+    color: '#E9C46A'
   },
   containerStyle: {
     position: 'absolute',

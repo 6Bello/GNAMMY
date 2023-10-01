@@ -5,7 +5,6 @@ import { initRecipes } from './initRecipes';
 import Recipe from './Recipe';
 
 const Recipes = ({ recipes, updateRecipes, idUser, isLoggedIn = false, userFavouriteRecipes = [0], setUserFavouriteRecipes, refreshing = false, endRefreshing, onRefresh = () => { }, onEndRefresh }) => {
-console.log(recipes)
   const addFavouriteRecipe = (idRecipe) => {
     const updatedRecipes = [...userFavouriteRecipes, idRecipe];
     setUserFavouriteRecipes(updatedRecipes);
@@ -19,7 +18,6 @@ console.log(recipes)
   initRecipes(recipes, updateRecipes);
 
   const { width, height } = Dimensions.get('screen');
-  console.log(width, height);
   const ITEM_WIDTH = width * 0.77;
   const ITEM_HEIGHT = 350;
   const scrollY = React.useRef(new Animated.Value(0)).current;
@@ -44,9 +42,9 @@ console.log(recipes)
             scrollY={scrollY}
             height={height}
             inputRange={[
-              (index - 1) * height, //2,
-              index * height, // 2,
-              (index + 1) * height, //2,
+              (index - 1) * ITEM_HEIGHT,
+              index * ITEM_HEIGHT,
+              (index + 1) * ITEM_HEIGHT,
             ]}
           />
           <View style={{ height: 40 }}>
@@ -81,7 +79,7 @@ console.log(recipes)
   };
 
   return (
-    <View style={{justifyContent: 'center', height: '100%'}} >
+    <View style={{ justifyContent: 'center', height: '100%' }} >
       <Animated.FlatList
         style={styles.container}
         data={recipes}

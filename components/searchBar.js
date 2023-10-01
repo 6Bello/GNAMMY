@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, ImageBackground, Text, TouchableOpacity, StyleSheet, } from 'react-native'; // Aggiunta dell'importazione mancante
 import axios from 'axios';
+import { domain } from '../dns';
 import { Ionicons } from '@expo/vector-icons';
 const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearched }) => {
-  const [searchText, setSearchText] = useState('prova'); // Stato per memorizzare il testo di ricerca
+  const [searchText, setSearchText] = useState(''); // Stato per memorizzare il testo di ricerca
   const [buttonSelected, setButtonSelected] = useState('recipe')
   
-  const searchRecipeByName = () => {    
+  const searchRecipeByName = () => {   
+    if (searchText === '') {
+      updateRecipes([]);
+      return;
+    }
     updateUsersSearched([]);
     loadingTrue();
     axios
-      .get(`http://gnammy.mywire.org:80/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
+      .get(`${domain}/getRecipesByName/${searchText}`) // Effettua una richiesta GET all'API specificata
       .then((response) => {
         const data = response.data; // Ottiene i dati di risposta dall'API
         console.log(data); // Stampa i dati di risposta nella console
@@ -25,10 +30,15 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
   };
 
   const searchUsersByName = () => {
+    if (searchText === ''){
+      updateUsersSearched([]);
+      return;
+    }
     updateRecipes([]);
     loadingTrue();
+    console.log(searchText);
     axios
-    .get(`http://gnammy.mywire.org:80/getUsers/${searchText}`)
+    .get(`${domain}/getUsers/${searchText}`)
     .then((response) => {
       console.log(response.data);
       response.data.forEach(item => {
@@ -61,8 +71,8 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
       <View style={styles.containerSearchInput}>
         <TextInput
           style={styles.searchInput}
-          value={searchText}
-          onChangeText={text => setSearchText(text)}
+          value={decodeURIComponent(searchText)}
+          onChangeText={text => setSearchText(encodeURIComponent(text))}
           placeholder="Cerca..."
         />
         <Ionicons name="md-search" size={24} color="black" />
@@ -75,10 +85,11 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
             styles.searchButton,
             {
               borderColor: buttonSelected === 'recipe' ? 'black' : '#f7f7f8',
+              backgroundColor: '#FFEFAF'
             }
           ]}
         >
-          <Text style={{ color: buttonSelected === 'recipe' ? 'black' : '#5A5A5A' }}>Ricette</Text>
+          <Text style={{ color: buttonSelected === 'recipe' ? 'black' : '#5A5A5A', fontWeight: buttonSelected === 'recipe' ? 'bold' : 'normal', }}>Ricette</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="Cerca users"
@@ -87,11 +98,12 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
             styles.searchButton,
             {
               borderColor: buttonSelected === 'user' ? 'black' : '#f7f7f8',
-              color: buttonSelected === 'user' ? 'black' : '#5A5A5A'
+              color: buttonSelected === 'user' ? 'black' : '#5A5A5A',
+              backgroundColor: '#FFEFAF'
             }
           ]}
         >
-          <Text style={{ color: buttonSelected === 'user' ? 'black' : '#5A5A5A' }}>Users</Text>
+          <Text style={{ color: buttonSelected === 'user' ? 'black' : '#5A5A5A', fontWeight: buttonSelected === 'user' ? 'bold' : 'normal', }}>Users</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -107,12 +119,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     marginLeft: 10,
+    backgroundColor: 'white',
   },
   containerSearchInput: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 5,
   },
   
   searchButtons: {

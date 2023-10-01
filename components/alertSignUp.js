@@ -14,9 +14,9 @@ const AlertSignUp = ({ goToSignUp, modalVisible }) => {
     const [i, setI] = useState(1);
     useEffect(() => {
         if (modalVisible) {
-           setRand(Math.floor(Math.random() * 6) + 1);
+            setRand(Math.floor(Math.random() * 6) + 1);
         }
-        
+
         // if (modalVisible) {
         //     setI(i + 1);
         //     if (i === 6) {
@@ -28,7 +28,7 @@ const AlertSignUp = ({ goToSignUp, modalVisible }) => {
         //     }
         // }
     }, [modalVisible]);
-    
+
     const imageMap = {
         1: schermata1Modal,
         2: schermata2Modal,

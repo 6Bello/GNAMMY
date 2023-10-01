@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import Login from '../components/Login';
 import Register from '../components/Register';
-import LoggedInPage from '../components/LoggedInPage';
-export default function App({user, isLoggedIn, updateUserData, userFavouriteRecipes, setUserFavouriteRecipes}) {
+import UserPage from '../components/UserRecipes';
+export default function App({ user, isLoggedIn, updateUserData, userFavouriteRecipes, setUserFavouriteRecipes }) {
 
   return (
-    <View>
+    <View style={{ backgroundColor: '#FFEFAF' }}>
       {isLoggedIn ? (
-        <LoggedInPage user={user} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
+        <UserPage user={user} idUser={user.id} isLoggedIn={true} userFavouriteRecipes={userFavouriteRecipes} setUserFavouriteRecipes={setUserFavouriteRecipes} />
       ) : (
         <NotLoggedInPage updateUserData={updateUserData} />
       )}
@@ -32,28 +32,28 @@ function NotLoggedInPage({ updateUserData }) {
   if (showRegisterPage) {
     return (
       <ScrollView style={styles.container}>
-        <View style={{alignItems: 'center'}}>
-          <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData}/>  
+        <View style={{ alignItems: 'center' }}>
+          <Register OnRegistrationComplete={OnRegistrationComplete} updateUserData={updateUserData} />
           <View>
             <Text style={styles.text2}>Already have an account?</Text>
             <TouchableOpacity onPress={openLogin}>
               <Text style={styles.text3}>Sign in</Text>
             </TouchableOpacity>
           </View>
-      </View>
-    </ScrollView>
-  );
+        </View>
+      </ScrollView>
+    );
   } else {
     return (
       <ScrollView style={styles.container}>
-        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, marginLeft: 25}}>
+        <View style={{ display: "flex", flexDirection: "row", marginTop: 30, marginLeft: 25 }}>
           <Image style={styles.image} source={require('../assets/hamburger.png')} />
-          <View style={{marginLeft: 20, flex: 1, justifyContent: "center"}}>
+          <View style={{ marginLeft: 20, flex: 1, justifyContent: "center" }}>
             <Text style={styles.title}>Sign in</Text>
             <Text style={styles.subtitle} >Sign to your account</Text>
           </View>
         </View>
-        <Login updateUserData={updateUserData}/>
+        <Login updateUserData={updateUserData} />
         <Text style={styles.text2}>Don't have an account? </Text>
         <TouchableOpacity onPress={openRegistration}>
           <Text style={styles.text3}>Sign up</Text>
@@ -67,9 +67,9 @@ function NotLoggedInPage({ updateUserData }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "white",
     height: "100%",
     width: "100%",
+    backgroundColor: '#FFEFAF',
   },
 
   title: {

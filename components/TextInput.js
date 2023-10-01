@@ -9,7 +9,9 @@ const MyTextInput = ({
     onChangeText,
     secureTextEntry,
     keyboardType,
-    autoComplete
+    autoComplete,
+    problem = '',
+    maxLength,
   }) => {
     const [isFocused, setIsFocused] = useState(false);
   
@@ -21,12 +23,18 @@ const MyTextInput = ({
       setIsFocused(false);
     };
   
-    const borderColor = isFocused ? 'blue' : 'gray'; // Colore del contorno durante lo stato di focus
-  
+    const borderColor = isFocused ? 'blue' : problem!='' ? 'red' : 'gray'; // Colore del contorno durante lo stato di focus
+    
+    var heightC;
     return (
       <View>
         <TextInput
-          style={[styles.button, myStyle, { borderColor: borderColor, borderWidth: 1 }]}
+          maxLength={maxLength}
+          multiline={placeholder=='Preparazione' ? true : false}
+          onContentSizeChange={(event) => {
+            heightC = event.nativeEvent.contentSize.height;
+          }}
+          style={[styles.button, myStyle, { borderColor: borderColor, borderWidth: 1, height: placeholder=='Preparazione' ? heightC : 45,}]}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
