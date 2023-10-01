@@ -123,6 +123,8 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
           )}
           keyExtractor={(item) => item.title}
         />
+        <Text style={{marginTop: 20, fontSize: 12}}>Legenda quantità: </Text>
+        <Text style={{fontSize: 12}}>•g = grammi{'\n'}•pz = pezzi{'\n'}•qb = quanto basta{'\n'}•ml = millilitri{'\n'}•cc = cucchiaini{'\n'}•c = cucchiai</Text>
       </View>
     </View>
   );
@@ -158,9 +160,12 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
   const [value, setValue] = useState();
 
   const staticData = [
-    { id: 0, value: "gr" },
+    { id: 0, value: "g" },
     { id: 1, value: "pz" },
     { id: 2, value: "qb" },
+    { id: 3, value: "ml" },
+    { id: 4, value: "cc" },
+    { id: 5, value: "c" },
   ];
 
   return (
