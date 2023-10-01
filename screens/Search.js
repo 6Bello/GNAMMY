@@ -100,7 +100,7 @@ export default function Search({ isLoggedIn, idUser, userFavouriteRecipes, setUs
                     key={key}
                     style={styles.previewProfile}
                   >
-                    <Image style={styles.ImgProfile} source={imageMap[key * (Math.floor((Math.random() * 11)+1)/key)]} />
+                    <Image style={styles.ImgProfile} source={imageMap[key !== 0 ? key * (Math.floor(Math.random() * 11 + 1) / key) : Math.floor(Math.random() * 12 + 1)]} />
                     <View style={{ width: '100%', }}>
                       <Text style={{ marginLeft: 10 }}>{user.username}</Text>
                       <Text style={{ marginLeft: 10, color: '#5A5A5A' }}>ricette create: {user.createdRecipes.length}</Text>
