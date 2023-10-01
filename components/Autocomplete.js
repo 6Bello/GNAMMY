@@ -174,9 +174,9 @@ const SquareUnit = ({ ingredient, setIngredient }) => {
         buttonContainerStyle={{ borderRadius: 0, borderTopLeftRadius: 0, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey' }}
         placeholderTextStyle={{ fontSize: 12, color: 'black', padding: 0, margin: 0, width: 25, right: 10, textAlign: 'center', width: '100%' }}
         menuItemTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
-        menuBarContainerHeight={100}
+        
         placeholder={ingredient.unit ? ingredient.unit : 'Unit'}
-        menuBarContainerStyle={{ width: '100%', height: 150, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
+        menuBarContainerStyle={{ width: '100%', height: 300, backgroundColor: '#f8f4fc', borderWidth: 1, borderColor: 'grey', zIndex: 9999 }}
         arrowImageStyle={styles.iconStyle}
         menuBarTextStyle={{ fontSize: 12, padding: 0, margin: 0 }}
         searchEnabled={false}
