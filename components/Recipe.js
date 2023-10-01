@@ -65,7 +65,7 @@ const Recipe = ({ idUser, isLoggedIn = false, item, index, updateRecipes, recipe
         {/* <View style={styles.UnderText}/> */}
 
         <Text style={{ color: 'white', textAlign: 'center', fontSize: 40, fontWeight: 'bold' }}>{item.category}</Text>
-        <Text style={{ color: 'white', textAlign: 'center', fontSize: 25, fontWeight: 'bold' }}>{item.title}</Text>
+        <Text style={{ color: 'white', textAlign: 'center', fontSize: 25, fontWeight: 'bold', width: '80%' }}>{item.title}</Text>
         <Text style={{ color: 'white', textAlign: 'center', width: '80%' }}>{item.description!=undefined ? item.description.length > 200 ? item.description.slice(0, 200) + '...' : item.description : null}</Text>
         <Text style={{ color: 'white', textAlign: 'center' }}>{item.likes + userFavouriteRecipes.includes(item.id)}</Text>
         <Text style={{ color: 'white', textAlign: 'center' }}>{item.creator_username}</Text>
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     display: 'flex',
     alignItems: 'center',
+    marginTop: 10,
   },
 });
 
