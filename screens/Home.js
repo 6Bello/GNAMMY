@@ -43,6 +43,7 @@ export default function Home({ idUser, user, isLoggedIn, userFavouriteRecipes, s
           }
         });
         setRecipes(updatedData);        // Imposta gli elementi ottenuti come valore dello stato 'recipes'
+        console.log(updatedData.length);        // Stampa i dati sulla console
       })
       .catch(error => {
         console.error(error);        // Se si verifica un errore durante la richiesta, visualizza un messaggio di errore sulla console

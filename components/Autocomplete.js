@@ -22,19 +22,27 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
     if (inputText.length == 0) {
       setFilteredSuggestions('');
       return;
-    } if (inputText[inputText.length - 1] == ',' || inputText[inputText.length - 1] == ' ') {
-      setFilteredSuggestions('');
-      return;
     }
-    const lastIngredient = inputText.split(',').pop().trim(); // Prende l'ultimo ingrediente inserito
-    // Filtra le parole suggerite in base a ciò che l'utente ha digitato
+    console.log(inputText);
+    const lastIngredient = encodeURIComponent(inputText);
+    console.log(lastIngredient);
     axios.get(`${domain}/getIngredientsByName/${lastIngredient}`)
-      .then((response) => {
-        setFilteredSuggestions(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
+    .then((response) => {
+      setFilteredSuggestions(response.data);
+    })
+    .catch((error) => {
+      if (error.response) {
+        // Errore dalla risposta del server (es. errore HTTP)
+        console.error("Errore nella risposta del server:", error.response.data);
+      } else if (error.request) {
+        // Nessuna risposta dal server
+        console.error("Nessuna risposta dal server:", error.request);
+      } else {
+        // Errore durante la richiesta
+        console.error("Errore durante la richiesta:", error.message);
+      }
+    });
+  
   }, [inputText]);
 
   const handleInputChange = (text) => {
@@ -115,8 +123,9 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
       </View>
       <View style={{ width: '100%' }}>
         <FlatList
-          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 40 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white', }}
+          style={{ width: '100%', zIndex: 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white' }}
           data={ingredients}
+          scrollEnabled={false}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
             <IngredientTable ingredient={item} recipeNumber={index} lastIngredient={ingredients.length - 1} onRemove={handleRemoveIngredient} ingredients={ingredients} />
@@ -149,6 +158,7 @@ const SquareAmount = ({ ingredient, setIngredient }) => {
       onFocus={() => setIsFocused(true)}
       onBlur={() => setIsFocused(false)}
       onChangeText={(value) => {
+        value = value.replace(',', '.');
         const newIngredient = { ...ingredient, amount: value };
         setIngredient(newIngredient);
       }}

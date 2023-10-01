@@ -71,8 +71,8 @@ const SearchBar = ({ loadingTrue, loadingFalse, updateRecipes, updateUsersSearch
       <View style={styles.containerSearchInput}>
         <TextInput
           style={styles.searchInput}
-          value={searchText}
-          onChangeText={text => setSearchText(text)}
+          value={decodeURIComponent(searchText)}
+          onChangeText={text => setSearchText(encodeURIComponent(text))}
           placeholder="Cerca..."
         />
         <Ionicons name="md-search" size={24} color="black" />

@@ -170,7 +170,7 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
         <Pressable onPress={createRecipe} style={{backgroundColor: 'rgb(235, 235, 235)', padding: 5, width: 90, borderRadius: 7, height: 50, justifyContent: 'center' }}>
           <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold", textAlign: 'center'}}>Crea</Text>
         </Pressable>
-        <View style={{height: 90}}/>
+        <View style={{ height: 40 }} />
       </View>
     </ScrollView>
   );
