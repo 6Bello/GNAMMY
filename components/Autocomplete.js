@@ -23,7 +23,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
       return;
     }
     console.log(inputText);
-    var lastIngredient = encodeURIComponent(lastIngredient);
+    const lastIngredient = encodeURIComponent(inputText);
     console.log(lastIngredient);
     axios.get(`${domain}/getIngredientsByName/${lastIngredient}`)
     .then((response) => {
@@ -122,8 +122,9 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
       </View>
       <View style={{ width: '100%' }}>
         <FlatList
-          style={{ width: '100%', zIndex: 0, height: ingredients.length > 0 ? (ingredients.length > 2) ? 2 * 25 : null : 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white' }}
+          style={{ width: '100%', zIndex: 0, borderBottomWidth: 1, borderColor: 'grey', borderBottomRightRadius: 5, borderBottomLeftRadius: 5, overflow: 'hidden', backgroundColor: 'white' }}
           data={ingredients}
+          scrollEnabled={false}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
             <IngredientTable ingredient={item} recipeNumber={index} lastIngredient={ingredients.length - 1} />
