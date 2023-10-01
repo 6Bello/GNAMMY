@@ -7,16 +7,6 @@ const Recipe = ({ idUser, isLoggedIn = false, item, index, updateRecipes, recipe
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(item.isDescriptionVisible);
   const Vheight = height / (index < 10 || parseInt(index / 10));
 
-  const toggleDescriptionVisible = () => {
-    const updatedRecipes = [...recipes];
-    updatedRecipes[index] = {
-      ...item,
-      isDescriptionVisible: !item.isDescriptionVisible,
-    };
-    updateRecipes(updatedRecipes);
-    setIsDescriptionVisible(!isDescriptionVisible);
-  };
-
   const navigation = useNavigation();
 
   return (
@@ -86,7 +76,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   categoryBackground: {
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     blur: {
       position: "absolute",
       top: 0, left: 0, bottom: 0, right: 0},
@@ -96,11 +86,6 @@ const styles = StyleSheet.create({
     width: '85%',
     height: '50%',
     zIndex: 0,
-    shadowColor: 'black',
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
-    elevation: 5,
-    shadowOffset: { width: 0, height: 2 },
     blurRadius: 20,
     zIndex: 0,
   },
