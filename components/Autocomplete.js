@@ -94,7 +94,7 @@ export default function Autocomplete({ myStyle, listStyle, defaultValue, onChang
 
           <TextInput
             style={[styles.button, { borderColor: borderColor, borderBottomWidth: 1, borderLeftWidth: 1, borderTopWidth: 1, }]}
-            maxLength={20}
+            maxLength={40}
             placeholder="Inizia a digitare..."
             value={inputText}
             onFocus={() => setIsFocused(true)}
