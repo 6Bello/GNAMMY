@@ -42,7 +42,7 @@ const Recipe = ({ idUser, isLoggedIn = false, item, index, updateRecipes, recipe
             },
           ],
         }}
-        source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpg') : item.category === 'Secondo' ? require('../assets/img_categories/secondo.jpg') : item.category === 'Dolce' ? require('../assets/img_categories/dolce.jpg') : require('../assets/img_categories/antipasto.jpg')}
+        source={item.category === 'Primo' ? require('../assets/img_categories/primo.jpeg') : item.category === 'Secondo' ? require('../assets/img_categories/secondo2.jpeg') : item.category === 'Dolce' ? require('../assets/img_categories/dolce.jpg') : require('../assets/img_categories/antipasto.jpeg')}
       />
 
       {/* Sovrapposizione nera per scurire l'immagine */}
