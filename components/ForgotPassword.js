@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 import axios from "axios"; // Assicurati che axios sia importato
 import { useNavigation } from "@react-navigation/native";
 import MyTextInput from "./TextInput";
-import {domain} from '../dns';
+import { domain } from '../dns';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [errorText, setErrorText] = useState("");
+
+  const setErrorMessage = () => {
+    setErrorText("Funzione non ancora disponibile ");
+  }
 
   const handleForgotPassword = async () => {
     try {
@@ -36,18 +41,21 @@ const ForgotPassword = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Password dimenticata </Text>
-      <Text style={{fontSize: 100, padding: 20}}>🥲</Text>
-      <Text style={{fontSize: 18, textAlign: 'center'}}>Inserisci qui l'indirizzo email{'\n'}con cui ti sei registrato:</Text>
-      <View style={{ padding: 40 }}>
-          <MyTextInput
-            myStyle={styles.mailInput}
-            value={email}
-            placeholder="Email" 
-            onChangeText={(text) => setEmail(text)}/>
-        </View>
-      <TouchableOpacity style={styles.button} onPress={handleForgotPassword}>
+      <View style={{padding: 1}}>
+        <Image source={require('../assets/GoogleEmoji.png')} style={{ width: 180, height: 180 }} />
+      </View>
+      <Text style={{ fontSize: 20, textAlign: 'center' }}>Inserisci qui l'indirizzo email{'\n'}con cui ti sei registrato:</Text>
+      <View style={{ padding: 30 }}>
+        <MyTextInput
+          myStyle={styles.mailInput}
+          value={email}
+          placeholder="Email"
+          onChangeText={(text) => setEmail(text)} />
+      </View>
+      <TouchableOpacity style={styles.button} onPress={setErrorMessage}>
         <Text style={styles.buttonText}>Invia</Text>
       </TouchableOpacity>
+      <Text style={{ color: "red", marginTop: 10 }}>{errorText}</Text>
       <Text style={styles.message}>{message}</Text>
       <TouchableOpacity onPress={navigateToLogin}>
         <Text style={styles.goBack}>Torna indietro</Text>

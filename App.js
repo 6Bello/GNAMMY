@@ -66,7 +66,7 @@ function MainScreen() {
     console.log(user);
   };
 
-  const isFirstRender = useRef(true); //variabile per verificare se è la prima volta che l'effetto viene eseguito
+  const isFirstRender = useRef(true); //Variabile per verificare se è la prima volta che l'effetto viene eseguito
   useEffect(() => {
     // Verifica se è la prima volta che l'effetto viene eseguito
     if (isFirstRender.current) {
@@ -74,10 +74,10 @@ function MainScreen() {
       loginUserSavedData(setUser, setIdUser, setIsLoggedIn);
       return;
     }
-    user != null ? setUserFavouriteRecipes(user.favouriteRecipes) : null; //aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
+    user != null ? setUserFavouriteRecipes(user.favouriteRecipes) : null; //Aggiorna lo stato userFavouriteRecipes con i preferiti dell'utente
   }, [user]);
 
-  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); // Stato per memorizzare gli elementi ricevuti dalla ricerca
+  const [userFavouriteRecipes, setUserFavouriteRecipes] = useState([]); //Stato per memorizzare gli elementi ricevuti dalla ricerca
 
   const rotationValue = useRef(new Animated.Value(0)).current;
 
@@ -106,7 +106,7 @@ function MainScreen() {
       display: tabBarVisible ? "flex" : "none",
     },
     headerStyle: {
-      backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+      backgroundColor: '#FFEFAF',
     },
     contentStyle: {
       backgroundColor: '#264653'
@@ -123,20 +123,12 @@ function MainScreen() {
   return (
     <NavigationContainer theme={MyTheme}>
       <Tab.Navigator screenOptions={globalHeaderStyle}>
-        {/* <Tab.Screen
-        name=" "
-        component={SplashScreen}
-        initialParams={{ setTabBarVisible: handleTabBarVisible }} // Pass the prop tabBarVisible to SplashScreen
-        options={{
-          tabBarItemStyle: { display: 'none' },
-        }}
-      /> */}
-      <Tab.Screen
+        <Tab.Screen
           name="Home"
           options={{
             headerTitle: "",
             headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+              backgroundColor: '#FFEFAF',
             },
 
             tabBarIcon: ({ color, size }) => (
@@ -238,21 +230,13 @@ function MainScreen() {
             />
           )}
         </Tab.Screen>
-        {/* <Tab.Screen
-          name="ProfilePage"
-          component={ProfilePage}
-          initialParams={{setUserFavouriteRecipes: setUserFavouriteRecipes}}
-          options={{
-            tabBarItemStyle: { display: 'none' },
-          }}
-        /> */}
         <Tab.Screen
           name="recipePage"
           options={{
             tabBarItemStyle: { display: "none" },
             headerTitle: "",
             headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+              backgroundColor: '#FFEFAF',
             },
           }}
         >
@@ -263,8 +247,8 @@ function MainScreen() {
             />
           )}
         </Tab.Screen>
-      
-      
+
+
         <Tab.Screen
           name="ForgotPassword"
           options={{
@@ -272,7 +256,7 @@ function MainScreen() {
             headerTitle: "Hai dimenticato la password?",
             tabBarLabel: "Forgot Password",
             headerStyle: {
-              backgroundColor: '#FFEFAF', // Cambia il colore di sfondo dell'header
+              backgroundColor: '#FFEFAF',
             },
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons

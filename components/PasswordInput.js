@@ -7,6 +7,7 @@ const MyPasswordInput = ({
     onChangeText,
     keyboardType,
     autoComplete,
+    myStyle,
     problem ='',
   }) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -27,9 +28,9 @@ const MyPasswordInput = ({
     };
   
     return (
-      <View style={[styles.passwordInput, { borderColor: borderColor, borderWidth: 1 }]}>
+      <View style={[styles.passwordInput, { borderColor: borderColor, borderWidth: 1,}]}>
         <TextInput
-        style={styles.MyTextInput}
+        style={[styles.MyTextInput, myStyle]}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
@@ -64,7 +65,7 @@ const MyPasswordInput = ({
       borderRadius: 5,
       backgroundColor: "#f8f4fc",
       display: "flex",
-      width: '100%',
+      width: 300,
     },
   
     MyTextInput: {

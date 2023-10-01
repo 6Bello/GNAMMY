@@ -219,9 +219,6 @@ const IngredientTable = ({ ingredient, recipeNumber, lastIngredient, onRemove })
       <View style={[styles.borderView, { width: '25%', borderRightWidth: 1, borderBottomRightRadius: recipeNumber == lastIngredient ? 5 : 0 }]}>
         <Text style={styles.tableText}>{ingredient.unit}</Text>
       </View>
-      <Pressable style={{ padding: 5 }} onPress={() => onRemove(ingredient)}>
-        <Ionicons name="trash-outline" size={24} color="red" />
-      </Pressable>
 
     </View>
   )

@@ -66,6 +66,7 @@ export default function RecipePage() {
               alignItems: "center",
               width: "100%",
               justifyContent: "space-around",
+              textAlign: 'center'
             }}
           >
             <Text style={styles.recipeTitle}>{item.title}</Text>
@@ -101,7 +102,7 @@ export default function RecipePage() {
           </View>
           <View style={styles.centeredView}>
             <View>
-              <Text style={styles.title}>Tempo di preparazione{'\n'}(d/m/h)</Text>
+              <Text style={styles.title}>Tempo di preparazione{'\n'}(d/h/m)</Text>
               <Text style={styles.subtitle}>{item.time}</Text>
             </View>
           </View>

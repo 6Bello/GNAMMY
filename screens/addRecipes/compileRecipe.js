@@ -32,16 +32,16 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
   }, [recipe.time]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <View style={{ flexDirection: 'row', width: '100%', justifyContent: 'space-around', paddingLeft: '25%' }}>
+        <View style={{ flexDirection: 'row', width: '80%', justifyContent: 'space-around', paddingLeft: '11%', }}>
           <View style={{ alignItems: 'center', }}>
             <Text style={styles.title}>Descrivi la tua ricetta...</Text>
             <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 10}}>{recipe.category}</Text>
           </View>
-          <View style={{ width: '25%', justifyContent: 'flex-end', alignItems: 'center' }} >
+          <View style={{ width: '10%', justifyContent: 'flex-end', alignItems: 'center' }} >
             <TouchableOpacity onPress={() => setRecipe(recipeInitialState)}>
-              <MaterialCommunityIcons name="trash-can-outline" size={24} color="black" />
+              <MaterialCommunityIcons name="trash-can-outline" size={25} color="black" />
             </TouchableOpacity>
           </View>
         </View>
@@ -170,15 +170,15 @@ const CompileRecipe = ({ recipeInitialState, recipe, setRecipe, starsSelected, s
         <Pressable onPress={createRecipe} style={{backgroundColor: 'rgb(235, 235, 235)', padding: 5, width: 90, borderRadius: 7, height: 50, justifyContent: 'center' }}>
           <Text style={{ lineHeight: 29, color: "black", fontSize: 17, fontWeight: "bold", textAlign: 'center'}}>Crea</Text>
         </Pressable>
+        <View style={{height: 90}}/>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
   },
   square: {
     width: 20,

@@ -209,9 +209,9 @@ const Register = ({ OnRegistrationComplete, updateUserData }) => {
             }]}>{emailProblem}</Text>
           </View>
 
-          <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: 20, width: '100%' }}>
             <MyPasswordInput
-              style={styles.MyTextInput}
+              myStyle={styles.passwordInput}
               value={password}
               onChangeText={thereArePasswordProblems}
               placeholder="Password"
@@ -321,12 +321,7 @@ const styles = StyleSheet.create({
   },
 
   passwordInput: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 5,
-    backgroundColor: "#f8f4fc",
-    display: "flex",
+    width: '100%',
   },
   textInputContainer: {
     alignItems: "center",
